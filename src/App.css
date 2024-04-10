@@ -1,189 +1,55 @@
 html,
 body {
-  font-family: "Poppins", sans-serif;
-  min-height: 100%;
-  width: 100%;
-  line-height: 1;
-  font-size: 16px;
-  color: #ffffff;
-  overflow: visible;
-  background-color: #31393d;
+    font-family: "Poppins", sans-serif;
+    min-height: 100%;
+    width: 100%;
+    line-height: 1;
+    font-size: 16px;
+    color: #ffffff;
+    overflow: visible;
+    background-color: #31393d;
 }
-
 *,
 *:before,
 *:after {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  box-sizing: inherit;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: inherit;
 }
-
 a {
-  text-decoration: none;
-  color: white;
+    text-decoration: none;
+    color: white;
 }
-
 ul,
 ol,
 li {
-  list-style: none;
+    list-style: none;
 }
-
 img {
-  vertical-align: top;
+    vertical-align: top;
 }
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: inherit;
-  font-style: inherit;
+    font-weight: inherit;
+    font-style: inherit;
 }
-
 * {
-  scroll-behavior: smooth;
-  scroll-padding-top: 2rem;
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
 }
-
 .wrapper {
-  padding: 0px 20px;
-  max-width: 1200px;
-  height: 100vh !important;
-  margin: 0 auto;
-  display: grid;
-  grid-template: minmax(60px, auto) 1fr/1fr 4fr;
-  grid-template-areas: "header header" "sidebar main";
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-}
-.wrapper .header {
-  grid-area: header;
-  padding-inline: 10px;
-  background-color: #1c5937;
-  display: flex;
-  align-items: center;
-}
-.wrapper .header img {
-  width: 50px;
-}
-.wrapper .sidebar {
-  height: 100%;
-  grid-area: sidebar;
-  background-color: #154973;
-}
-.wrapper .sidebar .menu {
-  margin: 15px;
-  font-size: 20px;
-}
-.wrapper .sidebar .menu > :not(:last-child) {
-  margin-bottom: 10px;
-}
-.wrapper .sidebar .settings {
-  font-size: 30px;
-  margin-inline-start: 10px;
-}
-.wrapper .sidebar .friends {
-  margin-block-start: 50px;
-}
-.wrapper .sidebar .friends .friends-title {
-  font-size: 50px;
-  font-weight: 200;
-  margin-inline-start: 10px;
-}
-.wrapper .sidebar .friends .friends-block {
-  margin-block-start: 20px;
-  display: flex;
-  justify-content: space-evenly;
-}
-.wrapper .sidebar .friends .friends-block .friend-image {
-  width: 50px;
-  height: 50px;
-  background-color: #fcab5b;
-  border-radius: 50%;
-}
-.wrapper .content {
-  grid-area: main;
-}
-.wrapper .content .background-profile {
-  background-image: url("https://catherineasquithgallery.com/uploads/posts/2021-02/thumbs/1612237622_60-p-fioletovie-foni-profilya-63.jpg");
-  background-size: contain;
-  width: 100%;
-  height: 20%;
-}
-.wrapper .content .describe-profile {
-  display: flex;
-}
-.wrapper .content .describe-profile .describe-profile__image {
-  position: relative;
-  height: 150px;
-  flex-basis: 20%;
-  margin-inline: 10px;
-}
-.wrapper .content .describe-profile .describe-profile__image img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 50%;
-}
-.wrapper .content .describe-profile .describe-profile__inform {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.wrapper .content .describe-profile .describe-profile__inform h2 {
-  margin-bottom: 30px !important;
-}
-.wrapper .content .describe-profile .describe-profile__inform > :not(:last-child) {
-  margin-bottom: 10px;
-}
-.wrapper .content .myPost .new-post {
-  height: 190px;
-  margin: 10px;
-  position: relative;
-}
-.wrapper .content .myPost .new-post .new-post__title {
-  margin-block-end: 10px;
-}
-.wrapper .content .myPost .new-post .new-post__text {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-}
-.wrapper .content .myPost .new-post .new-post__send {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 100px;
-  height: 50px;
-  font-size: 20px;
-  background-color: #1c5937;
-  border-radius: 10px;
-}
-.wrapper .content .myPost .post {
-  background-color: #333333;
-  display: flex;
-  align-items: center;
-  margin-block-end: 30px !important;
-  padding: 10px 5px;
-  margin: 0 -5px;
-}
-.wrapper .content .myPost .post .post__imgProfile {
-  width: 50px;
-  height: 50px;
-  background-color: #fcab5b;
-  border-radius: 50%;
-}
-.wrapper .content .myPost .post .post__text {
-  margin: 0 5px;
-}
-.wrapper .content > :not(:last-child) {
-  margin-block-end: 10px;
+    padding: 0px 20px;
+    max-width: 1200px;
+    height: 100vh !important;
+    margin: 0 auto;
+    display: grid;
+    grid-template: minmax(60px, auto) 1fr/1fr 4fr;
+    grid-template-areas: "header header" "sidebar main";
+    -moz-column-gap: 10px;
+    column-gap: 10px;
 }
