@@ -1,0 +1,51 @@
+.sidebar {
+    height: 100%;
+    grid-area: sidebar;
+    background-color: #154973;
+}
+.menu {
+    margin: 15px;
+    font-size: 20px;
+}
+.menu > :not(:last-child) {
+    margin-bottom: 10px;
+}
+.item:hover {
+    background-color: #797775;
+}
+.item:active {
+    background-color: #1c593c;
+}
+.item {
+    padding-block: 5px;
+}
+hr {
+    border: 1px solid;
+    margin-block-end: 10px;
+    padding-block: 5px;
+}
+.settings {
+    display: block;
+    font-size: 30px;
+    margin-inline-start: 10px;
+}
+.friends {
+    margin-block-start: 10px;
+}
+.friends__title {
+    display: block;
+    font-size: 50px;
+    font-weight: 200;
+    text-align: center;
+}
+.friends__block {
+    margin-block-start: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.friend__image {
+    width: 50px;
+    height: 50px;
+    background-color: #fcab5b;
+    border-radius: 50%;
+}
