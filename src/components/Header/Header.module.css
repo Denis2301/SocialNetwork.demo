@@ -1,7 +1,7 @@
 .header {
     grid-area: header;
     padding-inline: 10px;
-    background-color: #1c5937;
+    background-color: rgb(186, 63, 18);
     display: flex;
     align-items: center;
 }

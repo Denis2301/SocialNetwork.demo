@@ -34,7 +34,7 @@ export const Sidebar = () => {
                             Andrew
                         </a>
                     </div>
-                    <div className={objStyle.friend__two}>
+                    <div className={objStyle.friend}>
                         <div className={objStyle.friend__image}></div>
                         <a href="" className={objStyle.friend__name}>
                             Sasha
