@@ -2,7 +2,7 @@ import React from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 
-export const MyPosts = () => {
+export const MyPosts = (props) => {
     return (
         <div className={objStyle.myPost}>
             <div className={objStyle.new__post}>
@@ -18,10 +18,8 @@ export const MyPosts = () => {
                 <button className={objStyle.new__post__send}>Add Post.</button>
             </div>
             <div className={objStyle.posts}>
-                <Post/>
-                <Post/>
-                <Post/>
-                <Post/>
+                <Post message={"Hi, how are you?"} likeCount={15} />
+                <Post message={"Its my first post"} likeCount={20} />
             </div>
         </div>
     );

@@ -10,6 +10,8 @@
 .post__imgProfile {
     width: 60px;
     height: 60px;
+	flex-shrink: 0;
+	align-self: flex-start;
 }
 .post__imgProfile img {
     border-radius: 50%;
@@ -20,12 +22,27 @@
     left: 0;
 }
 .post__text {
-    margin: 0 5px;
+    margin: 0 10px 0 5px;
+}
+#likeCount {
+	width: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding-block: 4px;
+	background-color:  rgb(186, 63, 18);
+	position: absolute;
+	bottom: 7px;
+	font-weight: 600;
+	right: 59px;
 }
 #like {
-    font-weight: 700;
-    font-size: 24px;
-    color: rgb(199, 226, 75);
+	padding: 3px 5px;
+	border-radius: 10%;
+	box-shadow: 2px 2px 3px black;
+    font-weight: 600;
+    font-size: 22px;
+    background-color: rgb(199, 226, 75);
+	color:  rgb(255, 255, 255);
     position: absolute;
     right: 0;
     bottom: 0;

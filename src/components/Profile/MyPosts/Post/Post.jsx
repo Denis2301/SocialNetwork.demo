@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import objStyle from "./Post.module.css";
 
-export const Post = () => {
+export const Post = (props) => {
     return (
         <div className={`${objStyle.post}`}>
             <div className={objStyle.post__imgProfile}>
@@ -10,8 +10,11 @@ export const Post = () => {
                     alt="avatar"
                 />
             </div>
-            <p className={objStyle.post__text}>It is our new program! Hey!</p>
-            <span id={objStyle.like}>like</span>
+            <p className={objStyle.post__text}>{props.message}</p>
+            <span id={objStyle.likeCount}>{props.likeCount}</span>
+            <span id={objStyle.like}>
+                like
+            </span>
         </div>
     );
 };
