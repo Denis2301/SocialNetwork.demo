@@ -43,13 +43,28 @@ h6 {
     scroll-padding-top: 2rem;
 }
 .wrapper {
+    position: relative;
     padding: 0px 20px;
     max-width: 1200px;
-    height: 100vh !important;
+    min-height: 100vh;
     margin: 0 auto;
     display: grid;
     grid-template: minmax(60px, auto) 1fr/1fr 4fr;
     grid-template-areas: "header header" "sidebar main";
     -moz-column-gap: 10px;
     column-gap: 10px;
+}
+@media (max-width: 767px) {
+    .wrapper {
+        grid-template: minmax(60px, auto) 1fr/1fr;
+        grid-column-gap: 0;
+    }
+    .wrapper-content {
+		grid-column: 1 / -1
+    }
+}
+.wrapper-content {
+    grid-area: main;
+    background-color: rgb(42, 47, 66);
+    position: relative;
 }

@@ -4,14 +4,20 @@
     align-items: center;
     position: relative;
     margin-block-end: 30px !important;
-    padding: 10px 0px;
+    padding: 15px 0px;
 }
 
 .post__imgProfile {
+    margin-block-start: -10px;
+    border-radius: 50%;
+    background-color: #fcab5b;
     width: 60px;
     height: 60px;
-	flex-shrink: 0;
-	align-self: flex-start;
+    flex-shrink: 0;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .post__imgProfile img {
     border-radius: 50%;
@@ -21,28 +27,33 @@
     top: 0;
     left: 0;
 }
+.author {
+    font-size: 12px;
+    font-weight: 550;
+}
 .post__text {
     margin: 0 10px 0 5px;
+    line-height: 110%;
 }
 #likeCount {
-	width: 20px;
-	text-align: center;
-	vertical-align: middle;
-	padding-block: 4px;
-	background-color:  rgb(186, 63, 18);
-	position: absolute;
-	bottom: 7px;
-	font-weight: 600;
-	right: 59px;
+    width: 20px;
+    text-align: center;
+    vertical-align: middle;
+    padding-block: 4px;
+    background-color: rgba(186, 63, 18, 0.521);
+    position: absolute;
+    bottom: 7px;
+    font-weight: 600;
+    right: 59px;
 }
 #like {
-	padding: 3px 5px;
-	border-radius: 10%;
-	box-shadow: 2px 2px 3px black;
+    padding: 3px 5px;
+    border-radius: 10%;
+    box-shadow: 2px 2px 3px black;
     font-weight: 600;
     font-size: 22px;
     background-color: rgb(199, 226, 75);
-	color:  rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     position: absolute;
     right: 0;
     bottom: 0;

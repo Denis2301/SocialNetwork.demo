@@ -1,25 +1,29 @@
 import React from "react";
 import objStyle from "./Sidebar.module.css";
 
-export const Sidebar = () => {
+export const Sidebar = ({ menuInd }) => {
     return (
-        <nav className={objStyle.sidebar}>
+        <nav
+            className={`${objStyle.sidebar} ${
+                menuInd == true ? objStyle.sidebar_active : ""
+            }`}
+        >
             <ul className={objStyle.menu}>
                 <li className={objStyle.item}>
                     <a href="">Profile</a>
                 </li>
-                <li className={objStyle.item}>
+                <li>
                     <a href="">Messages</a>
                 </li>
-                <li className={objStyle.item}>
+                <li>
                     <a href="">News</a>
                 </li>
-                <li className={objStyle.item}>
+                <li>
                     <a href="">Music</a>
                 </li>
             </ul>
             <hr />
-            <a href="" className={`${objStyle.settings} ${objStyle.item}`}>
+            <a href="" className={objStyle.settings}>
                 Settings
             </a>
             <div className={objStyle.friends}>

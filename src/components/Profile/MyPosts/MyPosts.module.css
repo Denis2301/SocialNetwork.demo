@@ -9,6 +9,7 @@ h2 {
 }
 .new__post__title {
     margin-block-end: 10px;
+    font-size: clamp(16px, 5vw, 25px);
 }
 .new__post__text {
     width: 100%;
