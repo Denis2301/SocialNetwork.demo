@@ -39,21 +39,7 @@ export const Dialogs = (props) => {
                                 {" "}
                                 I am a normal popove Lorem ipsum dolor sit amet
                                 consectetur adipisicing elit. Aliquid quod
-                                distinctio illo optio enim? Voluptatem
-                                perspiciatis velit odio quo officia eligendi
-                                assumenda, commodi explicabo temporibus modi
-                                officiis voluptates aliquam et quod repudiandae
-                                expedita labore dignissimos consequatur! Ducimus
-                                quasi quae voluptate labore expedita dolor
-                                totam! Accusamus porro labore tempore asperiores
-                                voluptate recusandae error, cupiditate deleniti
-                                fugit debitis facilis quod officia, voluptates,
-                                quasi aspernatur totam eum sunt ratione?
-                                Laboriosam ea nulla doloribus earum facere,
-                                necessitatibus accusamus. Quisquam dignissimos
-                                culpa laborum perferendis rem quo, labore ad
-                                deserunt autem, itaque et blanditiis, tempore
-                                illo dicta tempora inventore. Iste tempora
+                                distinc
                                 distinctio vel, voluptatum ducimus libero.
                             </p>
                         </div>

@@ -9,6 +9,9 @@ body {
     overflow: visible;
     background-color: #31393d;
 }
+body {
+    overflow-x: hidden;
+}
 *,
 *:before,
 *:after {
@@ -45,6 +48,7 @@ h6 {
 .wrapper {
     position: relative;
     padding: 0px 20px;
+    width: 100%;
     max-width: 1200px;
     min-height: 100vh;
     margin: 0 auto;
@@ -58,13 +62,15 @@ h6 {
     .wrapper {
         grid-template: minmax(60px, auto) 1fr/1fr;
         grid-column-gap: 0;
+        margin: 0 auto;
     }
     .wrapper-content {
-		grid-column: 1 / -1
+        grid-column: 1 / -1;
     }
 }
 .wrapper-content {
     grid-area: main;
+    height: 100vh;
     background-color: rgb(42, 47, 66);
     position: relative;
 }

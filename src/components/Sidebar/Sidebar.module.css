@@ -5,12 +5,12 @@
 }
 
 @media (max-width: 767px) {
-	.sidebar {
-		display: none;
-	}
+    .sidebar {
+        display: none;
+    }
     .sidebar_active {
         display: block;
-        position: relative;
+        position: absolute;
         z-index: 11;
         left: 0;
         top: 0;
@@ -27,14 +27,16 @@
 .menu > :not(:last-child) {
     margin-bottom: 10px;
 }
-.menu *:hover {
-    background-color: #79777583;
+@media (hover) {
+    .menu *:hover {
+        background-color: #79777583;
+    }
 }
 .menu li a {
     display: block;
     padding-inline: 5px;
 }
-.item a {
+._active {
     color: #ddaa4c;
 }
 hr {

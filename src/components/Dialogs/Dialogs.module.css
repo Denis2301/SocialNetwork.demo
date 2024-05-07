@@ -1,4 +1,5 @@
 .content {
+
 }
 h1 {
     font-size: clamp(16px, 5vw, 30px);
@@ -13,7 +14,8 @@ h1 {
 }
 .dialogs_contact__name {
     padding-inline-start: 40px;
-	width: 30%;
+    width: 30%;
+    margin-inline-end: 10px;
 }
 .dialogs_contact__name ul {
 }
@@ -22,12 +24,12 @@ h1 {
 }
 .dialogs_contact__messages {
     border-left: 2px solid #ddaa4c;
-	width: 70%;
+    width: 70%;
 }
 .contact__messages_item {
     display: flex;
     margin-block-end: 30px;
-    margin-inline-start: 20px;
+    margin-inline-start: 10px;
     padding: 15px 0px;
 }
 .messages_itemImg {
@@ -53,7 +55,7 @@ h1 {
     padding: 10px;
     margin-inline-start: 30px;
     background-color: rgba(171, 169, 169, 0.466);
-    max-width: 350px;
+    flex-basis: 350px;
     height: auto;
     border: 2px solid #fcab5b;
     border-radius: 15px;
