@@ -2,7 +2,7 @@ html,
 body {
     font-family: "Poppins", sans-serif;
     min-height: 100%;
-    width: 100%;
+    min-width: 100vw;
     line-height: 1;
     font-size: 16px;
     color: #ffffff;
@@ -48,7 +48,6 @@ h6 {
 .wrapper {
     position: relative;
     padding: 0px 20px;
-    width: 100%;
     max-width: 1200px;
     min-height: 100vh;
     margin: 0 auto;
@@ -58,6 +57,7 @@ h6 {
     -moz-column-gap: 10px;
     column-gap: 10px;
 }
+
 @media (max-width: 767px) {
     .wrapper {
         grid-template: minmax(60px, auto) 1fr/1fr;
@@ -70,7 +70,7 @@ h6 {
 }
 .wrapper-content {
     grid-area: main;
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(42, 47, 66);
     position: relative;
 }

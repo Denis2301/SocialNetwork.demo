@@ -4,7 +4,7 @@ import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 
 export const Sidebar = ({ menuInd }) => {
-    const [activeLink, addClassColor] = useState("");
+    const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
     return (
         <nav
             className={`${objStyle.sidebar} ${
@@ -13,67 +13,29 @@ export const Sidebar = ({ menuInd }) => {
         >
             <ul className={objStyle.menu}>
                 <li className={objStyle.item}>
-                    <NavLink
-                        className={
-                            activeLink == "profile" ? objStyle._active : ""
-                        }
-                        to="/profile"
-                        onClick={(e) => {
-                            addClassColor("profile");
-                        }}
-                    >
+                    <NavLink className={isActive} to="/profile">
                         Profile
                     </NavLink>
                 </li>
                 <li className={objStyle.item}>
-                    <NavLink
-                        className={
-                            activeLink == "dialogs" ? objStyle._active : ""
-                        }
-                        to="/dialogs"
-                        onClick={(e) => {
-                            addClassColor("dialogs");
-                        }}
-                    >
+                    <NavLink className={isActive} to="/dialogs">
                         Messages
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink
-                        className={activeLink == "news" ? objStyle._active : ""}
-                        to="/news"
-                        onClick={(e) => {
-                            addClassColor("news");
-                        }}
-                    >
+                <li className={objStyle.item}>
+                    <NavLink className={isActive} to="/news">
                         News
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink
-                        className={
-                            activeLink == "music" ? objStyle._active : ""
-                        }
-                        to="/music"
-                        onClick={(e) => {
-                            addClassColor("music");
-                        }}
-                    >
+                <li className={objStyle.item}>
+                    <NavLink className={isActive} to="/music">
                         Music
                     </NavLink>
                 </li>
             </ul>
             <hr />
-            <NavLink
-                to="/settings"
-                onClick={(e) => {
-                    addClassColor("settings");
-                }}
-                className={`${objStyle.settings} ${
-                    activeLink == "settings" ? objStyle._active : ""
-                }`}
-            >
-                Settings
+            <NavLink className={isActive} to="/settings">
+                <p className={objStyle.settings}>Settings</p>
             </NavLink>
             <div className={objStyle.friends}>
                 <hr />

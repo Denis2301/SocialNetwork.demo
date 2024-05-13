@@ -4,7 +4,7 @@ import { Profile } from "./components/Profile/Profile";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Dialogs } from "./components/Dialogs/Dialogs";
 import { News } from "./components/News/News";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
@@ -14,6 +14,7 @@ const App = () => {
     const handleMenuView = () => {
         menuChangeView(!menuInd);
     };
+
     return (
         <BrowserRouter>
             <div className="wrapper">
@@ -21,8 +22,8 @@ const App = () => {
                 <Sidebar menuInd={menuInd} />
                 <div className="wrapper-content">
                     <Routes>
-                        <Route path="/dialogs" element={<Dialogs />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/dialogs" element={<Dialogs />} />
                         <Route path="/news" element={<News />} />
                         <Route path="/music" element={<Music />} />
                         <Route path="/settings" element={<Settings />} />
