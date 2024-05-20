@@ -71,6 +71,6 @@ h6 {
 .wrapper-content {
     grid-area: main;
     min-height: 100vh;
-    background-color: rgb(42, 47, 66);
+    background-color: #343a40;
     position: relative;
 }

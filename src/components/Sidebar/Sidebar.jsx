@@ -34,7 +34,7 @@ export const Sidebar = ({ menuInd }) => {
                 </li>
             </ul>
             <hr />
-            <NavLink className={isActive} to="/settings">
+            <NavLink className={isActive} to="settings/">
                 <p className={objStyle.settings}>Settings</p>
             </NavLink>
             <div className={objStyle.friends}>

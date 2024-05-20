@@ -1,6 +1,4 @@
-.content {
 
-}
 h1 {
     font-size: clamp(16px, 5vw, 30px);
     margin-block-start: 10px;
@@ -20,15 +18,37 @@ h1 {
 .dialogs_contact__name ul {
 }
 .dialogs_contact__name ul li:not(:last-child) {
-    margin-block-end: 20px;
+    margin-block-end: 40px;
+}
+.dialogs_contact__name ul li div {
+    display: flex;
+}
+.dialogs_contact__name ul li .block,
+.dialogs_contact__name ul li .delete,
+.dialogs_contact__name ul li .online {
+    width: 15px;
+    height: 15px;
+    align-self: center;
+    border-radius: 50%;
+    margin-inline-end: 5px;
+}
+.dialogs_contact__name ul li .online {
+    margin-inline-start: 5px;
+}
+.dialogs_contact__name ul li .block {
+    margin-left: auto;
 }
 .dialogs_contact__messages {
     border-left: 2px solid #ddaa4c;
     width: 70%;
 }
+.activeLink {
+    font-size: 20px;
+    color: #ddaa4c;
+}
 .contact__messages_item {
     display: flex;
-    margin-block-end: 30px;
+    margin-block-end: 20px;
     margin-inline-start: 10px;
     padding: 15px 0px;
 }
@@ -82,8 +102,4 @@ h1 {
 #messages_item__author {
     font-size: 12px;
     font-weight: 550;
-}
-#item {
-    font-size: 20px;
-    color: #ddaa4c;
 }
