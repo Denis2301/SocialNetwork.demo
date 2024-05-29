@@ -1,0 +1,36 @@
+.content__background {
+    background-size: contain;
+    width: 100%;
+    height: 200px;
+}
+.describe__profile {
+    display: flex;
+	margin-block-end: 10px !important;
+}
+.describe__profile__image {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    border-radius: 60%;
+    background-color: #fcab5b;
+    flex-shrink: 0;
+    margin: 10px;
+}
+.describe__profile__image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 60%;
+}
+.describe__profile__inform {
+    display: flex;
+    line-height: 120%;
+    flex-direction: column;
+    justify-content: center;
+}
+.describe__profile__inform h2 {
+    font-size: clamp(16px, 5vw, 30px);
+}

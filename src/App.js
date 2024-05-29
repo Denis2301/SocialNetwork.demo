@@ -5,7 +5,7 @@ import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Dialogs } from "./components/Dialogs/Dialogs";
 import { News } from "./components/News/News";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 
@@ -22,6 +22,7 @@ const App = () => {
                 <Sidebar menuInd={menuInd} />
                 <div className="wrapper-content">
                     <Routes>
+                        <Route path="/" element={<Navigate to="/profile" />} />
                         <Route path="/profile/*" element={<Profile />} />
                         <Route path="/dialogs/*" element={<Dialogs />} />
                         <Route path="/news/*" element={<News />} />

@@ -2,11 +2,120 @@ import React, { useState } from "react";
 import objStyle from "./Dialogs.module.css";
 import { NavLink } from "react-router-dom";
 
+const Contact = (props) => {
+    return (
+        <>
+            <li className={objStyle.dialog}>
+                <div>
+                    <NavLink
+                        className={props.isActive}
+                        to={"/dialogs/" + props.address}
+                    >
+                        {props.name}
+                    </NavLink>
+                    <img
+                        src="https://c0.klipartz.com/pngpicture/891/369/sticker-png-wifi-hacker-prank-wi-fi-hotspot-android-security-hacker-net-mobile-phones-internet.png"
+                        alt="online"
+                        className={objStyle.online}
+                    />
+                    <img
+                        src="https://static.vecteezy.com/system/resources/previews/019/994/475/non_2x/close-icon-vector.jpg"
+                        alt="block user"
+                        className={objStyle.block}
+                        onClick={(e) =>
+                            console.log(
+                                `Сообщение с id ${props.address} помечено как спам`
+                            )
+                        }
+                    />
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
+                        alt="delete user"
+                        className={objStyle.delete}
+                        onClick={(e) =>
+                            console.log(
+                                `Сообщение с id ${props.address} удалено`
+                            )
+                        }
+                    />
+                </div>
+            </li>
+        </>
+    );
+};
+const Message = (props) => {
+    return (
+        <div className={objStyle.contact__messages_item}>
+            <div className={objStyle.messages_itemImg}>
+                <img src={props.url} alt="avatar" />
+                <span id={objStyle.messages_item__author}>{props.author}</span>
+                <span className={objStyle.data}>
+                    {props.data.year}.{props.data.month}.{props.data.date}
+                </span>
+            </div>
+            <div className={objStyle.massages_itemText}>
+                <p>{props.text}</p>
+            </div>
+        </div>
+    );
+};
+
 export const Dialogs = (props) => {
-    const [isDelete1, setDelete1] = useState(true);
-    const [isBlock1, setBlock1] = useState(true);
-    const [isDelete2, setDelete2] = useState(true);
     const isActive = ({ isActive }) => (isActive ? objStyle.activeLink : "");
+    const dialogData = [
+        { id: 1, name: "Dmitry" },
+        { id: 2, name: "Sasha" },
+        { id: 3, name: "Andrew" },
+    ];
+    const Contacts = dialogData.map((el) => {
+        return <Contact name={el.name} address={el.id} isActive={isActive} />;
+    });
+    const messageData = [
+        {
+            author: "Dmitry",
+            text: "I am a normal popove Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quod distinc distinctio vel, voluptatum ducimus libero.",
+            id: 1,
+            url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+            data: {
+                year: new Date().getFullYear(),
+                month: new Date().getMonth(),
+                date: new Date().getDate(),
+            },
+        },
+        {
+            author: "Sasha",
+            text: "I am a normal popove Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quod distinc distinctio vel, voluptatum ducimus libero.",
+            id: 2,
+            url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+            data: {
+                year: new Date().getFullYear(),
+                month: new Date().getMonth(),
+                date: new Date().getDate(),
+            },
+        },
+        {
+            author: "Andrew",
+            text: "I am a normal popove Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quod distinc distinctio vel, voluptatum ducimus libero.",
+            id: 3,
+            url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+            data: {
+                year: new Date().getFullYear(),
+                month: new Date().getMonth(),
+                date: new Date().getDate(),
+            },
+        },
+    ];
+    const Messages = messageData.map((el, ind) => {
+        return (
+            <Message
+                author={el.author}
+                text={el.text}
+                id={el.id}
+                url={el.url}
+                data={el.data}
+            />
+        );
+    });
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -15,170 +124,10 @@ export const Dialogs = (props) => {
             <h1 id={objStyle.page_dialogs}>Dialogs</h1>
             <section className={objStyle.wrapper__dialogs_contact}>
                 <div className={objStyle.dialogs_contact__name}>
-                    <ul>
-                        {isDelete1 && (
-                            <li className={objStyle.dialog}>
-                                <div>
-                                    <NavLink
-                                        className={isActive}
-                                        to="/dialogs/1"
-                                    >
-                                        Andrew
-                                    </NavLink>
-                                    <img
-                                        src="https://static.vecteezy.com/system/resources/previews/019/994/475/non_2x/close-icon-vector.jpg"
-                                        alt="block user"
-                                        className={objStyle.block}
-                                        onClick={(e) => setBlock1(false)}
-                                    />
-                                    <img
-                                        src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
-                                        alt="delete user"
-                                        className={objStyle.delete}
-                                        onClick={(e) => setDelete1(false)}
-                                    />
-                                </div>
-                            </li>
-                        )}
-                        {isDelete2 && (
-                            <li className={objStyle.dialog}>
-                                <div>
-                                    <NavLink
-                                        className={isActive}
-                                        to="/dialogs/2"
-                                    >
-                                        Dmitry
-                                    </NavLink>
-                                    <img
-                                        src="https://c0.klipartz.com/pngpicture/891/369/sticker-png-wifi-hacker-prank-wi-fi-hotspot-android-security-hacker-net-mobile-phones-internet.png"
-                                        alt="online"
-                                        className={objStyle.online}
-                                    />
-                                    <img
-                                        src="https://static.vecteezy.com/system/resources/previews/019/994/475/non_2x/close-icon-vector.jpg"
-                                        alt="block user"
-                                        className={objStyle.block}
-                                    />
-                                    <img
-                                        src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
-                                        alt="delete user"
-                                        className={objStyle.delete}
-                                        onClick={(e) => setDelete2(false)}
-                                    />
-                                </div>
-                            </li>
-                        )}
-                        {isDelete1 && (
-                            <li className={objStyle.dialog}>
-                                <div>
-                                    <NavLink
-                                        className={isActive}
-                                        to="/dialogs/3"
-                                    >
-                                        Sasha
-                                    </NavLink>
-                                    <img
-                                        src="https://static.vecteezy.com/system/resources/previews/019/994/475/non_2x/close-icon-vector.jpg"
-                                        alt="block user"
-                                        className={objStyle.block}
-                                        onClick={(e) => setBlock1(false)}
-                                    />
-                                    <img
-                                        src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
-                                        alt="delete user"
-                                        className={objStyle.delete}
-                                        onClick={(e) => setDelete1(false)}
-                                    />
-                                </div>
-                            </li>
-                        )}
-                    </ul>
+                    <ul>{Contacts}</ul>
                 </div>
                 <div className={objStyle.dialogs_contact__messages}>
-                    <div className={objStyle.contact__messages_item}>
-                        <div className={objStyle.messages_itemImg}>
-                            <img
-                                src="https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png"
-                                alt="avatar"
-                            />
-                            <span id={objStyle.messages_item__author}>
-                                Dmitry
-                            </span>
-                        </div>
-                        <div className={objStyle.massages_itemText}>
-                            <p>
-                                {" "}
-                                I am a normal popove Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Aliquid quod
-                                distinc distinctio vel, voluptatum ducimus
-                                libero. Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Consectetur ipsam eos quod
-                                voluptas ducimus et dolore modi excepturi odit,
-                                harum sapiente ad reiciendis dolor! Ipsam at
-                                dicta earum architecto nulla possimus officia
-                                corporis doloremque facilis repudiandae dolor
-                                tempore libero nobis, voluptatum fugit sint vero
-                                perferendis ex repellendus perspiciatis numquam
-                                similique.
-                            </p>
-                        </div>
-                    </div>
-                    <div className={objStyle.contact__messages_item}>
-                        <div className={objStyle.messages_itemImg}>
-                            <img
-                                src="https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png"
-                                alt="avatar"
-                            />
-                            <span id={objStyle.messages_item__author}>Me</span>
-                        </div>
-                        <div className={objStyle.massages_itemText}>
-                            <p>
-                                {" "}
-                                I am a normal popove Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Aliquid quod
-                                distinc distinctio vel, voluptatum ducimus
-                                libero.
-                            </p>
-                        </div>
-                    </div>
-                    <div className={objStyle.contact__messages_item}>
-                        <div className={objStyle.messages_itemImg}>
-                            <img
-                                src="https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png"
-                                alt="avatar"
-                            />
-                            <span id={objStyle.messages_item__author}>Me</span>
-                        </div>
-                        <div className={objStyle.massages_itemText}>
-                            <p>
-                                {" "}
-                                I am a normal popove Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Aliquid quod
-                                distinc distinctio vel, voluptatum ducimus
-                                libero.
-                            </p>
-                        </div>
-                    </div>
-                    <div className={objStyle.contact__messages_item}>
-                        <div className={objStyle.messages_itemImg}>
-                            <img
-                                src="https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png"
-                                alt="avatar"
-                            />
-                            <span id={objStyle.messages_item__author}>
-                                Dmitry
-                            </span>
-                        </div>
-                        <div className={objStyle.massages_itemText}>
-                            <p>
-                                {" "}
-                                I am a normal popove Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Aliquid quod
-                                distinc distinctio vel, voluptatum ducimus
-                                libero.
-                            </p>
-                        </div>
-                    </div>
+                    {Messages}
                 </div>
             </section>
         </main>
