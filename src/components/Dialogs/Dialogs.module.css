@@ -6,7 +6,6 @@ h1 {
 .wrapper__dialogs_contact {
     display: flex;
 }
-
 .dialogs_contact__name {
     padding-inline-start: 40px;
     width: 30%;
@@ -103,7 +102,6 @@ h1 {
     font-size: 12px;
     font-weight: 550;
 }
-
 .activeLink {
     font-size: 20px;
     color: #ddaa4c;

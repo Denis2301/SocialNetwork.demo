@@ -62,15 +62,12 @@ const Message = (props) => {
 
 export const Dialogs = (props) => {
     const isActive = ({ isActive }) => (isActive ? objStyle.activeLink : "");
-    const dialogData = [
+    const dialogs = [
         { id: 1, name: "Dmitry" },
         { id: 2, name: "Sasha" },
         { id: 3, name: "Andrew" },
     ];
-    const Contacts = dialogData.map((el) => {
-        return <Contact name={el.name} address={el.id} isActive={isActive} />;
-    });
-    const messageData = [
+    const messages = [
         {
             author: "Dmitry",
             text: "I am a normal popove Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quod distinc distinctio vel, voluptatum ducimus libero.",
@@ -105,17 +102,20 @@ export const Dialogs = (props) => {
             },
         },
     ];
-    const Messages = messageData.map((el, ind) => {
-        return (
-            <Message
-                author={el.author}
-                text={el.text}
-                id={el.id}
-                url={el.url}
-                data={el.data}
-            />
-        );
-    });
+    const dialogsElements = dialogs.map((d, ind) => (
+        <Contact key={ind} name={d.name} address={d.id} isActive={isActive} />
+    ));
+
+    const messagesElements = messages.map((m, ind) => (
+        <Message
+            key={ind}
+            author={m.author}
+            text={m.text}
+            id={m.id}
+            url={m.url}
+            data={m.data}
+        />
+    ));
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -124,10 +124,10 @@ export const Dialogs = (props) => {
             <h1 id={objStyle.page_dialogs}>Dialogs</h1>
             <section className={objStyle.wrapper__dialogs_contact}>
                 <div className={objStyle.dialogs_contact__name}>
-                    <ul>{Contacts}</ul>
+                    <ul>{dialogsElements}</ul>
                 </div>
                 <div className={objStyle.dialogs_contact__messages}>
-                    {Messages}
+                    {messagesElements}
                 </div>
             </section>
         </main>
