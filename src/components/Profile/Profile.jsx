@@ -3,7 +3,7 @@ import objStyle from "./Profile.module.css";
 import { MyPosts } from "./MyPosts/MyPosts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 
-export const Profile = () => {
+export const Profile = (props) => {
     return (
         <div className={objStyle.content}>
             <ProfileInfo
@@ -13,7 +13,7 @@ export const Profile = () => {
                 edu={"USU '1"}
             />
             <main>
-                <MyPosts />
+                <MyPosts posts={props.posts}/>
             </main>
         </div>
     );

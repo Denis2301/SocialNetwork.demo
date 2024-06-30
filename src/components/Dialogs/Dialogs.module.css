@@ -27,7 +27,6 @@ h1 {
     border-left: 2px solid #ddaa4c;
     width: 70%;
 }
-
 .block,
 .delete,
 .online {
@@ -42,6 +41,15 @@ h1 {
 }
 .block {
     margin-left: auto;
+}
+
+#messages_item__author {
+    font-size: 12px;
+    font-weight: 550;
+}
+.activeLink {
+    font-size: 20px;
+    color: #ddaa4c;
 }
 
 .contact__messages_item {
@@ -62,6 +70,7 @@ h1 {
     flex-direction: column;
     align-items: center;
 }
+
 .messages_itemImg img {
     border-radius: 50%;
     width: 100%;
@@ -70,6 +79,7 @@ h1 {
     top: 0;
     left: 0;
 }
+
 .massages_itemText {
     padding: 10px;
     margin-inline-start: 30px;
@@ -97,14 +107,6 @@ h1 {
     top: 0;
     left: -20px;
     transform: rotate(-140deg);
-}
-#messages_item__author {
-    font-size: 12px;
-    font-weight: 550;
-}
-.activeLink {
-    font-size: 20px;
-    color: #ddaa4c;
 }
 .data {
     font-size: 8px;
