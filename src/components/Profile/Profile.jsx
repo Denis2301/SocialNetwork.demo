@@ -13,7 +13,7 @@ export const Profile = (props) => {
                 edu={"USU '1"}
             />
             <main>
-                <MyPosts posts={props.posts}/>
+                <MyPosts posts={props.state.posts} />
             </main>
         </div>
     );

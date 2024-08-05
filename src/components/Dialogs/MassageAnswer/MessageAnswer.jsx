@@ -1,5 +1,5 @@
-import objStyle from "../Dialogs.module.css";
-export const Message = (props) => {
+import objStyle from './MessageAnswer.module.css';
+export const MessageAnswer = (props) => {
     return (
         <div className={objStyle.contact__messages_item}>
             <div className={objStyle.messages_itemImg}>

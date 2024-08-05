@@ -3,8 +3,20 @@ import React from "react";
 import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 
-export const Sidebar = ({ menuInd }) => {
+export const Sidebar = ({ state, menuInd }) => {
     const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
+    const friends = state.friends.map((el) => {
+        return (
+            <div className={objStyle.friend__one}>
+                <div className={objStyle.friend__image}>
+                    <img src={el.url} />
+                </div>
+                <a href="" className={objStyle.friend__name}>
+                    {el.name}
+                </a>
+            </div>
+        );
+    });
     return (
         <nav
             className={`${objStyle.sidebar} ${
@@ -42,26 +54,7 @@ export const Sidebar = ({ menuInd }) => {
                 <a href="" className={objStyle.friends__title}>
                     Friends
                 </a>
-                <div className={objStyle.friends__block}>
-                    <div className={objStyle.friend__one}>
-                        <div className={objStyle.friend__image}></div>
-                        <a href="" className={objStyle.friend__name}>
-                            Andrew
-                        </a>
-                    </div>
-                    <div className={objStyle.friend}>
-                        <div className={objStyle.friend__image}></div>
-                        <a href="" className={objStyle.friend__name}>
-                            Sasha
-                        </a>
-                    </div>
-                    <div className={objStyle.friend__three}>
-                        <div className={objStyle.friend__image}></div>
-                        <a href="" className={objStyle.friend__name}>
-                            Sveta
-                        </a>
-                    </div>
-                </div>
+                <div className={objStyle.friends__block}>{friends}</div>
             </div>
         </nav>
     );

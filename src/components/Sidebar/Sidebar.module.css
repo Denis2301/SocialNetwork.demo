@@ -75,6 +75,16 @@ hr {
     margin-block-end: 5px;
     background-color: #fcab5b;
     border-radius: 50%;
+	position: relative;
+}
+.friend__image img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	object-fit: cover;
+    top: 0;
+    left: 0;
 }
 .friend__name {
 }

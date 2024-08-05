@@ -3,7 +3,7 @@ import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 
 export const MyPosts = (props) => {
-    const postsElements = props.posts.map((p) => {
+    let posts = props.posts.map((p) => {
         return (
             <Post
                 message={p.message}
@@ -35,7 +35,7 @@ export const MyPosts = (props) => {
                 </textarea>
                 <button className={objStyle.new__post__send}>Add Post.</button>
             </div>
-            <div className={objStyle.posts}>{postsElements}</div>
+            <div className={objStyle.posts}>{posts}</div>
         </section>
     );
 };

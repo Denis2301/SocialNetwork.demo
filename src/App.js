@@ -19,12 +19,22 @@ const App = (props) => {
         <BrowserRouter>
             <div className="wrapper">
                 <Header handleMenuView={handleMenuView} menuInd={menuInd} />
-                <Sidebar menuInd={menuInd} />
+                <Sidebar state={props.state.sidebar} menuInd={menuInd} />
                 <div className="wrapper-content">
                     <Routes>
                         <Route path="/" element={<Navigate to="/profile" />} />
-                        <Route path="/profile/*" element={<Profile posts={props.posts}/>} />
-                        <Route path="/dialogs/*" element={<Dialogs dialogs={props.dialogs} messages={props.messages}/>} />
+                        <Route
+                            path="/profile/*"
+                            element={
+                                <Profile state={props.state.profilePage} />
+                            }
+                        />
+                        <Route
+                            path="/dialogs/*"
+                            element={
+                                <Dialogs state={props.state.messagesPage} />
+                            }
+                        />
                         <Route path="/news/*" element={<News />} />
                         <Route path="/music/*" element={<Music />} />
                         <Route path="/settings/*" element={<Settings />} />
