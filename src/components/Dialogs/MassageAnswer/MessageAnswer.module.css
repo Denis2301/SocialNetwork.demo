@@ -10,6 +10,7 @@
 #messages_item__author {
     font-size: 12px;
     font-weight: 550;
+	text-align: center !important;
 }
 .messages_itemImg {
     margin-block-start: -10px;

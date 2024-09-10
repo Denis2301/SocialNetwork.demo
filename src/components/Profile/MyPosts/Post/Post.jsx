@@ -6,7 +6,7 @@ export const Post = (props) => {
         <div className={`${objStyle.post}`}>
             <div className={objStyle.post__imgProfile}>
                 <img
-                    src="https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png"
+                    src={props.url}
                     alt="avatar"
                 />
                 <span className={objStyle.author}>{props.author}</span>

@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, createRef } from "react";
 import objStyle from "./Dialogs.module.css";
 
 import { Contact } from "./ContactItem/Contact";
 import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
+
 export const Dialogs = (props) => {
     const isActive = ({ isActive }) => (isActive ? objStyle.activeLink : "");
+    const inputText = createRef("");
+    const sendTextMessage = () => {
+        props.sendTextMessage();
+    };
+    const onMessageChange = () => {
+        props.updateNewTextMessage(inputText.current.value);
+    };
     const dialogsElements = props.state.dialogs.map((d, ind) => (
         <Contact
             key={ind}
@@ -17,7 +25,7 @@ export const Dialogs = (props) => {
         />
     ));
 
-    const messagesElements = props.state.messageAsk.map((m, ind) => (
+    const messagesElementsAsk = props.state.messageAsk.map((m, ind) => (
         <Message
             key={ind}
             author={m.author}
@@ -48,12 +56,35 @@ export const Dialogs = (props) => {
                     <ul>{dialogsElements}</ul>
                 </div>
                 <div className={objStyle.dialogs_messages_ask}>
-                    {messagesElements}
+                    {messagesElementsAsk}
                 </div>
                 <div className={objStyle.dialogs_messages_answer}>
                     {messagesElementsAnswer}
                 </div>
             </section>
+            <div className={objStyle.textDialog}>
+                <form action="">
+                    <textarea
+                        onChange={onMessageChange}
+                        value={props.newTextMessage}
+                        name=""
+                        ref={inputText}
+                        className={objStyle.inputText}
+                        id=""
+                        cols="30"
+                        rows="10"
+                    />
+                    <button
+                        className={objStyle.sendText}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            sendTextMessage();
+                        }}
+                    >
+                        Text Dialog
+                    </button>
+                </form>
+            </div>
         </main>
     );
 };

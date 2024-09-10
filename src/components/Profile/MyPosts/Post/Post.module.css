@@ -4,7 +4,7 @@
     align-items: center;
     position: relative;
     margin-block-end: 30px !important;
-    padding: 15px 0px;
+    padding: 25px 0px;
 }
 
 .post__imgProfile {
@@ -30,6 +30,7 @@
 .author {
     font-size: 12px;
     font-weight: 550;
+    text-align: center;
 }
 .post__text {
     margin: 0 10px 0 5px;

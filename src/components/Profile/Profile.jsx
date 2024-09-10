@@ -13,7 +13,12 @@ export const Profile = (props) => {
                 edu={"USU '1"}
             />
             <main>
-                <MyPosts posts={props.state.posts} />
+                <MyPosts
+                    newTextPost={props.profilePage.newTextPost}
+                    posts={props.profilePage.posts}
+                    updateNewPostText={props.updateNewPostText}
+                    addPost={props.addPost}
+                />
             </main>
         </div>
     );

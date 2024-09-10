@@ -16,32 +16,43 @@ const App = (props) => {
     };
 
     return (
-        <BrowserRouter>
-            <div className="wrapper">
-                <Header handleMenuView={handleMenuView} menuInd={menuInd} />
-                <Sidebar state={props.state.sidebar} menuInd={menuInd} />
-                <div className="wrapper-content">
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/profile" />} />
-                        <Route
-                            path="/profile/*"
-                            element={
-                                <Profile state={props.state.profilePage} />
-                            }
-                        />
-                        <Route
-                            path="/dialogs/*"
-                            element={
-                                <Dialogs state={props.state.messagesPage} />
-                            }
-                        />
-                        <Route path="/news/*" element={<News />} />
-                        <Route path="/music/*" element={<Music />} />
-                        <Route path="/settings/*" element={<Settings />} />
-                    </Routes>
-                </div>
+        <div className="wrapper">
+            <Header handleMenuView={handleMenuView} menuInd={menuInd} />
+            <Sidebar state={props.state.sidebar} menuInd={menuInd} />
+            <div className="wrapper-content">
+                <Routes>
+                    <Route path="/" element={<Navigate to="/profile" />} />
+                    <Route
+                        path="/profile/*"
+                        element={
+                            <Profile
+                                profilePage={props.state.profilePage}
+                                updateNewPostText={props.updateNewPostText}
+                                addPost={props.addPost}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/dialogs/*"
+                        element={
+                            <Dialogs
+                                updateNewTextMessage={
+                                    props.updateNewTextMessage
+                                }
+                                newTextMessage={
+                                    props.state.messagesPage.newTextMessage
+                                }
+                                state={props.state.messagesPage}
+                                sendTextMessage={props.sendTextMessage}
+                            />
+                        }
+                    />
+                    <Route path="/news/*" element={<News />} />
+                    <Route path="/music/*" element={<Music />} />
+                    <Route path="/settings/*" element={<Settings />} />
+                </Routes>
             </div>
-        </BrowserRouter>
+        </div>
     );
 };
 export default App;

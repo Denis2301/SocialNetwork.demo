@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
+import { useState, createRef } from "react";
 
 export const MyPosts = (props) => {
-    let posts = props.posts.map((p) => {
-        return (
-            <Post
-                message={p.message}
-                likeCount={p.likeCount}
-                author={p.author}
-                id={p.id}
-            />
-        );
-    });
+    let textPost = useRef();
+    const onPostChange = () => {
+        props.updateNewPostText(textPost.current.value);
+    };
+    const addPost = () => {
+        props.addPost();
+    };
     return (
         <section className={objStyle.myPost}>
             <div
@@ -25,17 +23,39 @@ export const MyPosts = (props) => {
                 >
                     My posts
                 </h3>
-                <textarea
-                    className={objStyle.new__post__text}
-                    name=""
-                    id=""
-                    rows="5"
-                >
-                    Your text
-                </textarea>
-                <button className={objStyle.new__post__send}>Add Post.</button>
+                <form action="">
+                    <textarea
+                        value={props.newTextPost}
+                        className={objStyle.new__post__text}
+                        ref={textPost}
+                        onChange={onPostChange}
+                        name=""
+                        rows="5"
+                    />
+                    <button
+                        className={objStyle.new__post__send}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            addPost();
+                        }}
+                    >
+                        Add Post.
+                    </button>
+                </form>
             </div>
-            <div className={objStyle.posts}>{posts}</div>
+            <div className={objStyle.posts}>
+                {props.posts.map((p) => {
+                    return (
+                        <Post
+                            url={p.url}
+                            message={p.message}
+                            likeCount={p.likeCount}
+                            author={p.author}
+                            id={p.id}
+                        />
+                    );
+                })}
+            </div>
         </section>
     );
 };
