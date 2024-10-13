@@ -3,9 +3,9 @@ import React from "react";
 import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 
-export const Sidebar = ({ state, menuInd }) => {
+export const Sidebar = ({ store, menuInd }) => {
     const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
-    const friends = state.friends.map((el) => {
+    const friends = store._state.sidebar.friends.map((el) => {
         return (
             <div className={objStyle.friend__one}>
                 <div className={objStyle.friend__image}>

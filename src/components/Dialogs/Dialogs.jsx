@@ -8,43 +8,52 @@ import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
 export const Dialogs = (props) => {
     const isActive = ({ isActive }) => (isActive ? objStyle.activeLink : "");
     const inputText = createRef("");
-    const sendTextMessage = () => {
-        props.sendTextMessage();
+    const addMessage = () => {
+        props.store.dispatch({ type: "ADD_MESSAGE" });
     };
     const onMessageChange = () => {
-        props.updateNewTextMessage(inputText.current.value);
+		const action = {
+            type: "UPDATE_NEW_TEXT_MESSAGE",
+            newText: inputText.current.value,
+        }
+        props.store.dispatch(action);
     };
-    const dialogsElements = props.state.dialogs.map((d, ind) => (
-        <Contact
-            key={ind}
-            name={d.name}
-            address={d.id}
-            data={d.data}
-            url={d.url}
-            isActive={isActive}
-        />
-    ));
-
-    const messagesElementsAsk = props.state.messageAsk.map((m, ind) => (
-        <Message
-            key={ind}
-            author={m.author}
-            text={m.text}
-            id={m.id}
-            url={m.url}
-            data={m.data}
-        />
-    ));
-    const messagesElementsAnswer = props.state.messageAnswer.map((m, ind) => (
-        <MessageAnswer
-            key={ind}
-            author={m.author}
-            text={m.text}
-            id={m.id}
-            url={m.url}
-            data={m.data}
-        />
-    ));
+    const dialogsElements = props.store
+        .getState()
+        .messagesPage.dialogs.map((d, ind) => (
+            <Contact
+                key={ind}
+                name={d.name}
+                address={d.id}
+                data={d.data}
+                url={d.url}
+                isActive={isActive}
+            />
+        ));
+    const messagesElementsAsk = props.store
+        .getState()
+        .messagesPage.messageAsk.map((m, ind) => (
+            <Message
+                key={ind}
+                author={m.author}
+                text={m.text}
+                id={m.id}
+                url={m.url}
+                data={m.data}
+            />
+        ));
+    const messagesElementsAnswer = props.store
+        .getState()
+        .messagesPage.messageAnswer.map((m, ind) => (
+            <MessageAnswer
+                key={ind}
+                author={m.author}
+                text={m.text}
+                id={m.id}
+                url={m.url}
+                data={m.data}
+            />
+        ));
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -66,7 +75,9 @@ export const Dialogs = (props) => {
                 <form action="">
                     <textarea
                         onChange={onMessageChange}
-                        value={props.newTextMessage}
+                        value={
+                            props.store.getState().messagesPage.newTextMessage
+                        }
                         name=""
                         ref={inputText}
                         className={objStyle.inputText}
@@ -78,7 +89,7 @@ export const Dialogs = (props) => {
                         className={objStyle.sendText}
                         onClick={(e) => {
                             e.preventDefault();
-                            sendTextMessage();
+                            addMessage();
                         }}
                     >
                         Text Dialog

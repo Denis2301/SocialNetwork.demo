@@ -6,10 +6,15 @@ import { useState, createRef } from "react";
 export const MyPosts = (props) => {
     let textPost = useRef();
     const onPostChange = () => {
-        props.updateNewPostText(textPost.current.value);
+        let newText = textPost.current.value;
+		const action = {
+            type: "UPDATE_NEW_POST_TEXT",
+            newText: newText,
+        };
+        props.store.dispatch(action);
     };
     const addPost = () => {
-        props.addPost();
+        props.store.dispatch({ type: "ADD_POST" });
     };
     return (
         <section className={objStyle.myPost}>
@@ -25,7 +30,7 @@ export const MyPosts = (props) => {
                 </h3>
                 <form action="">
                     <textarea
-                        value={props.newTextPost}
+                        value={props.store.getState().profilePage.newTextPost}
                         className={objStyle.new__post__text}
                         ref={textPost}
                         onChange={onPostChange}
@@ -44,7 +49,7 @@ export const MyPosts = (props) => {
                 </form>
             </div>
             <div className={objStyle.posts}>
-                {props.posts.map((p) => {
+                {props.store.getState().profilePage.posts.map((p) => {
                     return (
                         <Post
                             url={p.url}

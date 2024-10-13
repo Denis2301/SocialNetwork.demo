@@ -18,7 +18,7 @@ const App = (props) => {
     return (
         <div className="wrapper">
             <Header handleMenuView={handleMenuView} menuInd={menuInd} />
-            <Sidebar state={props.state.sidebar} menuInd={menuInd} />
+            <Sidebar store={props.store} menuInd={menuInd} />
             <div className="wrapper-content">
                 <Routes>
                     <Route path="/" element={<Navigate to="/profile" />} />
@@ -26,9 +26,8 @@ const App = (props) => {
                         path="/profile/*"
                         element={
                             <Profile
-                                profilePage={props.state.profilePage}
-                                updateNewPostText={props.updateNewPostText}
-                                addPost={props.addPost}
+                                store={props.store}
+                                dispatch={props.dispatch}
                             />
                         }
                     />
@@ -36,14 +35,8 @@ const App = (props) => {
                         path="/dialogs/*"
                         element={
                             <Dialogs
-                                updateNewTextMessage={
-                                    props.updateNewTextMessage
-                                }
-                                newTextMessage={
-                                    props.state.messagesPage.newTextMessage
-                                }
-                                state={props.state.messagesPage}
-                                sendTextMessage={props.sendTextMessage}
+                                store={props.store}
+                                dispatch={props.dispatch}
                             />
                         }
                     />
