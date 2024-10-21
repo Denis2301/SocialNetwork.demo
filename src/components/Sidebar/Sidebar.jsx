@@ -25,7 +25,7 @@ export const Sidebar = ({ store, menuInd }) => {
         >
             <ul className={objStyle.menu}>
                 <li className={objStyle.item}>
-                    <NavLink className={isActive} to="/profile">
+                    <NavLink className={(navData) => isActive(navData)} to="/profile">
                         Profile
                     </NavLink>
                 </li>

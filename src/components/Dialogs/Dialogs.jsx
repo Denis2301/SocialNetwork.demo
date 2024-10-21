@@ -4,35 +4,35 @@ import objStyle from "./Dialogs.module.css";
 import { Contact } from "./ContactItem/Contact";
 import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
+import {
+    sendMessageCreator,
+    updateNewMessageBodyCreator,
+} from "../../redux/state";
 
 export const Dialogs = (props) => {
-    const isActive = ({ isActive }) => (isActive ? objStyle.activeLink : "");
-    const inputText = createRef("");
-    const addMessage = () => {
-        props.store.dispatch({ type: "ADD_MESSAGE" });
-    };
-    const onMessageChange = () => {
-		const action = {
-            type: "UPDATE_NEW_TEXT_MESSAGE",
-            newText: inputText.current.value,
-        }
+	const state = props.store.getState().messagesPage;
+    const onSendMessageClick = () => {
+        let action = sendMessageCreator("SEND_MESSAGE");
         props.store.dispatch(action);
     };
-    const dialogsElements = props.store
-        .getState()
-        .messagesPage.dialogs.map((d, ind) => (
+    const onMessageChange = (e) => {
+        let body = e.target.value;
+        const action = updateNewMessageBodyCreator(
+            "UPDATE_NEW_MESSAGE_BODY",
+            body
+        );
+        props.store.dispatch(action);
+    };
+    const dialogsElements = state.dialogs.map((d, ind) => (
             <Contact
                 key={ind}
                 name={d.name}
                 address={d.id}
                 data={d.data}
                 url={d.url}
-                isActive={isActive}
             />
         ));
-    const messagesElementsAsk = props.store
-        .getState()
-        .messagesPage.messageAsk.map((m, ind) => (
+    const messagesElementsAsk = state.messageAsk.map((m, ind) => (
             <Message
                 key={ind}
                 author={m.author}
@@ -42,9 +42,7 @@ export const Dialogs = (props) => {
                 data={m.data}
             />
         ));
-    const messagesElementsAnswer = props.store
-        .getState()
-        .messagesPage.messageAnswer.map((m, ind) => (
+    const messagesElementsAnswer =  state.messageAnswer.map((m, ind) => (
             <MessageAnswer
                 key={ind}
                 author={m.author}
@@ -54,6 +52,7 @@ export const Dialogs = (props) => {
                 data={m.data}
             />
         ));
+		const newMessageBody = state.newTextBody;
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -74,25 +73,20 @@ export const Dialogs = (props) => {
             <div className={objStyle.textDialog}>
                 <form action="">
                     <textarea
-                        onChange={onMessageChange}
-                        value={
-                            props.store.getState().messagesPage.newTextMessage
-                        }
-                        name=""
-                        ref={inputText}
+                        placeholder="Enter Your Message"
+                        onChange={(e) => onMessageChange(e)}
+                        value={newMessageBody}
                         className={objStyle.inputText}
                         id=""
-                        cols="30"
-                        rows="10"
                     />
                     <button
                         className={objStyle.sendText}
                         onClick={(e) => {
                             e.preventDefault();
-                            addMessage();
+                            onSendMessageClick();
                         }}
                     >
-                        Text Dialog
+                        Send
                     </button>
                 </form>
             </div>

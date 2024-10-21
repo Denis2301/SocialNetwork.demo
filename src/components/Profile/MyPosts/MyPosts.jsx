@@ -2,19 +2,22 @@ import React, { useRef } from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { useState, createRef } from "react";
+import { addPostCreator, updateNewPostTextCreator } from "../../../redux/state";
 
 export const MyPosts = (props) => {
     let textPost = useRef();
+	const state = props.store.getState().profilePage;
     const onPostChange = () => {
         let newText = textPost.current.value;
-		const action = {
-            type: "UPDATE_NEW_POST_TEXT",
-            newText: newText,
-        };
-        props.store.dispatch(action);
+        const action = updateNewPostTextCreator(
+            "UPDATE_NEW_POST_TEXT",
+            newText
+        );
+        props.dispatch(action);
     };
     const addPost = () => {
-        props.store.dispatch({ type: "ADD_POST" });
+        let action = addPostCreator("ADD_POST");
+        props.dispatch(action);
     };
     return (
         <section className={objStyle.myPost}>
@@ -30,11 +33,11 @@ export const MyPosts = (props) => {
                 </h3>
                 <form action="">
                     <textarea
-                        value={props.store.getState().profilePage.newTextPost}
+                        placeholder="Enter Your Message"
+                        value={state.newTextPost}
                         className={objStyle.new__post__text}
                         ref={textPost}
                         onChange={onPostChange}
-                        name=""
                         rows="5"
                     />
                     <button
@@ -49,7 +52,7 @@ export const MyPosts = (props) => {
                 </form>
             </div>
             <div className={objStyle.posts}>
-                {props.store.getState().profilePage.posts.map((p) => {
+                {state.posts.map((p) => {
                     return (
                         <Post
                             url={p.url}

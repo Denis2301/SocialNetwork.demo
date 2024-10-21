@@ -1,3 +1,7 @@
+const ADD_POST = "ADD_POST";
+const UPDATE_NEW_POST_TEXT = "UPDATE_NEW_POST_TEXT";
+const SEND_MESSAGE = "SEND_MESSAGE";
+const UPDATE_NEW_MESSAGE_BODY = "UPDATE_NEW_MESSAGE_BODY";
 export const store = {
     _state: {
         profilePage: {
@@ -142,7 +146,7 @@ export const store = {
                     },
                 },
             ],
-            newTextMessage: "It-Kamasutra.com",
+            newTextBody: "",
         },
     },
     _callSubscriber() {
@@ -171,6 +175,7 @@ export const store = {
         this._callSubscriber(this);
     },
     _addMessage() {
+        const messagesBody = this._state.messagesPage.newTextBody;
         this._state.messagesPage.dialogs.push({
             id: this._state.messagesPage.dialogs.length,
             name: "New Author",
@@ -183,7 +188,7 @@ export const store = {
         });
         this._state.messagesPage.messageAsk.push({
             author: "New Author",
-            text: this._state.messagesPage.newTextMessage,
+            text: messagesBody,
             id: this._state.messagesPage.messageAsk.length,
             url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
             data: {
@@ -192,30 +197,42 @@ export const store = {
                 date: new Date().getDate(),
             },
         });
-        this._state.messagesPage.newTextMessage = "";
+        this._state.messagesPage.newTextBody = "";
         this._callSubscriber(this);
     },
     _updateNewTextMessage(newText) {
-        this._state.messagesPage.newTextMessage = newText;
+        this._state.messagesPage.newTextBody = newText;
         this._callSubscriber(this);
     },
     dispatch(action) {
         switch (action.type) {
-            case "ADD_POST":
+            case ADD_POST:
                 this._addPosts();
                 break;
-            case "UPDATE_NEW_POST_TEXT":
+            case UPDATE_NEW_POST_TEXT:
                 this._updateNewTextPost(action.newText);
                 break;
-            case "ADD_MESSAGE":
+            case SEND_MESSAGE:
                 this._addMessage();
                 break;
-            case "UPDATE_NEW_TEXT_MESSAGE":
-                this._updateNewTextMessage(action.newText);
+            case UPDATE_NEW_MESSAGE_BODY:
+                this._updateNewTextMessage(action.body);
                 break;
             default:
                 break;
         }
     },
 };
+
+// export const actionCreator = (type, value) => ({ type: type, newText: value });
+export const addPostCreator = (type) => ({ type: type });
+export const updateNewPostTextCreator = (type, text) => ({
+    type: type,
+    newText: text,
+});
+export const sendMessageCreator = (type) => ({ type: type });
+export const updateNewMessageBodyCreator = (type, text) => ({
+    type: type,
+    body: text,
+});
 window._state = store._state;

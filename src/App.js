@@ -36,7 +36,7 @@ const App = (props) => {
                         element={
                             <Dialogs
                                 store={props.store}
-                                dispatch={props.dispatch}
+                                actionCreator={props.store.actionCreator}
                             />
                         }
                     />

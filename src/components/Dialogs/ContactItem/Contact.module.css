@@ -41,8 +41,7 @@
     left: 0;
 }
 .activeLink {
-    font-size: 20px;
-    color: #ddaa4c;
+    color: gold;
 }
 .dialog {
     padding-block: 15px;

@@ -1,6 +1,8 @@
 import objStyle from "./Contact.module.css";
 import { NavLink } from "react-router-dom";
 export const Contact = (props) => {
+    const isActive = (navData) =>
+        navData.isActive ? objStyle.activeLink : "";
     return (
         <>
             <li className={objStyle.dialog}>
@@ -13,7 +15,9 @@ export const Contact = (props) => {
                         </span>
                     </div>
                     <NavLink
-                        className={`${props.isActive} ${objStyle.name}`}
+                        className={(navData) => `${isActive(navData)} ${
+                            objStyle.name
+                        }`}
                         to={"/dialogs/" + props.address}
                     >
                         {props.name}

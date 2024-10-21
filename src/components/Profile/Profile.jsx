@@ -13,7 +13,10 @@ export const Profile = (props) => {
                 edu={"USU '1"}
             />
             <main>
-                <MyPosts store={props.store} dispatch={props.dispatch} />
+                <MyPosts
+                    store={props.store}
+                    dispatch={props.dispatch}
+                />
             </main>
         </div>
     );
