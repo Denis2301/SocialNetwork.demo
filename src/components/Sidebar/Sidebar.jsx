@@ -2,12 +2,16 @@ import { useState } from "react";
 import React from "react";
 import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
-
-export const Sidebar = ({ store, menuInd }) => {
+import { sendSidebarCreator } from "../../redux/sidebarReducer";
+export const Sidebar = ({ store, menuInd, handleMenuView, dispatch }) => {
+    const onSendClick = () => {
+        let action = sendSidebarCreator("SIDEBAR");
+        dispatch(action);
+    };
     const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
     const friends = store._state.sidebar.friends.map((el) => {
         return (
-            <div className={objStyle.friend__one}>
+            <div className={objStyle.friend__one} onClick={() => onSendClick()}>
                 <div className={objStyle.friend__image}>
                     <img src={el.url} />
                 </div>
@@ -20,17 +24,25 @@ export const Sidebar = ({ store, menuInd }) => {
     return (
         <nav
             className={`${objStyle.sidebar} ${
-                menuInd == true ? objStyle.sidebar_active : ""
+                menuInd == true ? objStyle.sidebar_active : objStyle.sidebar
             }`}
         >
             <ul className={objStyle.menu}>
                 <li className={objStyle.item}>
-                    <NavLink className={(navData) => isActive(navData)} to="/profile">
+                    <NavLink
+                        onClick={() => handleMenuView()}
+                        className={(navData) => isActive(navData)}
+                        to="/profile"
+                    >
                         Profile
                     </NavLink>
                 </li>
                 <li className={objStyle.item}>
-                    <NavLink className={isActive} to="/dialogs">
+                    <NavLink
+                        onClick={() => handleMenuView()}
+                        className={isActive}
+                        to="/dialogs"
+                    >
                         Messages
                     </NavLink>
                 </li>

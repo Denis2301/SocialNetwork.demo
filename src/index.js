@@ -1,6 +1,6 @@
 import reportWebVitals from "./reportWebVitals";
 // import * as serviceWorker from './serviceWorker';
-import { store } from "./redux/state";
+import { store } from "./redux/store";
 import ReactDOM from "react-dom";
 import App from "./App";
 import React from "react";

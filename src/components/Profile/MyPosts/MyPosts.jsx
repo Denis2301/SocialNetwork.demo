@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { useState, createRef } from "react";
-import { addPostCreator, updateNewPostTextCreator } from "../../../redux/state";
+import { addPostCreator, updateNewPostTextCreator } from "../../../redux/profileReducer";
 
 export const MyPosts = (props) => {
     let textPost = useRef();
-	const state = props.store.getState().profilePage;
+    const state = props.store.getState().profilePage;
     const onPostChange = () => {
         let newText = textPost.current.value;
         const action = updateNewPostTextCreator(
@@ -19,6 +19,7 @@ export const MyPosts = (props) => {
         let action = addPostCreator("ADD_POST");
         props.dispatch(action);
     };
+    const newTextPost = state.newTextPost;
     return (
         <section className={objStyle.myPost}>
             <div
@@ -34,7 +35,7 @@ export const MyPosts = (props) => {
                 <form action="">
                     <textarea
                         placeholder="Enter Your Message"
-                        value={state.newTextPost}
+                        value={newTextPost}
                         className={objStyle.new__post__text}
                         ref={textPost}
                         onChange={onPostChange}

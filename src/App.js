@@ -18,7 +18,12 @@ const App = (props) => {
     return (
         <div className="wrapper">
             <Header handleMenuView={handleMenuView} menuInd={menuInd} />
-            <Sidebar store={props.store} menuInd={menuInd} />
+            <Sidebar
+                handleMenuView={handleMenuView}
+                store={props.store}
+                menuInd={menuInd}
+                dispatch={props.dispatch}
+            />
             <div className="wrapper-content">
                 <Routes>
                     <Route path="/" element={<Navigate to="/profile" />} />
@@ -36,7 +41,7 @@ const App = (props) => {
                         element={
                             <Dialogs
                                 store={props.store}
-                                actionCreator={props.store.actionCreator}
+                                dispatch={props.dispatch}
                             />
                         }
                     />
