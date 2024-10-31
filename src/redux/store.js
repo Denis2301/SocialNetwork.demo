@@ -159,9 +159,9 @@ export const store = {
         this._callSubscriber = observer;
     },
     dispatch(action) {
-        this.profilePage = profileReducer(action, this._state.profilePage);
-        this.messagesPage = messageReducer(action, this._state.messagesPage);
-        this.sidebar = sidebarReducer(action, this._state.sidebar);
+        this.profilePage = profileReducer(this._state.profilePage, action);
+        this.messagesPage = messageReducer(this._state.messagesPage, action);
+        this.sidebar = sidebarReducer(this._state.sidebar, action);
         this._callSubscriber(this);
     },
 };

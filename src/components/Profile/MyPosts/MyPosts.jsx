@@ -3,7 +3,6 @@ import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { useState, createRef } from "react";
 import { addPostCreator, updateNewPostTextCreator } from "../../../redux/profileReducer";
-
 export const MyPosts = (props) => {
     let textPost = useRef();
     const state = props.store.getState().profilePage;

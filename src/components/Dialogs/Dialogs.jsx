@@ -11,6 +11,7 @@ import {
 
 export const Dialogs = (props) => {
     const state = props.store.getState().messagesPage;
+
     const onSendMessageClick = () => {
         let action = sendMessageCreator("SEND_MESSAGE");
         props.dispatch(action);
@@ -23,6 +24,7 @@ export const Dialogs = (props) => {
         );
         props.dispatch(action);
     };
+
     const dialogsElements = state.dialogs.map((d, ind) => (
         <Contact
             key={ind}

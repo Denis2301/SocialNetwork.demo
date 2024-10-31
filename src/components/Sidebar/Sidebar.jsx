@@ -9,7 +9,8 @@ export const Sidebar = ({ store, menuInd, handleMenuView, dispatch }) => {
         dispatch(action);
     };
     const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
-    const friends = store._state.sidebar.friends.map((el) => {
+    const state = store.getState().sidebar;
+    const friends = state.friends.map((el) => {
         return (
             <div className={objStyle.friend__one} onClick={() => onSendClick()}>
                 <div className={objStyle.friend__image}>
