@@ -3,14 +3,12 @@ import React from "react";
 import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 import { sendSidebarCreator } from "../../redux/sidebarReducer";
-export const Sidebar = ({ store, menuInd, handleMenuView, dispatch }) => {
+export const Sidebar = ({ sidebar, menuInd, handleMenuView, onSend }) => {
     const onSendClick = () => {
-        let action = sendSidebarCreator("SIDEBAR");
-        dispatch(action);
+        onSend("SIDEBAR");
     };
     const isActive = (navData) => (navData.isActive ? objStyle.activeLink : "");
-    const state = store.getState().sidebar;
-    const friends = state.friends.map((el) => {
+    const friends = sidebar.friends.map((el) => {
         return (
             <div className={objStyle.friend__one} onClick={() => onSendClick()}>
                 <div className={objStyle.friend__image}>

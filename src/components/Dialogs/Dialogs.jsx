@@ -1,31 +1,27 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useRef } from "react";
 import objStyle from "./Dialogs.module.css";
 
 import { Contact } from "./ContactItem/Contact";
 import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
-import {
-    sendMessageCreator,
-    updateNewMessageBodyCreator,
-} from "../../redux/messageReducer";
 
-export const Dialogs = (props) => {
-    const state = props.store.getState().messagesPage;
-
-    const onSendMessageClick = () => {
-        let action = sendMessageCreator("SEND_MESSAGE");
-        props.dispatch(action);
+export const Dialogs = ({
+    onSendMessageClick,
+    onMessageChangeText,
+    messagesPage,
+    messageAsk,
+    messageAnswer,
+    newTextBody,
+}) => {
+    let textDialog = useRef();
+    const onSendMessage = () => {
+        onSendMessageClick();
     };
-    const onMessageChange = (e) => {
-        let body = e.target.value;
-        const action = updateNewMessageBodyCreator(
-            "UPDATE_NEW_MESSAGE_BODY",
-            body
-        );
-        props.dispatch(action);
+    const onMessageChange = () => {
+        let newText = textDialog.current.value;
+        onMessageChangeText(newText);
     };
-
-    const dialogsElements = state.dialogs.map((d, ind) => (
+    const dialogsElements = messagesPage.dialogs.map((d, ind) => (
         <Contact
             key={ind}
             name={d.name}
@@ -34,7 +30,7 @@ export const Dialogs = (props) => {
             url={d.url}
         />
     ));
-    const messagesElementsAsk = state.messageAsk.map((m, ind) => (
+    const messagesElementsAsk = messageAsk.map((m, ind) => (
         <Message
             key={ind}
             author={m.author}
@@ -44,7 +40,7 @@ export const Dialogs = (props) => {
             data={m.data}
         />
     ));
-    const messagesElementsAnswer = state.messageAnswer.map((m, ind) => (
+    const messagesElementsAnswer = messageAnswer.map((m, ind) => (
         <MessageAnswer
             key={ind}
             author={m.author}
@@ -54,7 +50,7 @@ export const Dialogs = (props) => {
             data={m.data}
         />
     ));
-    const newMessageBody = state.newTextBody;
+    const newMessageBody = newTextBody;
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -75,17 +71,17 @@ export const Dialogs = (props) => {
             <div className={objStyle.textDialog}>
                 <form action="">
                     <textarea
+                        ref={textDialog}
                         placeholder="Enter Your Message"
-                        onChange={(e) => onMessageChange(e)}
+                        onChange={onMessageChange}
                         value={newMessageBody}
                         className={objStyle.inputText}
-                        id=""
                     />
                     <button
                         className={objStyle.sendText}
                         onClick={(e) => {
                             e.preventDefault();
-                            onSendMessageClick();
+                            onSendMessage();
                         }}
                     >
                         Send

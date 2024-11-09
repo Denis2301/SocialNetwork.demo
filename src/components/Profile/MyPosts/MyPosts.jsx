@@ -2,23 +2,21 @@ import React, { useRef } from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { useState, createRef } from "react";
-import { addPostCreator, updateNewPostTextCreator } from "../../../redux/profileReducer";
-export const MyPosts = (props) => {
+
+export const MyPosts = ({
+    updateNewPostText,
+    addPost,
+    profilePage,
+    newTextPost,
+}) => {
     let textPost = useRef();
-    const state = props.store.getState().profilePage;
     const onPostChange = () => {
         let newText = textPost.current.value;
-        const action = updateNewPostTextCreator(
-            "UPDATE_NEW_POST_TEXT",
-            newText
-        );
-        props.dispatch(action);
+        updateNewPostText(newText);
     };
-    const addPost = () => {
-        let action = addPostCreator("ADD_POST");
-        props.dispatch(action);
+    const onAddPost = () => {
+        addPost();
     };
-    const newTextPost = state.newTextPost;
     return (
         <section className={objStyle.myPost}>
             <div
@@ -44,7 +42,7 @@ export const MyPosts = (props) => {
                         className={objStyle.new__post__send}
                         onClick={(e) => {
                             e.preventDefault();
-                            addPost();
+                            onAddPost();
                         }}
                     >
                         Add Post.
@@ -52,7 +50,7 @@ export const MyPosts = (props) => {
                 </form>
             </div>
             <div className={objStyle.posts}>
-                {state.posts.map((p) => {
+                {profilePage.map((p) => {
                     return (
                         <Post
                             url={p.url}

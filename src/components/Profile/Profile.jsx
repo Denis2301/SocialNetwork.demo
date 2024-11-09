@@ -1,9 +1,9 @@
 import React from "react";
 import objStyle from "./Profile.module.css";
-import { MyPosts } from "./MyPosts/MyPosts";
+import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 
-export const Profile = (props) => {
+export const Profile = ({ store }) => {
     return (
         <div className={objStyle.content}>
             <ProfileInfo
@@ -13,10 +13,7 @@ export const Profile = (props) => {
                 edu={"USU '1"}
             />
             <main>
-                <MyPosts
-                    store={props.store}
-                    dispatch={props.dispatch}
-                />
+                <MyPostsContainer store={store} />
             </main>
         </div>
     );
