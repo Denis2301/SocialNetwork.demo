@@ -8,7 +8,8 @@ import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
-const App = (props) => {
+
+const App = () => {
     const [menuInd, menuChangeView] = useState(false);
     const handleMenuView = () => {
         menuChangeView(!menuInd);
@@ -18,7 +19,6 @@ const App = (props) => {
         <div className="wrapper">
             <Header handleMenuView={handleMenuView} menuInd={menuInd} />
             <SidebarContainer
-                store={props.store}
                 handleMenuView={handleMenuView}
                 menuInd={menuInd}
             />
@@ -27,11 +27,11 @@ const App = (props) => {
                     <Route path="/" element={<Navigate to="/profile" />} />
                     <Route
                         path="/profile/*"
-                        element={<Profile store={props.store} />}
+                        element={<Profile />}
                     />
                     <Route
                         path="/dialogs/*"
-                        element={<DialogsContainer store={props.store} />}
+                        element={<DialogsContainer />}
                     />
                     <Route path="/news/*" element={<News />} />
                     <Route path="/music/*" element={<Music />} />

@@ -5,12 +5,16 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import StoreContext from "./StoreContext";
+import { Provider } from "./StoreContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const rerenderEntireThree = (store) => {
     root.render(
         <BrowserRouter>
-            <App store={store} dispatch={store.dispatch.bind(store)} />
+            <Provider store={store}>
+                <App />
+            </Provider>
         </BrowserRouter>
     );
 };
