@@ -5,8 +5,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import StoreContext from "./StoreContext";
-import { Provider } from "./StoreContext";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const rerenderEntireThree = (store) => {

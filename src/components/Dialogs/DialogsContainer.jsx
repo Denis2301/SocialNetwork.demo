@@ -4,35 +4,33 @@ import {
     updateNewMessageBodyCreator,
 } from "../../redux/messageReducer";
 import { Dialogs } from "./Dialogs";
-import StoreContext from "../../StoreContext";
+import { connect } from "react-redux";
 
-export const DialogsContainer = () => {
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                const state = store.getState();
-                const onSendMessageClick = () => {
-                    let action = sendMessageCreator("SEND_MESSAGE");
-                    store.dispatch(action);
-                };
-                const onMessageChangeText = (body) => {
-                    const action = updateNewMessageBodyCreator(
-                        "UPDATE_NEW_MESSAGE_BODY",
-                        body
-                    );
-                    store.dispatch(action);
-                };
-                return (
-                    <Dialogs
-                        onSendMessageClick={onSendMessageClick}
-                        onMessageChangeText={onMessageChangeText}
-                        messagesPage={state.messagesPage}
-                        messageAsk={state.messagesPage.messageAsk}
-                        messageAnswer={state.messagesPage.messageAnswer}
-                        newTextBody={state.messagesPage.newTextBody}
-                    />
-                );
-            }}
-        </StoreContext.Consumer>
-    );
+
+const mapStateToDialogsProps = (state) => {
+    return {
+        messagesPage: state.messagesPage,
+        messageAsk: state.messagesPage.messageAsk,
+        messageAnswer: state.messagesPage.messageAnswer,
+        newTextBody: state.messagesPage.newTextBody,
+    };
 };
+const mapDispatchToDialogsProps = () => {
+    return {
+        onSendMessageClick: (dispatch) => {
+            let action = sendMessageCreator("SEND_MESSAGE");
+            dispatch(action);
+        },
+        onMessageChangeText: (body, dispatch) => {
+            const action = updateNewMessageBodyCreator(
+                "UPDATE_NEW_MESSAGE_BODY",
+                body
+            );
+            dispatch(action);
+        },
+    };
+};
+export const DialogsContainer = connect(
+    mapStateToDialogsProps,
+    mapDispatchToDialogsProps
+)(Dialogs);

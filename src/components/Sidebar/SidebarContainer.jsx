@@ -1,26 +1,24 @@
 import React from "react";
 import { sendSidebarCreator } from "../../redux/sidebarReducer";
 import { Sidebar } from "./Sidebar";
-import StoreContext from "../../StoreContext";
+import { connect } from "react-redux";
 
-export const SidebarContainer = ({ menuInd, handleMenuView }) => {
-    return (
-        <StoreContext.Consumer>
-            {(store) => {
-                let state = store.getState();
-                const onSend = () => {
-                    let action = sendSidebarCreator("SIDEBAR");
-                    store.dispatch(action);
-                };
-                return (
-                    <Sidebar
-                        onSendClick={onSend}
-                        sidebar={state.sidebar}
-                        handleMenuView={handleMenuView}
-                        menuInd={menuInd}
-                    />
-                );
-            }}
-        </StoreContext.Consumer>
-    );
+const mapStateToSidebarProps = (state, menuInd, handleMenuView) => {
+    return {
+        sidebar: state.sidebar,
+        menuInd: menuInd,
+        handleMenuView: handleMenuView,
+    };
 };
+const mapDispatchToSidebarProps = (dispatch) => {
+    return {
+        onSendClick: () => {
+            let action = sendSidebarCreator("SIDEBAR");
+            dispatch(action);
+        },
+    };
+};
+export const SidebarContainer = connect(
+    mapStateToSidebarProps,
+    mapDispatchToSidebarProps
+)(Sidebar);
