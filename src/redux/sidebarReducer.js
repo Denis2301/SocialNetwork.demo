@@ -21,9 +21,9 @@ const initialState = {
 const sidebarReducer = (state = initialState, action) => {
     switch (action.type) {
         case SIDEBAR:
-            return state;
+            return { ...state };
         default:
-            return state;
+            return { ...state };
     }
 };
 export const sendSidebarCreator = (type) => ({ type: type });

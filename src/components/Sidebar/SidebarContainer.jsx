@@ -3,11 +3,11 @@ import { sendSidebarCreator } from "../../redux/sidebarReducer";
 import { Sidebar } from "./Sidebar";
 import { connect } from "react-redux";
 
-const mapStateToSidebarProps = (state, menuInd, handleMenuView) => {
+const mapStateToSidebarProps = (state, ownProps) => {
     return {
         sidebar: state.sidebar,
-        menuInd: menuInd,
-        handleMenuView: handleMenuView,
+        menuInd: ownProps.menuInd,
+        handleMenuView: ownProps.handleMenuView,
     };
 };
 const mapDispatchToSidebarProps = (dispatch) => {

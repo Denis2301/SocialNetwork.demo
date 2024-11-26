@@ -30,14 +30,15 @@ const profileReducer = (state = initialState, action) => {
                 author: "New Author",
                 id: state.posts.length,
             };
-            state.posts.push(dataNewPost);
-            state.newTextPost = "";
-            return state;
+            return {
+                ...state,
+                posts: [...state.posts, dataNewPost],
+                newTextPost: "",
+            };
         case UPDATE_NEW_POST_TEXT:
-            state.newTextPost = action.newText;
-            return state;
+        return { ...state, newTextPost: action.newText };
         default:
-            return state;
+            return { ...state };
     }
 };
 export const addPostCreator = (type) => ({ type: type });

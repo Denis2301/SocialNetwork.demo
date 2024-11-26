@@ -108,35 +108,41 @@ const initialState = {
 const messageReducer = (state = initialState, action) => {
     switch (action.type) {
         case SEND_MESSAGE:
-            const messagesBody = state.newTextBody;
-            state.dialogs.push({
-                id: state.dialogs.length,
-                name: "New Author",
-                url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
-                data: {
-                    year: new Date().getFullYear(),
-                    month: new Date().getMonth(),
-                    date: new Date().getDate(),
-                },
-            });
-            state.messageAsk.push({
-                author: "New Author",
-                text: messagesBody,
-                id: state.messageAsk.length,
-                url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
-                data: {
-                    year: new Date().getFullYear(),
-                    month: new Date().getMonth(),
-                    date: new Date().getDate(),
-                },
-            });
-            state.newTextBody = "";
-            return state;
+            return {
+                ...state,
+                dialogs: [
+                    ...state.dialogs,
+                    {
+                        id: state.dialogs.length,
+                        name: "New Author",
+                        url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+                        data: {
+                            year: new Date().getFullYear(),
+                            month: new Date().getMonth(),
+                            date: new Date().getDate(),
+                        },
+                    },
+                ],
+                messageAsk: [
+                    ...state.messageAsk,
+                    {
+                        author: "New Author",
+                        text: state.newTextBody,
+                        id: state.messageAsk.length,
+                        url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+                        data: {
+                            year: new Date().getFullYear(),
+                            month: new Date().getMonth(),
+                            date: new Date().getDate(),
+                        },
+                    },
+                ],
+                newTextBody: "",
+            };
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newTextBody = action.body;
-            return state;
+            return { ...state, newTextBody: action.body };
         default:
-            return state;
+            return { ...state };
     }
 };
 export const sendMessageCreator = (type) => ({ type: type });

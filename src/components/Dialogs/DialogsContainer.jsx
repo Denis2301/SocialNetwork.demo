@@ -15,13 +15,13 @@ const mapStateToDialogsProps = (state) => {
         newTextBody: state.messagesPage.newTextBody,
     };
 };
-const mapDispatchToDialogsProps = () => {
+const mapDispatchToDialogsProps = (dispatch) => {
     return {
-        onSendMessageClick: (dispatch) => {
+        onSendMessageClick: () => {
             let action = sendMessageCreator("SEND_MESSAGE");
             dispatch(action);
         },
-        onMessageChangeText: (body, dispatch) => {
+        onMessageChangeText: (body) => {
             const action = updateNewMessageBodyCreator(
                 "UPDATE_NEW_MESSAGE_BODY",
                 body
