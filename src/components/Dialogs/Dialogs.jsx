@@ -18,8 +18,7 @@ export const Dialogs = ({
         onSendMessageClick();
     };
     const onMessageChange = () => {
-        let newText = textDialog.current.value;
-        onMessageChangeText(newText);
+        onMessageChangeText( textDialog.current.value );
     };
     const dialogsElements = messagesPage.dialogs.map((d, ind) => (
         <Contact

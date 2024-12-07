@@ -53,11 +53,11 @@ export const MyPosts = ({
                 {profilePage.map((p) => {
                     return (
                         <Post
+                            key={p.id}
                             url={p.url}
                             message={p.message}
                             likeCount={p.likeCount}
                             author={p.author}
-                            id={p.id}
                         />
                     );
                 })}

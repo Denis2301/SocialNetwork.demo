@@ -106,28 +106,26 @@ const initialState = {
     newTextBody: "",
 };
 const messageReducer = (state = initialState, action) => {
+    let newDialogUser = {
+        id: state.dialogs.length,
+        name: "New Author",
+        url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
+        data: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth(),
+            date: new Date().getDate(),
+        },
+    };
     switch (action.type) {
         case SEND_MESSAGE:
+            let body = state.newTextBody;
             return {
                 ...state,
-                dialogs: [
-                    ...state.dialogs,
-                    {
-                        id: state.dialogs.length,
-                        name: "New Author",
-                        url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
-                        data: {
-                            year: new Date().getFullYear(),
-                            month: new Date().getMonth(),
-                            date: new Date().getDate(),
-                        },
-                    },
-                ],
                 messageAsk: [
                     ...state.messageAsk,
                     {
                         author: "New Author",
-                        text: state.newTextBody,
+                        text: body,
                         id: state.messageAsk.length,
                         url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
                         data: {

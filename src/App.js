@@ -8,6 +8,7 @@ import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
+import { UsersContainer } from "./components/UsersContainer/UsersContainer";
 
 const App = () => {
     const [menuInd, menuChangeView] = useState(false);
@@ -25,14 +26,9 @@ const App = () => {
             <div className="wrapper-content">
                 <Routes>
                     <Route path="/" element={<Navigate to="/profile" />} />
-                    <Route
-                        path="/profile/*"
-                        element={<Profile />}
-                    />
-                    <Route
-                        path="/dialogs/*"
-                        element={<DialogsContainer />}
-                    />
+                    <Route path="/profile/*" element={<Profile />} />
+                    <Route path="/dialogs/*" element={<DialogsContainer />} />
+                    <Route path="/users/*" element={<UsersContainer/>} />
                     <Route path="/news/*" element={<News />} />
                     <Route path="/music/*" element={<Music />} />
                     <Route path="/settings/*" element={<Settings />} />

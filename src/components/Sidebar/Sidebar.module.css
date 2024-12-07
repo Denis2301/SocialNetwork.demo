@@ -50,6 +50,12 @@ hr {
     font-size: clamp(16px, 5vw, 30px);
     margin-inline-start: 10px;
 }
+.users {
+    display: block;
+    font-size: clamp(16px, 5vw, 30px);
+    margin-inline-start: 10px;
+	margin-block-end: 10px;
+}
 .friends {
     margin-block-start: 10px;
 }
