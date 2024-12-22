@@ -11,7 +11,9 @@ export const Header = (props) => {
                     className=""
                 />
                 <div
-                    className={`${objStyle.menuBurger} ${props.menuInd ? objStyle.menuBurger_active : ""}`}
+                    className={`${objStyle.menuBurger} ${
+                        props.menuInd ? objStyle.menuBurger_active : ""
+                    }`}
                     onClick={() => props.handleMenuView()}
                 >
                     <span></span>
