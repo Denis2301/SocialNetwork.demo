@@ -7,25 +7,59 @@ import userPhoto from "../../assets/images/user.png";
 export class Users extends React.Component {
     constructor(props) {
         super(props);
+        this.countPage = Math.ceil(props.totalUsersCount / props.pageSize);
+        this.pages = [];
+        for (let i = 1; i <= this.countPage; i++) {
+            this.pages.push(i);
+        }
     }
+
     componentDidMount() {
         axios
-            .get("https://social-network.samuraijs.com/api/1.0/users")
+            .get(
+                `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+            )
+            .then((response) => {
+                this.props.setUsers(response.data.items);
+                this.props.setTotalCount(response.data.totalCount);
+            });
+    }
+    onPageChanged = (pageNumber) => {
+        this.props.setCurrentPage(pageNumber);
+        axios
+            .get(
+                `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
+            )
             .then((response) => {
                 this.props.setUsers(response.data.items);
             });
-    }
+    };
     render() {
         return (
             <main className={objStyle.content}>
                 <h1 className={objStyle.content__title}> Users</h1>
+                <div className={objStyle.pagination}>
+                    {this.pages.map((p) => (
+                        <span
+                            onClick={(e) => {
+                                this.onPageChanged(p);
+                            }}
+                            className={
+                                this.props.currentPage === p &&
+                                objStyle.selectedPage
+                            }
+                        >
+                            {p}
+                        </span>
+                    ))}
+                </div>
                 {this.props.users.map((user) => (
                     <div className={objStyle.wrapperUser} key={user.id}>
                         <div className={objStyle.status}>
                             <div className={objStyle.status__img}>
                                 {" "}
                                 <img
-                                    src={user.photos.small || userPhoto}
+                                    src={user.photos.small ? user.photos.small : userPhoto}
                                     alt=""
                                 />
                             </div>

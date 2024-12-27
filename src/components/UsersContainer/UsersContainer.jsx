@@ -4,14 +4,24 @@ import { Users } from "./Users";
 import { setUsersAC } from "../../redux/usersReducer";
 import { followAC } from "../../redux/usersReducer";
 import { unFollowAC } from "../../redux/usersReducer";
-
-const mapStateToMyPostsProps = (state) => {
+import { setCurrentPageAC } from "../../redux/usersReducer";
+import { setTotalCountAC } from "../../redux/usersReducer";
+const mapStateToUsersProps = (state) => {
     return {
         users: state.usersPage.users,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        pageSize: state.usersPage.pageSize,
+        currentPage: state.usersPage.currentPage,
     };
 };
-const mapDispatchToMyPostsProps = (dispatch) => {
+const mapDispatchToUsersProps = (dispatch) => {
     return {
+        setCurrentPage: (pageNumber) => {
+            dispatch(setCurrentPageAC("SET_CURRENT_PAGE", pageNumber));
+        },
+        setTotalCount: (totalCount) => {
+            dispatch(setTotalCountAC("SET_TOTAL_COUNT", totalCount));
+        },
         follow: (userId) => {
             dispatch(followAC("FOLLOW", userId));
         },
@@ -24,6 +34,6 @@ const mapDispatchToMyPostsProps = (dispatch) => {
     };
 };
 export const UsersContainer = connect(
-    mapStateToMyPostsProps,
-    mapDispatchToMyPostsProps
+    mapStateToUsersProps,
+    mapDispatchToUsersProps
 )(Users);
