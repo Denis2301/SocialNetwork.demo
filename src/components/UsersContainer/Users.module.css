@@ -3,9 +3,12 @@
     position: relative;
 }
 .pagination {
-    display: flex;
-    justify-content: center;
+    display: block;
+	margin: 0 auto;
     margin-block-end: 10px;
+	width: 300px;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 .pagination span:not(:last-child) {
     margin-inline-end: 5px;

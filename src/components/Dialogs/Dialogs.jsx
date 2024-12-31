@@ -6,8 +6,8 @@ import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
 
 export const Dialogs = ({
-    onSendMessageClick,
-    onMessageChangeText,
+    sendMessage,
+    updateNewMessageBody,
     messagesPage,
     messageAsk,
     messageAnswer,
@@ -15,10 +15,10 @@ export const Dialogs = ({
 }) => {
     let textDialog = useRef();
     const onSendMessage = () => {
-        onSendMessageClick();
+        sendMessage();
     };
     const onMessageChange = () => {
-        onMessageChangeText( textDialog.current.value );
+        updateNewMessageBody(textDialog.current.value);
     };
     const dialogsElements = messagesPage.dialogs.map((d, ind) => (
         <Contact
