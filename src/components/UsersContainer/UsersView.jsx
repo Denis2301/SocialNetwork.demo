@@ -1,5 +1,6 @@
 import objStyle from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
+import { NavLink } from "react-router-dom";
 export const UsersView = ({
     onPageChanged,
 	setUsers,
@@ -38,15 +39,17 @@ export const UsersView = ({
                 <div className={objStyle.wrapperUser} key={user.id}>
                     <div className={objStyle.status}>
                         <div className={objStyle.status__img}>
-                            {" "}
-                            <img
-                                src={
-                                    user.photos.small
-                                        ? user.photos.small
-                                        : userPhoto
-                                }
-                                alt=""
-                            />
+                        
+                            <NavLink to={`/profile/${user.id}`}>
+                                <img
+                                    src={
+                                        user.photos.small
+                                            ? user.photos.small
+                                            : userPhoto
+                                    }
+                                    alt=""
+                                />
+                            </NavLink>
                         </div>
                         {user.followed === true ? (
                             <button

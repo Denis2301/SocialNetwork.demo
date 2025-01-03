@@ -5,7 +5,7 @@
 }
 .describe__profile {
     display: flex;
-	margin-block-end: 10px !important;
+    margin-block-end: 10px !important;
 }
 .describe__profile__image {
     position: relative;

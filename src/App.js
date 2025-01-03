@@ -1,6 +1,6 @@
 import "./App.css";
 import { Header } from "./components/Header/Header";
-import { Profile } from "./components/Profile/Profile";
+import { ProfileContainer } from "./components/Profile/ProfileContainer";
 import { News } from "./components/News/News";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const App = () => {
             <div className="wrapper-content">
                 <Routes>
                     <Route path="/" element={<Navigate to="/profile" />} />
-                    <Route path="/profile/*" element={<Profile />} />
+                    <Route path="/profile/:id?" element={<ProfileContainer />} />
                     <Route path="/dialogs/*" element={<DialogsContainer />} />
                     <Route path="/users/*" element={<UsersContainer/>} />
                     <Route path="/news/*" element={<News />} />

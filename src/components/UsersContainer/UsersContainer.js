@@ -13,16 +13,18 @@ import { Preloader } from "../common/Preloader/Preloader";
 
 class UsersAPIContainer extends React.Component {
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        axios
-            .get(
-                `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
-            )
-            .then((response) => {
-                this.props.setUsers(response.data.items);
-                this.props.setTotalCount(response.data.totalCount);
-                this.props.toggleIsFetching(false);
-            });
+        if (!this.props.users.length) {
+            this.props.toggleIsFetching(true);
+            axios
+                .get(
+                    `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+                )
+                .then((response) => {
+                    this.props.setUsers(response.data.items);
+                    this.props.setTotalCount(response.data.totalCount);
+                    this.props.toggleIsFetching(false);
+                });
+        }
     }
     onPageChanged = (pageNumber) => {
         this.props.toggleIsFetching(true);
