@@ -1,5 +1,4 @@
 import "./App.css";
-import { Header } from "./components/Header/Header";
 import { ProfileContainer } from "./components/Profile/ProfileContainer";
 import { News } from "./components/News/News";
 import { useState, useEffect } from "react";
@@ -9,6 +8,7 @@ import { Settings } from "./components/Settings/Settings";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
 import { UsersContainer } from "./components/UsersContainer/UsersContainer";
+import { HeaderContainer } from "./components/Header/HeaderContainer";
 
 const App = () => {
     const [menuInd, menuChangeView] = useState(false);
@@ -18,7 +18,7 @@ const App = () => {
 
     return (
         <div className="wrapper">
-            <Header handleMenuView={handleMenuView} menuInd={menuInd} />
+            <HeaderContainer handleMenuView={handleMenuView} menuInd={menuInd} />
             <SidebarContainer
                 handleMenuView={handleMenuView}
                 menuInd={menuInd}
