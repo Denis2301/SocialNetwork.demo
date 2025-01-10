@@ -65,7 +65,7 @@ export const setCurrentPage = (currentPage) => ({
     currentPage,
 });
 export const follow = (id) => ({ type: FOLLOW, userId: id });
-export const unFollow = (id) => ({ type: UNFOLLOW, userId: id });
+export const unfollow = (id) => ({ type: UNFOLLOW, userId: id });
 export const toggleIsFetching = (isFetching) => ({
     type: IS_FETCHING,
     isFetching: isFetching,

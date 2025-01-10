@@ -1,13 +1,15 @@
 import objStyle from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+
 export const UsersView = ({
     onPageChanged,
-	setUsers,
+    setUsers,
     currentPage,
     users,
-    unfollow,
     follow,
+    unfollow,
     totalUsersCount,
     pageSize,
 }) => {
@@ -39,7 +41,6 @@ export const UsersView = ({
                 <div className={objStyle.wrapperUser} key={user.id}>
                     <div className={objStyle.status}>
                         <div className={objStyle.status__img}>
-                        
                             <NavLink to={`/profile/${user.id}`}>
                                 <img
                                     src={
@@ -51,22 +52,68 @@ export const UsersView = ({
                                 />
                             </NavLink>
                         </div>
-                        {user.followed === true ? (
+                        {!user.followed ? (
                             <button
                                 className={objStyle.status__follow}
-                                onClick={() => unfollow(user.id)}
+                                onClick={() => {
+                                    if (user.id) {
+                                        axios
+                                            .post(
+                                                `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                                                {},
+                                                {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        "API-KEY":
+                                                            "505215d5-2d1d-487e-910b-13cce052d531",
+                                                    },
+                                                }
+                                            )
+                                            .then((response) => {
+                                                if (
+                                                    response.data.resultCode ==
+                                                    0
+                                                ) {
+                                                    follow(user.id);
+                                                }
+                                            });
+                                    }
+                                }}
                             >
                                 Followed
                             </button>
                         ) : (
                             <button
                                 className={objStyle.status__follow}
-                                onClick={() => follow(user.id)}
+                                onClick={() => {
+                                    if (user.id) {
+                                        axios
+                                            .delete(
+                                                `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                                                {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        "API-KEY":
+                                                            "505215d5-2d1d-487e-910b-13cce052d531",
+                                                    },
+                                                }
+                                            )
+                                            .then((response) => {
+                                                if (
+                                                    response.data.resultCode ==
+                                                    0
+                                                ) {
+                                                    unfollow(user.id);
+                                                }
+                                            });
+                                    }
+                                }}
                             >
                                 Unfollowed
                             </button>
                         )}
                     </div>
+                    
                     <div className={objStyle.description}>
                         <div className={objStyle.description__name_location}>
                             <span className={objStyle.description__fullName}>

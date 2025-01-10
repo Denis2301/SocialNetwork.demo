@@ -50,23 +50,39 @@ export const Sidebar = ({ sidebar, menuInd, handleMenuView, onSend }) => {
                     </NavLink>
                 </li>
                 <li className={objStyle.item}>
-                    <NavLink className={isActive} to="/news">
+                    <NavLink
+                        onClick={() => handleMenuView()}
+                        className={isActive}
+                        to="/news"
+                    >
                         News
                     </NavLink>
                 </li>
                 <li className={objStyle.item}>
-                    <NavLink className={isActive} to="/music">
+                    <NavLink
+                        onClick={() => handleMenuView()}
+                        className={isActive}
+                        to="/music"
+                    >
                         Music
                     </NavLink>
                 </li>
             </ul>
             <hr />
-            <NavLink className={isActive} to="settings/">
+            <NavLink
+                onClick={() => handleMenuView()}
+                className={isActive}
+                to="settings/"
+            >
                 <p className={objStyle.settings}>Settings</p>
             </NavLink>
             <br />
             <hr />
-            <NavLink className={isActive} to="users/">
+            <NavLink
+                onClick={() => handleMenuView()}
+                className={(navData) => isActive(navData)}
+                to="users/"
+            >
                 <p className={objStyle.users}>Find users</p>
             </NavLink>
             <hr />
