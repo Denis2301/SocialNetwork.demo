@@ -2,6 +2,7 @@ import objStyle from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { FollowAPI } from "../../api/api";
 
 export const UsersView = ({
     onPageChanged,
@@ -57,26 +58,11 @@ export const UsersView = ({
                                 className={objStyle.status__follow}
                                 onClick={() => {
                                     if (user.id) {
-                                        axios
-                                            .post(
-                                                `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
-                                                {},
-                                                {
-                                                    withCredentials: true,
-                                                    headers: {
-                                                        "API-KEY":
-                                                            "505215d5-2d1d-487e-910b-13cce052d531",
-                                                    },
-                                                }
-                                            )
-                                            .then((response) => {
-                                                if (
-                                                    response.data.resultCode ==
-                                                    0
-                                                ) {
-                                                    follow(user.id);
-                                                }
-                                            });
+                                        FollowAPI.getFollow(user.id).then((response) => {
+                                            if (response.data.resultCode == 0) {
+                                                follow(user.id);
+                                            }
+                                        });
                                     }
                                 }}
                             >
@@ -87,25 +73,16 @@ export const UsersView = ({
                                 className={objStyle.status__follow}
                                 onClick={() => {
                                     if (user.id) {
-                                        axios
-                                            .delete(
-                                                `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
-                                                {
-                                                    withCredentials: true,
-                                                    headers: {
-                                                        "API-KEY":
-                                                            "505215d5-2d1d-487e-910b-13cce052d531",
-                                                    },
-                                                }
-                                            )
-                                            .then((response) => {
+                                        FollowAPI.getUnFollow(user.id).then(
+                                            (response) => {
                                                 if (
                                                     response.data.resultCode ==
                                                     0
                                                 ) {
                                                     unfollow(user.id);
                                                 }
-                                            });
+                                            }
+                                        );
                                     }
                                 }}
                             >
@@ -113,7 +90,6 @@ export const UsersView = ({
                             </button>
                         )}
                     </div>
-                    
                     <div className={objStyle.description}>
                         <div className={objStyle.description__name_location}>
                             <span className={objStyle.description__fullName}>

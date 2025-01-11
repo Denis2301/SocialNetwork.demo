@@ -6,33 +6,26 @@ import { setAuthUserDate } from "../../redux/authReducer";
 import { useParams } from "react-router-dom";
 import { toggleIsFetching } from "../../redux/authReducer";
 import { setPhotoProfile } from "../../redux/authReducer";
+import { AuthAPI, ProfileAPI } from "../../api/api";
 class HeaderAPIContainer extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                withCredentials: true,
-            })
-            .then((response) => {
-                if (response.data.resultCode === 0) {
-                    const { id, email, login } = response.data.data;
-                    this.props.setAuthUserDate(id, email, login);
-                    this.props.toggleIsFetching(true);
-                    axios
-                        .get(
-                            `https://social-network.samuraijs.com/api/1.0/profile/${id}`
-                        )
-                        .then((response) => {
-                            this.props.setPhotoProfile(
-                                response.data.photos.small ||
-                                    "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"
-                            );
-                        });
-                }
-            });
+        AuthAPI.getAuthMe().then((data) => {
+            if (data.resultCode === 0) {
+                const { id, email, login } = data.data;
+                this.props.setAuthUserDate(id, email, login);
+                this.props.toggleIsFetching(true);
+                ProfileAPI.getProfileId(id).then((data) => {
+                    this.props.setPhotoProfile(
+                        data.photos.small ||
+                            "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"
+                    );
+                });
+            }
+        });
     }
     render() {
         return <HeaderView {...this.props} />;
