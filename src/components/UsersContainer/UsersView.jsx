@@ -5,6 +5,8 @@ import axios from "axios";
 import { FollowAPI } from "../../api/api";
 
 export const UsersView = ({
+    followingInProgress,
+    toggleIsFollowing,
     onPageChanged,
     setUsers,
     currentPage,
@@ -55,14 +57,24 @@ export const UsersView = ({
                         </div>
                         {!user.followed ? (
                             <button
+                                disabled={followingInProgress.some(
+                                    (id) => id == user.id
+                                )}
                                 className={objStyle.status__follow}
                                 onClick={() => {
                                     if (user.id) {
-                                        FollowAPI.getFollow(user.id).then((response) => {
-                                            if (response.data.resultCode == 0) {
-                                                follow(user.id);
+                                        toggleIsFollowing(user.id, true);
+                                        FollowAPI.getFollow(user.id).then(
+                                            (response) => {
+                                                if (
+                                                    response.data.resultCode ==
+                                                    0
+                                                ) {
+                                                    follow(user.id);
+                                                }
+                                                toggleIsFollowing(null, false);
                                             }
-                                        });
+                                        );
                                     }
                                 }}
                             >
@@ -70,9 +82,13 @@ export const UsersView = ({
                             </button>
                         ) : (
                             <button
+                                disabled={followingInProgress.some(
+                                    (id) => id == user.id
+                                )}
                                 className={objStyle.status__follow}
                                 onClick={() => {
                                     if (user.id) {
+                                        toggleIsFollowing(user.id, true);
                                         FollowAPI.getUnFollow(user.id).then(
                                             (response) => {
                                                 if (
@@ -81,6 +97,7 @@ export const UsersView = ({
                                                 ) {
                                                     unfollow(user.id);
                                                 }
+                                                toggleIsFollowing(null, false);
                                             }
                                         );
                                     }

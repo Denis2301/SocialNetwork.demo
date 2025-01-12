@@ -6,7 +6,7 @@ import { follow } from "../../redux/usersReducer";
 import { unfollow } from "../../redux/usersReducer";
 import { setCurrentPage } from "../../redux/usersReducer";
 import { setTotalCount } from "../../redux/usersReducer";
-import { toggleIsFetching } from "../../redux/usersReducer";
+import { toggleIsFetching, toggleIsFollowing } from "../../redux/usersReducer";
 import { Preloader } from "../common/Preloader/Preloader";
 import { UsersAPI } from "../../api/api";
 
@@ -26,12 +26,10 @@ class UsersAPIContainer extends React.Component {
     onPageChanged = (pageNumber) => {
         this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        UsersAPI.getUsers(pageNumber, this.props.pageSize).then(
-            (data) => {
-                this.props.setUsers(data.items);
-                this.props.toggleIsFetching(false);
-            }
-        );
+        UsersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
+            this.props.setUsers(data.items);
+            this.props.toggleIsFetching(false);
+        });
     };
 
     render() {
@@ -41,6 +39,8 @@ class UsersAPIContainer extends React.Component {
                     <Preloader />
                 ) : (
                     <UsersView
+                        toggleIsFollowing={this.props.toggleIsFollowing}
+                        followingInProgress={this.props.followingInProgress}
                         follow={this.props.follow}
                         unfollow={this.props.unfollow}
                         onPageChanged={this.onPageChanged}
@@ -61,6 +61,7 @@ const mapStateToUsersProps = (state) => {
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress,
     };
 };
 
@@ -71,4 +72,5 @@ export const UsersContainer = connect(mapStateToUsersProps, {
     setTotalCount,
     setUsers,
     toggleIsFetching,
+    toggleIsFollowing,
 })(UsersAPIContainer);
