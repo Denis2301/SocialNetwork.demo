@@ -1,31 +1,19 @@
 import React from "react";
 import { HeaderView } from "./HeaderView";
-import axios from "axios";
 import { connect } from "react-redux";
 import { setAuthUserDate } from "../../redux/authReducer";
 import { useParams } from "react-router-dom";
 import { toggleIsFetching } from "../../redux/authReducer";
 import { setPhotoProfile } from "../../redux/authReducer";
-import { AuthAPI, ProfileAPI } from "../../api/api";
+import { authUsers } from "../../redux/authReducer";
+
 class HeaderAPIContainer extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        AuthAPI.getAuthMe().then((data) => {
-            if (data.resultCode === 0) {
-                const { id, email, login } = data.data;
-                this.props.setAuthUserDate(id, email, login);
-                this.props.toggleIsFetching(true);
-                ProfileAPI.getProfileId(id).then((data) => {
-                    this.props.setPhotoProfile(
-                        data.photos.small ||
-                            "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0"
-                    );
-                });
-            }
-        });
+        this.props.authUsers();
     }
     render() {
         return <HeaderView {...this.props} />;
@@ -49,4 +37,5 @@ export const HeaderContainer = connect(mapStateToProps, {
     toggleIsFetching,
     setAuthUserDate,
     setPhotoProfile,
+	authUsers
 })(WithUrlDataContainerComponent);

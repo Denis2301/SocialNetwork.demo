@@ -2,21 +2,16 @@ import React from "react";
 import objStyle from "./Profile.module.css";
 import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
 import { ProfileView } from "./Profile/ProfileView";
-import axios from "axios";
 import { connect } from "react-redux";
-import { setUserProfile } from "../../redux/profileReducer";
 import { useParams } from "react-router-dom";
-import { ProfileAPI } from "../../api/api";
-
+import { setProfileUser } from "../../redux/profileReducer";
 class ProfileAPIContainer extends React.Component {
     componentDidMount() {
         let { userId } = this.props;
         if (!userId) {
             userId = 2;
         }
-        ProfileAPI.getProfileId(userId).then((data) => {
-            this.props.setUserProfile(data);
-        });
+        this.props.setProfileUser(userId);
     }
 
     render() {
@@ -43,5 +38,5 @@ const withRouter = (Component) => {
 };
 let WithUrlDataContainerComponent = withRouter(ProfileAPIContainer);
 export const ProfileContainer = connect(mapStateToProps, {
-    setUserProfile,
+    setProfileUser,
 })(WithUrlDataContainerComponent);

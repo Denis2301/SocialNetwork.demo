@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import userPhoto from "../assets/images/user.png";
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     withCredentials: true,
@@ -14,6 +14,12 @@ export const UsersAPI = {
             .then((response) => {
                 return response.data;
             });
+    },
+    getFollow: async (id) => {
+        return await instance.post(`follow/${id}`);
+    },
+    getUnFollow: async (id) => {
+        return await instance.delete(`follow/${id}`);
     },
 };
 export const AuthAPI = {
@@ -30,11 +36,4 @@ export const ProfileAPI = {
         });
     },
 };
-export const FollowAPI = {
-    getFollow: async (id) => {
-        return await instance.post(`follow/${id}`);
-    },
-    getUnFollow: async (id) => {
-        return await instance.delete(`follow/${id}`);
-    },
-};
+

@@ -1,3 +1,6 @@
+import userPhoto from ".././assets/images/user.png";
+import { AuthAPI, ProfileAPI } from "../api/api";
+
 const SET_USER_DATE = "SET_USER_DATE";
 const SET_PHOTO_PROFILE = "SET_PHOTO_PROFILE";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
@@ -46,4 +49,20 @@ export const setPhotoProfile = (photo) => ({
     type: SET_PHOTO_PROFILE,
     photo,
 });
+export const authUsers = () => (dispatch) => {
+    return AuthAPI.getAuthMe().then((data) => {
+        if (data.resultCode === 0) {
+            const { id, email, login } = data.data;
+            dispatch(setAuthUserDate(id, email, login));
+            dispatch(toggleIsFetching(true));
+            ProfileAPI.getProfileId(id).then((data) => {
+                dispatch(
+                    setPhotoProfile(
+                        data.photos.small ? data.photos.small : userPhoto
+                    )
+                );
+            });
+        }
+    });
+};
 export default authReducer;
