@@ -93,6 +93,7 @@ export const getUsers = (currentPage, pageSize) => (dispatch) => {
         dispatch(setUsers(data.items));
         dispatch(setTotalCount(data.totalCount));
         dispatch(toggleIsFetching(false));
+        dispatch(setCurrentPage(currentPage));
     });
 };
 export const follow = (userId) => (dispatch) => {

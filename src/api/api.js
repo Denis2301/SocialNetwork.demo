@@ -1,5 +1,5 @@
 import axios from "axios";
-import userPhoto from "../assets/images/user.png";
+
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     withCredentials: true,
@@ -24,16 +24,12 @@ export const UsersAPI = {
 };
 export const AuthAPI = {
     getAuthMe: async () => {
-        return await instance.get(`auth/me`).then((response) => {
-            return response.data;
-        });
+        return await instance.get(`auth/me`);
     },
 };
 export const ProfileAPI = {
     getProfileId: async (id) => {
-        return await instance.get(`profile/${id}`).then((response) => {
-            return response.data;
-        });
+        return await instance.get(`profile/${id}`);
     },
 };
 

@@ -5,15 +5,14 @@ import { setAuthUserDate } from "../../redux/authReducer";
 import { useParams } from "react-router-dom";
 import { toggleIsFetching } from "../../redux/authReducer";
 import { setPhotoProfile } from "../../redux/authReducer";
-import { authUsers } from "../../redux/authReducer";
+import { gatAuthUserData } from "../../redux/authReducer";
 
 class HeaderAPIContainer extends React.Component {
     constructor(props) {
         super(props);
     }
-
     componentDidMount() {
-        this.props.authUsers();
+        this.props.gatAuthUserData();
     }
     render() {
         return <HeaderView {...this.props} />;
@@ -37,5 +36,5 @@ export const HeaderContainer = connect(mapStateToProps, {
     toggleIsFetching,
     setAuthUserDate,
     setPhotoProfile,
-	authUsers
+    gatAuthUserData,
 })(WithUrlDataContainerComponent);

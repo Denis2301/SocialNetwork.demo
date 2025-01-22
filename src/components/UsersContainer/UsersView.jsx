@@ -10,8 +10,8 @@ export const UsersView = ({
     users,
     totalUsersCount,
     pageSize,
-	follow,
-	unFollow
+    follow,
+    unFollow,
 }) => {
     let countPage = Math.ceil(totalUsersCount / pageSize);
     let pages = [];
@@ -26,10 +26,10 @@ export const UsersView = ({
                     return (
                         <span
                             onClick={(e) => {
-                                onPageChanged(p);
+                                onPageChanged(p);				
                             }}
                             className={
-                                currentPage === p && objStyle.selectedPage
+                                currentPage === p ? objStyle.selectedPage : ""
                             }
                         >
                             {p}

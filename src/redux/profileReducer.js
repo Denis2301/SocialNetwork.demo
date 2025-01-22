@@ -21,7 +21,7 @@ const initialState = {
         },
     ],
     newTextPost: "It-Kamasutra.com",
-    profile: null,
+    user: null,
 };
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -55,9 +55,9 @@ export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE,
     profile,
 });
-export const setProfileUser = (userId) => (dispatch) => {
-    return ProfileAPI.getProfileId(userId).then((data) => {
-        dispatch(setUserProfile(data));
+export const getUserProfile = (userId) => (dispatch) => {
+    return ProfileAPI.getProfileId(userId).then((response) => {
+        dispatch(setUserProfile(response.data));
     });
 };
 export default profileReducer;

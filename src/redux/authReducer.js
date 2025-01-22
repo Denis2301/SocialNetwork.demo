@@ -21,7 +21,7 @@ const authReducer = (state = initialState, action) => {
         case TOGGLE_IS_FETCHING:
             return {
                 ...state,
-                isAuth: action.value,
+                isAuth: action.payload,
             };
         case SET_PHOTO_PROFILE:
             return {
@@ -35,7 +35,7 @@ const authReducer = (state = initialState, action) => {
 
 export const toggleIsFetching = (bool) => ({
     type: TOGGLE_IS_FETCHING,
-    value: bool,
+    payload: bool,
 });
 export const setAuthUserDate = (id, email, login) => ({
     type: SET_USER_DATE,
@@ -49,17 +49,15 @@ export const setPhotoProfile = (photo) => ({
     type: SET_PHOTO_PROFILE,
     photo,
 });
-export const authUsers = () => (dispatch) => {
-    return AuthAPI.getAuthMe().then((data) => {
-        if (data.resultCode === 0) {
-            const { id, email, login } = data.data;
+export const gatAuthUserData = () => async (dispatch) => {
+    return await AuthAPI.getAuthMe().then((response) => {
+        if (response.data.resultCode === 0) {
+            const { id, email, login } = response.data.data;
             dispatch(setAuthUserDate(id, email, login));
             dispatch(toggleIsFetching(true));
             ProfileAPI.getProfileId(id).then((data) => {
                 dispatch(
-                    setPhotoProfile(
-                        data.photos.small ? data.photos.small : userPhoto
-                    )
+                    setPhotoProfile(data.photos ? data.photos.small : userPhoto)
                 );
             });
         }

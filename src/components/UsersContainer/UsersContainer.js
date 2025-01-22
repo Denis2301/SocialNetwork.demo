@@ -6,6 +6,7 @@ import { acceptUnfollow } from "../../redux/usersReducer";
 import { Preloader } from "../common/Preloader/Preloader";
 import { getUsers } from "../../redux/usersReducer";
 import { follow, unFollow } from "../../redux/usersReducer";
+import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 class UsersAPIContainer extends React.Component {
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
@@ -48,10 +49,12 @@ const mapStateToUsersProps = (state) => {
     };
 };
 
-export const UsersContainer = connect(mapStateToUsersProps, {
-    follow,
-    unFollow,
-    acceptFollow,
-    acceptUnfollow,
-    getUsers,
-})(UsersAPIContainer);
+export const UsersContainer = withAuthRedirectComponent(
+    connect(mapStateToUsersProps, {
+        follow,
+        unFollow,
+        acceptFollow,
+        acceptUnfollow,
+        getUsers,
+    })(UsersAPIContainer)
+);

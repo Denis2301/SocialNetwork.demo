@@ -1,11 +1,11 @@
-import React, { useState, createRef, useRef } from "react";
+import React, { useState, createRef, useRef, useEffect } from "react";
 import objStyle from "./Dialogs.module.css";
 
 import { Contact } from "./ContactItem/Contact";
 import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
 
-export const Dialogs = ({
+const Dialogs = ({
     sendMessage,
     updateNewMessageBody,
     messagesPage,
@@ -50,6 +50,7 @@ export const Dialogs = ({
         />
     ));
     const newMessageBody = newTextBody;
+
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -90,3 +91,5 @@ export const Dialogs = ({
         </main>
     );
 };
+
+export default Dialogs;
