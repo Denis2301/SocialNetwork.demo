@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { toggleIsFetching } from "../../redux/authReducer";
 import { setPhotoProfile } from "../../redux/authReducer";
 import { gatAuthUserData } from "../../redux/authReducer";
+import { compose } from "redux";
 
 class HeaderAPIContainer extends React.Component {
     constructor(props) {
@@ -31,10 +32,13 @@ const withRouter = (Component) => {
         return <Component {...props} userId={id} />;
     };
 };
-let WithUrlDataContainerComponent = withRouter(HeaderAPIContainer);
-export const HeaderContainer = connect(mapStateToProps, {
-    toggleIsFetching,
-    setAuthUserDate,
-    setPhotoProfile,
-    gatAuthUserData,
-})(WithUrlDataContainerComponent);
+
+export default compose(
+    connect(mapStateToProps, {
+        toggleIsFetching,
+        setAuthUserDate,
+        setPhotoProfile,
+        gatAuthUserData,
+    }),
+    withRouter
+)(HeaderAPIContainer);

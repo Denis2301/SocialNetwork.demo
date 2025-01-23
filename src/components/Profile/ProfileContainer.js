@@ -1,10 +1,11 @@
 import React from "react";
 import objStyle from "./Profile.module.css";
-import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import { ProfileView } from "./Profile/ProfileView";
 import { connect } from "react-redux";
 import { getUserProfile } from "../../redux/profileReducer";
 import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
+import { compose } from "redux";
 class ProfileAPIContainer extends React.Component {
     componentDidMount() {
         let { userId } = this.props;
@@ -31,7 +32,9 @@ const mapStateToProps = (state) => {
     };
 };
 
-
-export const ProfileContainer = withAuthRedirectComponent(connect(mapStateToProps, {
-    getUserProfile,
-})(ProfileContainer));
+export default compose(
+    connect(mapStateToProps, {
+        getUserProfile,
+    }),
+    withAuthRedirectComponent
+)(ProfileAPIContainer);
