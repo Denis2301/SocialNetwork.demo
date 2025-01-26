@@ -39,6 +39,7 @@
     border-radius: 50%;
     background-color: #fcab5b;
     margin-block-end: 10px;
+	cursor: pointer;
 }
 .status__img img {
     border-radius: 50%;

@@ -9,9 +9,7 @@ import { gatAuthUserData } from "../../redux/authReducer";
 import { compose } from "redux";
 
 class HeaderAPIContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
     componentDidMount() {
         this.props.gatAuthUserData();
     }

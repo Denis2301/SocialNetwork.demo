@@ -1,40 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import objStyle from "./Profile.module.css";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import { ProfileView } from "./Profile/ProfileView";
 import { connect } from "react-redux";
-import { getUserProfile } from "../../redux/profileReducer";
-import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
+import {
+    getUserProfile,
+    getUserStatus,
+    updateUserStatus,
+} from "../../redux/profileReducer";
 import { compose } from "redux";
-class ProfileAPIContainer extends React.Component {
-    componentDidMount() {
-        let { userId } = this.props;
-        if (!userId) {
-            userId = 2;
-        }
-        this.props.getUserProfile(userId);
+import { useParams } from "react-router-dom";
+const ProfileAPIContainer = (props) => {
+    let { id } = useParams();
+    if (!id) {
+        id = 32020;
     }
+    useEffect(() => {
+        props.getUserProfile(id);
+        props.getUserStatus(id);
+    }, [id]);
 
-    render() {
-        return (
-            <div className={objStyle.content}>
-                <ProfileView profile={this.props.profile} />
-                <main>
-                    <MyPostsContainer />
-                </main>
-            </div>
-        );
-    }
-}
+    return (
+        <div className={objStyle.content}>
+            <ProfileView
+                status={props.status}
+                profile={props.profile}
+                updateUserStatus={props.updateUserStatus}
+            />
+            <main>
+                <MyPostsContainer />
+            </main>
+        </div>
+    );
+};
 const mapStateToProps = (state) => {
     return {
-        profile: state.profilePage.user,
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
     };
 };
 
 export default compose(
     connect(mapStateToProps, {
         getUserProfile,
-    }),
-    withAuthRedirectComponent
+        getUserStatus,
+        updateUserStatus,
+    })
 )(ProfileAPIContainer);

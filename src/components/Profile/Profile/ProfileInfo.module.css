@@ -34,3 +34,14 @@
 .describe__profile__inform h2 {
     font-size: clamp(16px, 5vw, 30px);
 }
+.wrapperStatus {
+	display: flex;
+	justify-content: space-between;
+}
+.status input {
+    vertical-align: middle;
+	padding: 5px;
+}
+.status:first-child {
+	cursor: pointer;
+}

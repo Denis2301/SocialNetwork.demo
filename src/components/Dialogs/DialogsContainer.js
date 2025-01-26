@@ -18,5 +18,5 @@ export default compose(
         sendMessage,
         updateNewMessageBody,
     }),
-    withAuthRedirectComponent
+    // withAuthRedirectComponent
 )(Dialogs);

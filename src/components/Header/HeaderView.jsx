@@ -13,7 +13,7 @@ export const HeaderView = (props) => {
                 {props.isAuth ? (
                     <div className={objStyle.loginBlock}>
                         <img
-                            src={props.photo ? props.photo : userPhoto}
+                            src={props.photo || userPhoto}
                             alt={props.login}
                         ></img>
                     </div>

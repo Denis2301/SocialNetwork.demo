@@ -1,15 +1,11 @@
 import objStyle from "./ProfileInfo.module.css";
 import userPhoto from "../../.././assets/images/user.png";
 import { Preloader } from "../../common/Preloader/Preloader";
+import { ProfileStatus } from "./ProfileStatus";
 
 export const ProfileView = (props) => {
     return props.profile ? (
         <div>
-            <img
-                src="https://oir.mobi/uploads/posts/2021-03/1616964894_10-p-fon-priroda-12.jpg"
-                className={objStyle.content__background}
-                alt="background-profile"
-            />
             <section className={objStyle.describe__profile}>
                 <div className={objStyle.describe__profile__image}>
                     {!props.profile?.photos?.small ? (
@@ -23,6 +19,12 @@ export const ProfileView = (props) => {
                 </div>
                 <div className={objStyle.describe__profile__inform}>
                     <h2>{props.profile?.fullName}</h2>
+                    <h3>
+                        <ProfileStatus
+                            status={props.status}
+                            updateUserStatus={props.updateUserStatus}
+                        />
+                    </h3>
                     <p>About Me: {props.profile?.aboutMe}</p>
                     <p style={{ display: "flex", alignItems: "center" }}>
                         LokingForJob:{" "}

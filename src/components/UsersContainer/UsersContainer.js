@@ -49,16 +49,7 @@ const mapStateToUsersProps = (state) => {
         followingInProgress: state.usersPage.followingInProgress,
     };
 };
-compose(
-    connect(mapStateToUsersProps, {
-        follow,
-        unFollow,
-        acceptFollow,
-        acceptUnfollow,
-        getUsers,
-    }),
-    withAuthRedirectComponent
-)(UsersAPIContainer);
+
 export default compose(
     connect(mapStateToUsersProps, {
         follow,
@@ -67,5 +58,5 @@ export default compose(
         acceptUnfollow,
         getUsers,
     }),
-    withAuthRedirectComponent
+    // withAuthRedirectComponent
 )(UsersAPIContainer);

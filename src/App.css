@@ -58,7 +58,7 @@ h6 {
     column-gap: 10px;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 765px) {
     .wrapper {
         grid-template-rows: minmax(60px, auto) 1fr;
 		grid-template-columns: 0;

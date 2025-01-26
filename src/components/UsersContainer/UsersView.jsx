@@ -26,7 +26,7 @@ export const UsersView = ({
                     return (
                         <span
                             onClick={(e) => {
-                                onPageChanged(p);				
+                                onPageChanged(p);
                             }}
                             className={
                                 currentPage === p ? objStyle.selectedPage : ""
@@ -38,6 +38,7 @@ export const UsersView = ({
                 })}
             </div>
             {users.map((user) => (
+			
                 <div className={objStyle.wrapperUser} key={user.id}>
                     <div className={objStyle.status}>
                         <div className={objStyle.status__img}>

@@ -31,5 +31,10 @@ export const ProfileAPI = {
     getProfileId: async (id) => {
         return await instance.get(`profile/${id}`);
     },
+    getUserStatus: async (id) => {
+        return await instance.get(`profile/status/${id}`);
+    },
+    updateUserStatus: async (status) => {
+        return await instance.put(`profile/status`, { status });
+    },
 };
-
