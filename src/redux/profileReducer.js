@@ -1,6 +1,5 @@
 import { ProfileAPI } from "../api/api";
 const ADD_POST = "ADD_POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE_NEW_POST_TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
 const initialState = {
@@ -21,7 +20,6 @@ const initialState = {
             id: 2,
         },
     ],
-    newTextPost: "It-Kamasutra.com",
     profile: null,
     status: "",
 };
@@ -30,7 +28,7 @@ const profileReducer = (state = initialState, action) => {
         case ADD_POST:
             const dataNewPost = {
                 url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ9Ok8xjEoczfzG7nxSHRW7SVJDLJimU8Vd0lNC-oSH_0fTGVCfpfHwQFMMgPVSGVc4k&usqp=CAU",
-                message: state.newTextPost,
+                message: action.newPostValue,
                 likeCount: 0,
                 author: "New Author",
                 id: state.posts.length,
@@ -38,10 +36,7 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 posts: [...state.posts, dataNewPost],
-                newTextPost: "",
             };
-        case UPDATE_NEW_POST_TEXT:
-            return { ...state, newTextPost: action.newText };
         case SET_USER_STATUS:
             return { ...state, status: action.status };
         case SET_USER_PROFILE:
@@ -50,11 +45,8 @@ const profileReducer = (state = initialState, action) => {
             return { ...state };
     }
 };
-export const addPost = () => ({ type: ADD_POST });
-export const updateNewPostText = (text) => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: text,
-});
+export const addPost = (newPostValue) => ({ type: ADD_POST, newPostValue });
+
 export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE,
     profile,
@@ -78,7 +70,7 @@ export const updateUserStatus = (status) => (dispatch) => {
     return ProfileAPI.updateUserStatus(status).then((response) => {
         if (!response.data.resultCode) {
             dispatch(setUserStatus(status));
-        } 
+        }
     });
 };
 export default profileReducer;

@@ -58,5 +58,5 @@ export default compose(
         acceptUnfollow,
         getUsers,
     }),
-    // withAuthRedirectComponent
+    withAuthRedirectComponent
 )(UsersAPIContainer);

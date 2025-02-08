@@ -1,25 +1,35 @@
-import React, { useState, createRef, useRef, useEffect } from "react";
+import React from "react";
 import objStyle from "./Dialogs.module.css";
-
+import { maxLengthCreator, required } from "../../utils/validators";
 import { Contact } from "./ContactItem/Contact";
 import { Message } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
+import { Field, reduxForm } from "redux-form";
+import { Textarea } from "../common/FormsControls/FormsControls";
 
-const Dialogs = ({
-    sendMessage,
-    updateNewMessageBody,
-    messagesPage,
-    messageAsk,
-    messageAnswer,
-    newTextBody,
-}) => {
-    let textDialog = useRef();
-    const onSendMessage = () => {
-        sendMessage();
-    };
-    const onMessageChange = () => {
-        updateNewMessageBody(textDialog.current.value);
-    };
+const maxLength50 = maxLengthCreator(50);
+let AddMessageForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <Field
+                validate={[required, maxLength50]}
+                component={Textarea}
+                placeholder="Enter Your Message"
+                name="messageDialog"
+                style={{
+                    display: "inlineBlock",
+                    width: "100%",
+                    height: "60px",
+                    marginBlock: "50px 10px",
+                    padding: "10px",
+                }}
+            />
+            <button className={objStyle.sendText}>Send</button>
+        </form>
+    );
+};
+AddMessageForm = reduxForm({ form: "dialogMessageForm" })(AddMessageForm);
+const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
     const dialogsElements = messagesPage.dialogs.map((d, ind) => (
         <Contact
             key={ind}
@@ -49,8 +59,9 @@ const Dialogs = ({
             data={m.data}
         />
     ));
-    const newMessageBody = newTextBody;
-
+    const onSubmit = async (formData) => {
+        await sendMessage(formData.messageDialog);
+    };
     return (
         <main
             aria-labelledby={objStyle.page_dialogs}
@@ -69,24 +80,7 @@ const Dialogs = ({
                 </div>
             </section>
             <div className={objStyle.textDialog}>
-                <form action="">
-                    <textarea
-                        ref={textDialog}
-                        placeholder="Enter Your Message"
-                        onChange={onMessageChange}
-                        value={newMessageBody}
-                        className={objStyle.inputText}
-                    />
-                    <button
-                        className={objStyle.sendText}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            onSendMessage();
-                        }}
-                    >
-                        Send
-                    </button>
-                </form>
+                <AddMessageForm onSubmit={onSubmit} />
             </div>
         </main>
     );

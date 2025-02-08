@@ -12,11 +12,7 @@ h2 {
     margin-block-end: 10px;
     font-size: clamp(16px, 5vw, 25px);
 }
-.new__post__text {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
+
 .new__post__send {
     position: absolute;
     right: 0;

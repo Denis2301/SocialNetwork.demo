@@ -1,21 +1,34 @@
-import React, { useRef } from "react";
+import React from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { useState, createRef } from "react";
+import { Field, reduxForm } from "redux-form";
+import { maxLengthCreator, required } from "../../../utils/validators";
+import { Textarea } from "../../common/FormsControls/FormsControls";
 
-export const MyPosts = ({
-    updateNewPostText,
-    addPost,
-    profilePage,
-    newTextPost,
-}) => {
-    let textPost = useRef();
-    const onPostChange = () => {
-        let newText = textPost.current.value;
-        updateNewPostText(newText);
-    };
-    const onAddPost = () => {
-        addPost();
+const maxLength10 = maxLengthCreator(10);
+let NewPostForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <Field
+                validate={[required, maxLength10]}
+                name="newPostValue"
+                component={Textarea}
+                placeholder="Enter Your Message"
+                rows="5"
+                style={{
+                    width: "100%",
+                    padding: "10px",
+                    boxSizing: "border-box",
+                }}
+            />
+            <button className={objStyle.new__post__send}>Add Post.</button>
+        </form>
+    );
+};
+NewPostForm = reduxForm({ form: "post" })(NewPostForm);
+export const MyPosts = ({ addPost, profilePage }) => {
+    const onSubmit = async (formData) => {
+        await addPost(formData.newPostValue);
     };
     return (
         <section className={objStyle.myPost}>
@@ -29,25 +42,7 @@ export const MyPosts = ({
                 >
                     My posts
                 </h3>
-                <form action="">
-                    <textarea
-                        placeholder="Enter Your Message"
-                        value={newTextPost}
-                        className={objStyle.new__post__text}
-                        ref={textPost}
-                        onChange={onPostChange}
-                        rows="5"
-                    />
-                    <button
-                        className={objStyle.new__post__send}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            onAddPost();
-                        }}
-                    >
-                        Add Post.
-                    </button>
-                </form>
+                <NewPostForm onSubmit={onSubmit} />
             </div>
             <div className={objStyle.posts}>
                 {profilePage.map((p) => {

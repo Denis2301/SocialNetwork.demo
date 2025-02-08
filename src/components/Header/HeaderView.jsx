@@ -10,22 +10,15 @@ export const HeaderView = (props) => {
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0qCreqkTZL0F0bF9kZctFE1XVFocO__70kw&usqp=CAU"
                     alt="site-logo"
                 />
-                {props.isAuth ? (
-                    <div className={objStyle.loginBlock}>
+                {props.isAuth && (
+                    <div className={objStyle.login}>
                         <img
                             src={props.photo || userPhoto}
                             alt={props.login}
                         ></img>
-                    </div>
-                ) : (
-                    <div
-                        style={{ backgroundColor: "red" }}
-                        className={objStyle.loginBlock}
-                    >
-                        <NavLink to={"/login"}>LOG</NavLink>
+                        <button className={objStyle.logout} onClick={() => props.logOutMe()}>OUT</button>
                     </div>
                 )}
-
                 <div
                     className={`${objStyle.menuBurger} ${
                         props.menuInd ? objStyle.menuBurger_active : ""

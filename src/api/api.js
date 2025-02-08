@@ -26,6 +26,19 @@ export const AuthAPI = {
     getAuthMe: async () => {
         return await instance.get(`auth/me`);
     },
+    logMe: async (email, password, rememberMe = false) => {
+        return await instance.post(`auth/login`, {
+            email,
+            password,
+            rememberMe,
+        });
+    },
+    logOutMe: async () => {
+        return await instance.delete(`auth/login`);
+    },
+    captcha: async () => {
+        return await instance.get("security/get-captcha-url");
+    },
 };
 export const ProfileAPI = {
     getProfileId: async (id) => {

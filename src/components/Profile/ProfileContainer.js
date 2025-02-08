@@ -10,6 +10,7 @@ import {
 } from "../../redux/profileReducer";
 import { compose } from "redux";
 import { useParams } from "react-router-dom";
+import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 const ProfileAPIContainer = (props) => {
     let { id } = useParams();
     if (!id) {
@@ -45,5 +46,6 @@ export default compose(
         getUserProfile,
         getUserStatus,
         updateUserStatus,
-    })
+    }),
+    withAuthRedirectComponent
 )(ProfileAPIContainer);

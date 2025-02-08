@@ -1,0 +1,18 @@
+.login_wrapper {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin: auto auto;
+}
+.login_wrapper *:not(:last-child) {
+    margin-bottom: 10px;
+}
+.submit_form {
+    width: 70px;
+    height: 30px;
+    font-size: 15px;
+    background-color: #088b53;
+    color: white;
+    border-radius: 7px;
+}

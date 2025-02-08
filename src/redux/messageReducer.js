@@ -1,5 +1,4 @@
 const SEND_MESSAGE = "SEND_MESSAGE";
-const UPDATE_NEW_MESSAGE_BODY = "UPDATE_NEW_MESSAGE_BODY";
 const initialState = {
     dialogs: [
         {
@@ -103,7 +102,6 @@ const initialState = {
             },
         },
     ],
-    newTextBody: "",
 };
 const messageReducer = (state = initialState, action) => {
     let newDialogUser = {
@@ -118,14 +116,13 @@ const messageReducer = (state = initialState, action) => {
     };
     switch (action.type) {
         case SEND_MESSAGE:
-            let body = state.newTextBody;
             return {
                 ...state,
                 messageAsk: [
                     ...state.messageAsk,
                     {
                         author: "New Author",
-                        text: body,
+                        text: action.message,
                         id: state.messageAsk.length,
                         url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
                         data: {
@@ -135,17 +132,10 @@ const messageReducer = (state = initialState, action) => {
                         },
                     },
                 ],
-                newTextBody: "",
             };
-        case UPDATE_NEW_MESSAGE_BODY:
-            return { ...state, newTextBody: action.body };
         default:
             return { ...state };
     }
 };
-export const sendMessage = () => ({ type: SEND_MESSAGE });
-export const updateNewMessageBody = (text) => ({
-    type: UPDATE_NEW_MESSAGE_BODY,
-    body: text,
-});
+export const sendMessage = (message) => ({ type: SEND_MESSAGE, message});
 export default messageReducer;
