@@ -10,7 +10,7 @@ const mapStateToSidebarProps = (state, ownProps) => {
         handleMenuView: ownProps.handleMenuView,
     };
 };
-const mapDispatchToSidebarProps = (dispatch) => {
+const mapStateToProps = (dispatch) => {
     return {
         onSendClick: () => {
             let action = sendSidebarCreator("SIDEBAR");
@@ -20,5 +20,5 @@ const mapDispatchToSidebarProps = (dispatch) => {
 };
 export const SidebarContainer = connect(
     mapStateToSidebarProps,
-    mapDispatchToSidebarProps
+    mapStateToProps
 )(Sidebar);

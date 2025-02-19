@@ -1,5 +1,5 @@
 import { Field, reduxForm } from "redux-form";
-import objStyle from "./Login.module.css";
+import objStyle from "../Login/Login.module.css";
 import { logMe } from "../../redux/authReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -43,16 +43,19 @@ const LoginForm = (props) => {
                     margin: "0px auto 0px 3px",
                 }}
             />
-            {props.captchaUrl && (
+            {props.error && (
+                <div className={objStyle.form_summary_error}>{props.error}</div>
+            )}
+            {/* {props.captchaUrl && (
                 <div>
                     <Field
-                        component="input"
+                        component={Input}
                         placeholder="Enter captcha"
                         name="captcha"
                         type="text"
                     />
                 </div>
-            )}
+            )} */}
             <button className={objStyle.submit_form}>Submit</button>
         </form>
     );
@@ -74,7 +77,10 @@ const Login = (props) => {
         return (
             <div className={objStyle.login_wrapper}>
                 <h1 className={objStyle.login__title}>Login</h1>
-                <LoginReduxForm onSubmit={onSubmit} />
+                <LoginReduxForm
+                    onSubmit={onSubmit}
+                    captchaUrl={props.captchaUrl}
+                />
             </div>
         );
     }
@@ -82,5 +88,6 @@ const Login = (props) => {
 const mapStateToProps = (state) => ({
     captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth,
+    error: state.form?.login?._error,
 });
 export default connect(mapStateToProps, { logMe })(Login);

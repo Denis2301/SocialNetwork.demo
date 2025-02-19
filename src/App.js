@@ -8,41 +8,56 @@ import { Settings } from "./components/Settings/Settings";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
 import UsersContainer from "./components/UsersContainer/UsersContainer";
-import HeaderContainer  from "./components/Header/HeaderContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
-
-const App = () => {
+import { connect } from "react-redux";
+import { initializeApp } from "./redux/appReducer";
+import { compose } from "redux";
+import { Preloader } from "./components/common/Preloader/Preloader";
+const App = (props) => {
     const [menuInd, menuChangeView] = useState(false);
     const handleMenuView = () => {
         menuChangeView(!menuInd);
     };
-
-    return (
-        <div className="wrapper">
-            <HeaderContainer
-                handleMenuView={handleMenuView}
-                menuInd={menuInd}
-            />
-            <SidebarContainer
-                handleMenuView={handleMenuView}
-                menuInd={menuInd}
-            />
-            <div className="wrapper-content">
-                <Routes>
-                    <Route path="/" element={<Navigate to="/profile" />} />
-                    <Route
-                        path="/profile/:id?"
-                        element={<ProfileContainer />}
-                    />
-                    <Route path="/dialogs/*" element={<DialogsContainer />} />
-                    <Route path="/users/*" element={<UsersContainer />} />
-                    <Route path="/news/*" element={<News />} />
-                    <Route path="/music/*" element={<Music />} />
-                    <Route path="/settings/*" element={<Settings />} />
-                    <Route path="/login*" element={<LoginPage />} />
-                </Routes>
+    useEffect(() => {
+        props.initializeApp();
+    });
+    {
+        return props.initialized ? (
+            <div className="wrapper">
+                <HeaderContainer
+                    handleMenuView={handleMenuView}
+                    menuInd={menuInd}
+                />
+                <SidebarContainer
+                    handleMenuView={handleMenuView}
+                    menuInd={menuInd}
+                />
+                <div className="wrapper-content">
+                    <Routes>
+                        <Route path="/" element={<Navigate to="/profile" />} />
+                        <Route
+                            path="/profile/:id?"
+                            element={<ProfileContainer />}
+                        />
+                        <Route
+                            path="/dialogs/*"
+                            element={<DialogsContainer />}
+                        />
+                        <Route path="/users/*" element={<UsersContainer />} />
+                        <Route path="/news/*" element={<News />} />
+                        <Route path="/music/*" element={<Music />} />
+                        <Route path="/settings/*" element={<Settings />} />
+                        <Route path="/login*" element={<LoginPage />} />
+                    </Routes>
+                </div>
             </div>
-        </div>
-    );
+        ) : (
+            <Preloader />
+        );
+    }
 };
-export default App;
+const mapStateToProps = (state) => ({
+    initialized: state.app.initialized,
+});
+export default compose(connect(mapStateToProps, { initializeApp })(App));

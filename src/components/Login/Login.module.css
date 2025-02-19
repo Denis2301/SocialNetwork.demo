@@ -16,3 +16,9 @@
     color: white;
     border-radius: 7px;
 }
+.form_summary_error {
+    color: red;
+    border: 2px solid red;
+    margin-top: 5px;
+	padding: 5px;
+}

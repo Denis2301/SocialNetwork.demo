@@ -87,13 +87,13 @@ export const toggleIsFollowing = (isFollowing, isFetching) => ({
     isFollowing,
     isFetching,
 });
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
+export const requestUsers = (page, pageSize) => (dispatch) => {
     dispatch(toggleIsFetching(true));
-    UsersAPI.getUsers(currentPage, pageSize).then((data) => {
+    UsersAPI.getUsers(page, pageSize).then((data) => {
         dispatch(setUsers(data.items));
         dispatch(setTotalCount(data.totalCount));
         dispatch(toggleIsFetching(false));
-        dispatch(setCurrentPage(currentPage));
+        dispatch(setCurrentPage(page));
     });
 };
 export const follow = (userId) => (dispatch) => {

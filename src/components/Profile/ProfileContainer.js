@@ -9,18 +9,23 @@ import {
     updateUserStatus,
 } from "../../redux/profileReducer";
 import { compose } from "redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
+
 const ProfileAPIContainer = (props) => {
     let { id } = useParams();
-    if (!id) {
-        id = 32020;
-    }
+    let navigate = useNavigate();
+
     useEffect(() => {
+        if (!id) {
+            id = props.authorizedUserId;
+            if (!id) {
+                return navigate("/login");
+            }
+        }
         props.getUserProfile(id);
         props.getUserStatus(id);
-    }, [id]);
-
+    }, [id, props.authorizedUserId, navigate]);
     return (
         <div className={objStyle.content}>
             <ProfileView
@@ -38,6 +43,8 @@ const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
+        authorizedUserId: state.auth.id,
+        isAuth: state.auth.isAuth,
     };
 };
 
@@ -46,6 +53,5 @@ export default compose(
         getUserProfile,
         getUserStatus,
         updateUserStatus,
-    }),
-    withAuthRedirectComponent
+    })
 )(ProfileAPIContainer);

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 import { compose } from "redux";
 
-const mapStateToDialogsProps = (state) => {
+const mapStateToProps = (state) => {
     return {
         messagesPage: state.messagesPage,
         messageAsk: state.messagesPage.messageAsk,
@@ -14,7 +14,7 @@ const mapStateToDialogsProps = (state) => {
 };
 
 export default compose(
-    connect(mapStateToDialogsProps, {
+    connect(mapStateToProps, {
         sendMessage,
     }),
     withAuthRedirectComponent

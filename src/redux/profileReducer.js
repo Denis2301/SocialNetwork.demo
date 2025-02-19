@@ -22,9 +22,12 @@ const initialState = {
     ],
     profile: null,
     status: "",
+    fake: 10,
 };
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "FAKE":
+            return { ...state, fake: (state.fake += 1) };
         case ADD_POST:
             const dataNewPost = {
                 url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ9Ok8xjEoczfzG7nxSHRW7SVJDLJimU8Vd0lNC-oSH_0fTGVCfpfHwQFMMgPVSGVc4k&usqp=CAU",

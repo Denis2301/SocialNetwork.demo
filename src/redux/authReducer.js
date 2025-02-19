@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import userPhoto from ".././assets/images/user.png";
 import { AuthAPI, ProfileAPI } from "../api/api";
 
@@ -62,7 +63,7 @@ export const getAuthUserData = () => async (dispatch) => {
     return await AuthAPI.getAuthMe().then((response) => {
         if (response.data.resultCode === 0) {
             const { id, email, login } = response.data.data;
-            dispatch(setAuthUserDate(id, email, login, true));
+            dispatch(setAuthUserDate(id, email, login));
             dispatch(toggleIsFetching(true));
             ProfileAPI.getProfileId(id).then((data) => {
                 dispatch(
@@ -81,6 +82,19 @@ export const logMe = (email, password, rememberMe) => async (dispatch) => {
                 await AuthAPI.captcha().then((response) => {
                     dispatch(setCaptchaUrl(response.data.url));
                 });
+                let message =
+                    response.data.messages.length > 0
+                        ? response.data.messages[0]
+                        : "Common error";
+                setTimeout(
+                    () =>
+                        dispatch(
+                            stopSubmit("login", {
+                                _error: message,
+                            })
+                        ),
+                    1000
+                );
             }
         }
     );
@@ -88,7 +102,8 @@ export const logMe = (email, password, rememberMe) => async (dispatch) => {
 export const logOutMe = () => async (dispatch) => {
     return await AuthAPI.logOutMe().then(async (response) => {
         if (response.data.resultCode == 0) {
-            dispatch(setAuthUserDate(null, null, null, false));
+            dispatch(setAuthUserDate(null, null, null));
+            dispatch(toggleIsFetching(false));
         }
     });
 };

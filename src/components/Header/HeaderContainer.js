@@ -5,15 +5,10 @@ import { setAuthUserDate } from "../../redux/authReducer";
 import { useParams } from "react-router-dom";
 import { toggleIsFetching } from "../../redux/authReducer";
 import { setPhotoProfile } from "../../redux/authReducer";
-import { getAuthUserData } from "../../redux/authReducer";
 import { logOutMe } from "../../redux/authReducer";
 import { compose } from "redux";
 
 class HeaderAPIContainer extends React.Component {
-
-    componentDidMount() {
-        this.props.getAuthUserData();
-    }
     render() {
         return <HeaderView {...this.props} />;
     }
@@ -37,8 +32,7 @@ export default compose(
         toggleIsFetching,
         setAuthUserDate,
         setPhotoProfile,
-        getAuthUserData,
-		logOutMe
+        logOutMe,
     }),
     withRouter
 )(HeaderAPIContainer);
