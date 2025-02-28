@@ -6,11 +6,11 @@ import App from "./App";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-
+React.createElement("h1", [React.createElement(App)])
 const root = ReactDOM.createRoot(document.getElementById("root"));
-setInterval(() => {
-    store.dispatch({ type: "FAKE" });
-}, 1000);
+// setInterval(() => {
+//     store.dispatch({ type: "FAKE" });
+// }, 1000);
 root.render(
     <BrowserRouter>
         <Provider store={store}>

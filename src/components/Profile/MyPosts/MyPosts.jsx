@@ -25,8 +25,12 @@ let NewPostForm = (props) => {
         </form>
     );
 };
+
 NewPostForm = reduxForm({ form: "post" })(NewPostForm);
-export const MyPosts = ({ addPost, profilePage }) => {
+
+export const MyPosts = React.memo(({ addPost, profilePage }) => {
+    window.props.push(addPost, profilePage);
+
     const onSubmit = async (formData) => {
         await addPost(formData.newPostValue);
     };
@@ -45,7 +49,7 @@ export const MyPosts = ({ addPost, profilePage }) => {
                 <NewPostForm onSubmit={onSubmit} />
             </div>
             <div className={objStyle.posts}>
-                {profilePage.map((p) => {
+                {[...profilePage].reverse().map((p) => {
                     return (
                         <Post
                             key={p.id}
@@ -59,4 +63,4 @@ export const MyPosts = ({ addPost, profilePage }) => {
             </div>
         </section>
     );
-};
+});

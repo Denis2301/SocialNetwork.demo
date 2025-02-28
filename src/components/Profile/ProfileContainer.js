@@ -13,9 +13,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 
 const ProfileAPIContainer = (props) => {
+
     let { id } = useParams();
     let navigate = useNavigate();
-
     useEffect(() => {
         if (!id) {
             id = props.authorizedUserId;

@@ -15,16 +15,19 @@ import {
     getTotalUsersCount,
     getUsers,
 } from "../../redux/usersSelector";
+
 class UsersAPIContainer extends React.Component {
     componentDidMount() {
         this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+        setTimeout(() => {
+            this.setState({ a: 12 });
+        }, 3000);
     }
     onPageChanged = (pageNumber) => {
         this.props.requestUsers(pageNumber, this.props.pageSize);
     };
 
     render() {
-        console.log("Render Profile");
         return (
             <>
                 {this.props.isFetching ? (
@@ -58,7 +61,7 @@ class UsersAPIContainer extends React.Component {
 //     };
 // };
 const mapStateToProps = (state) => {
-    console.log("mapStateToProps Profile");
+    // console.log("mapStateToProps Profile");
     return {
         users: getUsers(state),
         totalUsersCount: getTotalUsersCount(state),

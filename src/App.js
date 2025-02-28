@@ -21,7 +21,7 @@ const App = (props) => {
     };
     useEffect(() => {
         props.initializeApp();
-    });
+    }, [props.initializeApp]);
     {
         return props.initialized ? (
             <div className="wrapper">

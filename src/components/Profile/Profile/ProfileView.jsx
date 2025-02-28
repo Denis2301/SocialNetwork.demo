@@ -1,7 +1,7 @@
 import objStyle from "./ProfileInfo.module.css";
 import userPhoto from "../../.././assets/images/user.png";
 import { Preloader } from "../../common/Preloader/Preloader";
-import { ProfileStatus } from "./ProfileStatus";
+import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 
 export const ProfileView = (props) => {
     return props.profile ? (
@@ -20,7 +20,7 @@ export const ProfileView = (props) => {
                 <div className={objStyle.describe__profile__inform}>
                     <h2>{props.profile?.fullName}</h2>
                     <h3>
-                        <ProfileStatus
+                        <ProfileStatusWithHooks
                             status={props.status}
                             updateUserStatus={props.updateUserStatus}
                         />
