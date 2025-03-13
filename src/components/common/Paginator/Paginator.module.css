@@ -1,0 +1,18 @@
+.pagination {
+    display: block;
+	margin: 0 auto;
+    margin-block-end: 10px;
+	width: 300px;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+.pagination span:not(:last-child) {
+    margin-inline-end: 5px;
+}
+.pagination span {
+	cursor: pointer;
+}
+.selectedPage {
+    color: gold;
+    font-weight: 700;
+}

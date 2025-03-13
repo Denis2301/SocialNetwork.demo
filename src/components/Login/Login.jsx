@@ -1,52 +1,44 @@
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
 import objStyle from "../Login/Login.module.css";
 import { logMe } from "../../redux/authReducer";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { maxLengthCreator, required } from "../../utils/validators";
-import { Input } from "../common/FormsControls/FormsControls";
+import { createField, Input } from "../common/FormsControls/FormsControls";
 
 const maxLength10 = maxLengthCreator(40);
-const LoginForm = (props) => {
+const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
     return (
-        <form onSubmit={props.handleSubmit} className={objStyle.form}>
-            <Field
-                validate={[required, maxLength10]}
-                component={Input}
-                placeholder="E-mail"
-                type="email"
-                name={"email"}
-                style={{
+        <form onSubmit={handleSubmit} className={objStyle.form}>
+            {createField([required, maxLength10], "E-mail", "email", "email", {
+                padding: "7px 5px",
+                width: "100%",
+            })}
+            {createField(
+                [required, maxLength10],
+                "Password",
+                "password",
+                "password",
+                {
                     padding: "7px 5px",
                     width: "100%",
-                }}
-            />
-            <Field
-                validate={[required, maxLength10]}
-                component={Input}
-                placeholder="Password"
-                name={"password"}
-                type="password"
-                style={{
-                    padding: "7px 5px",
-                    width: "100%",
-                }}
-            />
-            <label htmlFor="remember_me">Remember Me</label>
-            <Field
-                validate={[required]}
-                component={Input}
-                type="checkbox"
-                name={"rememberMe"}
-                id="remember_me"
-                style={{
-                    margin: "0px auto 0px 3px",
-                }}
-            />
-            {props.error && (
-                <div className={objStyle.form_summary_error}>{props.error}</div>
+                }
             )}
-            {/* {props.captchaUrl && (
+            {createField(
+                null,
+                null,
+                "checkbox",
+                "rememberMe",
+                {
+                    margin: "0px auto 10px 3px",
+                },
+                "remember_me",
+                "Remember Me"
+            )}
+            {error && (
+                <div className={objStyle.form_summary_error}>{error}</div>
+            )}
+            {/* {captchaUrl && (
                 <div>
                     <Field
                         component={Input}
@@ -61,26 +53,19 @@ const LoginForm = (props) => {
     );
 };
 const LoginReduxForm = reduxForm({ form: "login" })(LoginForm);
-const Login = (props) => {
+const Login = ({ isAuth, captchaUrl, logMe }) => {
     let navigate = useNavigate();
     const onSubmit = async (formData, dispatch, { reset }) => {
-        await props.logMe(
-            formData.email,
-            formData.password,
-            formData.rememberMe
-        );
+        await logMe(formData.email, formData.password, formData.rememberMe);
         reset();
     };
-    if (props.isAuth) {
+    if (isAuth) {
         return navigate("/");
     } else {
         return (
             <div className={objStyle.login_wrapper}>
                 <h1 className={objStyle.login__title}>Login</h1>
-                <LoginReduxForm
-                    onSubmit={onSubmit}
-                    captchaUrl={props.captchaUrl}
-                />
+                <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} />
             </div>
         );
     }

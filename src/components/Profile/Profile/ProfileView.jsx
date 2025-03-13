@@ -3,32 +3,29 @@ import userPhoto from "../../.././assets/images/user.png";
 import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 
-export const ProfileView = (props) => {
-    return props.profile ? (
+export const ProfileView = ({ profile, status, updateUserStatus }) => {
+    return profile ? (
         <div>
             <section className={objStyle.describe__profile}>
                 <div className={objStyle.describe__profile__image}>
-                    {!props.profile?.photos?.small ? (
+                    {!profile?.photos?.small ? (
                         <img src={userPhoto} alt="profile__image" />
                     ) : (
-                        <img
-                            src={props.profile.photos.small}
-                            alt="profile__image"
-                        />
+                        <img src={profile.photos.small} alt="profile__image" />
                     )}
                 </div>
                 <div className={objStyle.describe__profile__inform}>
-                    <h2>{props.profile?.fullName}</h2>
+                    <h2>{profile?.fullName}</h2>
                     <h3>
                         <ProfileStatusWithHooks
-                            status={props.status}
-                            updateUserStatus={props.updateUserStatus}
+                            status={status}
+                            updateUserStatus={updateUserStatus}
                         />
                     </h3>
-                    <p>About Me: {props.profile?.aboutMe}</p>
+                    <p>About Me: {profile?.aboutMe}</p>
                     <p style={{ display: "flex", alignItems: "center" }}>
                         LokingForJob:{" "}
-                        {props.profile?.lookingForAJob ? (
+                        {profile?.lookingForAJob ? (
                             <img
                                 style={{ width: "30px", borderRadius: "50%" }}
                                 src="https://thumbs.dreamstime.com/z/emoji-%D0%B2-%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%D0%B0%D1%85-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D0%BB%D0%B8%D1%86%D0%BE-%D0%B6%D0%B5%D0%BB%D1%82%D0%B0%D1%8F-%D0%B8%D1%89%D1%83%D1%89%D0%B8%D1%85-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%83-%D1%81-%D0%BB%D1%83%D0%BF%D0%BE%D0%B9-%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-187902691.jpg"
@@ -40,10 +37,10 @@ export const ProfileView = (props) => {
                             />
                         )}
                     </p>
-                    <p>Contact: {props.profile?.contact?.github || "no url"}</p>
+                    <p>Contact: {profile?.contact?.github || "no url"}</p>
                     <p>
                         Job Description:{" "}
-                        {props.profile?.lookingForAJobDescription ||
+                        {profile?.lookingForAJobDescription ||
                             "Job Description"}
                     </p>
                 </div>

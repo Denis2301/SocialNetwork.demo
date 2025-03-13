@@ -1,8 +1,9 @@
 import React from "react";
 import objStyle from "./FormsControls.module.css";
-
+import { Field } from "redux-form";
 const FormControl = ({ meta, element, input, props }) => {
-    const hasError = meta.error && meta.touched;
+    const { error, touched } = meta;
+    const hasError = error && touched;
     return (
         <>
             {React.createElement(element, {
@@ -20,7 +21,7 @@ const FormControl = ({ meta, element, input, props }) => {
                         marginTop: "5px",
                     }}
                 >
-                    {meta.error}
+                    {error}
                 </span>
             ) : (
                 ""
@@ -49,6 +50,31 @@ export const Input = ({ input, meta, ...props }) => {
                 props={props}
                 element={"input"}
             />
+        </>
+    );
+};
+
+export const createField = (
+    validators,
+    placeholder = null,
+    type = "text",
+    name,
+    style,
+    id = null,
+    text = null
+) => {
+    return (
+        <>
+            <Field
+                validate={validators}
+                component={Input}
+                placeholder={placeholder}
+                type={type}
+                name={name}
+                style={{ ...style }}
+                id={id}
+            />
+            {type == "checkbox" ? text : <label htmlFor={id}>{text}</label>}
         </>
     );
 };

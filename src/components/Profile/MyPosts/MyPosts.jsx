@@ -29,7 +29,6 @@ let NewPostForm = (props) => {
 NewPostForm = reduxForm({ form: "post" })(NewPostForm);
 
 export const MyPosts = React.memo(({ addPost, profilePage }) => {
-    window.props.push(addPost, profilePage);
 
     const onSubmit = async (formData) => {
         await addPost(formData.newPostValue);

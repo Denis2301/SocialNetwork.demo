@@ -22,7 +22,7 @@ export const initializedSuccess = () => ({
 });
 
 export const initializeApp = () => async (dispatch) => {
-    let promise = dispatch(getAuthUserData());
+    let promise = await dispatch(getAuthUserData());
     Promise.all([promise]).then(() => {
         dispatch(initializedSuccess());
     });

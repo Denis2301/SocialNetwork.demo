@@ -18,13 +18,12 @@ import {
 
 class UsersAPIContainer extends React.Component {
     componentDidMount() {
-        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
-        setTimeout(() => {
-            this.setState({ a: 12 });
-        }, 3000);
+        const { currentPage, pageSize } = this.props;
+        this.props.requestUsers(currentPage, pageSize);
     }
     onPageChanged = (pageNumber) => {
-        this.props.requestUsers(pageNumber, this.props.pageSize);
+        const { pageSize } = this.props;
+        this.props.requestUsers(pageNumber, pageSize);
     };
 
     render() {
@@ -50,18 +49,8 @@ class UsersAPIContainer extends React.Component {
         );
     }
 }
-// const mapStateToProps = (state) => {
-//     return {
-//         users: state.usersPage.users,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         pageSize: state.usersPage.pageSize,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress,
-//     };
-// };
+
 const mapStateToProps = (state) => {
-    // console.log("mapStateToProps Profile");
     return {
         users: getUsers(state),
         totalUsersCount: getTotalUsersCount(state),

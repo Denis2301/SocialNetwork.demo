@@ -2,7 +2,7 @@ import "./App.css";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import { News } from "./components/News/News";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -10,10 +10,11 @@ import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
 import UsersContainer from "./components/UsersContainer/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
-import { connect } from "react-redux";
+import { Provider, connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
 import { compose } from "redux";
 import { Preloader } from "./components/common/Preloader/Preloader";
+
 const App = (props) => {
     const [menuInd, menuChangeView] = useState(false);
     const handleMenuView = () => {
@@ -60,4 +61,14 @@ const App = (props) => {
 const mapStateToProps = (state) => ({
     initialized: state.app.initialized,
 });
-export default compose(connect(mapStateToProps, { initializeApp })(App));
+let AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
+let MainApp = (props) => {
+    return (
+        <BrowserRouter>
+            <Provider store={props.store}>
+                <AppContainer />
+            </Provider>
+        </BrowserRouter>
+    );
+};
+export default MainApp;
