@@ -1,18 +1,32 @@
 .pagination {
-    display: block;
-	margin: 0 auto;
+    display: inline-block;
+    display: flex;
+    justify-content: center;
     margin-block-end: 10px;
-	width: 300px;
-	overflow-x: auto;
-	overflow-y: hidden;
 }
 .pagination span:not(:last-child) {
     margin-inline-end: 5px;
 }
 .pagination span {
-	cursor: pointer;
+    cursor: pointer;
 }
 .selectedPage {
     color: gold;
     font-weight: 700;
+    border: 1px solid gold;
+	padding: 3px;
+    margin-inline-end: 2.5px !important;
+}
+.prevButton {
+    padding: 0px 5px;
+    cursor: pointer;
+    color: white;
+    background-color: #088b53;
+    margin-inline-end: 5px;
+}
+.nextButton {
+    padding: 0px 5px;
+    cursor: pointer;
+    color: white;
+    background-color: #088b53;
 }

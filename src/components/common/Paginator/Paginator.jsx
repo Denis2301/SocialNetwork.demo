@@ -1,31 +1,63 @@
+import { useEffect, useState } from "react";
 import objStyle from "./Paginator.module.css";
 export const Paginator = ({
     onPageChanged,
     currentPage,
-    totalUsersCount,
+    totalItemsCount,
     pageSize,
+    portionSize,
 }) => {
-    let countPage = Math.ceil(totalUsersCount / pageSize);
+    let countPage = Math.ceil(totalItemsCount / pageSize);
     let pages = [];
     for (let i = 1; i <= countPage; i++) {
         pages.push(i);
     }
+    let portionCount = Math.ceil(countPage / portionSize);
+    let [portionNumber, setPortionNumber] = useState(1);
+    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+    let rightPortionPageNumber = portionNumber * portionSize;
+    useEffect(() => {
+        let newPortion = Math.ceil(currentPage / portionSize);
+		console.log(newPortion);
+		
+        if (newPortion !== portionNumber) {
+            setPortionNumber(newPortion);
+        }
+    }, [currentPage]);
     return (
         <div className={objStyle.pagination}>
-            {pages.map((p) => {
-                return (
-                    <span
-                        onClick={(e) => {
-                            onPageChanged(p);
-                        }}
-                        className={
-                            currentPage === p ? objStyle.selectedPage : ""
-                        }
-                    >
-                        {p}
-                    </span>
-                );
-            })}
+            {portionNumber > 1 && (
+                <button className={objStyle.prevButton} onClick={() => setPortionNumber(portionNumber - 1)}>
+                    PREV
+                </button>
+            )}
+
+            {pages
+                .filter(
+                    (p) =>
+                        p >= leftPortionPageNumber &&
+                        p <= rightPortionPageNumber
+                )
+                .map((p) => {
+                    return (
+                        <span
+                            key={p}
+                            onClick={() => {
+                                onPageChanged(p);
+                            }}
+                            className={
+                                currentPage === p ? objStyle.selectedPage : ""
+                            }
+                        >
+                            {p}
+                        </span>
+                    );
+                })}
+            {portionNumber < portionCount && (
+                <button className={objStyle.nextButton} onClick={() => setPortionNumber(portionNumber + 1)}>
+                    NEXT
+                </button>
+            )}
         </div>
     );
 };

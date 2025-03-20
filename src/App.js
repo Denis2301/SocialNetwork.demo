@@ -1,19 +1,25 @@
 import "./App.css";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import { News } from "./components/News/News";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
 import UsersContainer from "./components/UsersContainer/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import LoginPage from "./components/Login/Login";
 import { Provider, connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
 import { compose } from "redux";
 import { Preloader } from "./components/common/Preloader/Preloader";
+import { SuspenseHOC } from "./hoc/SuspenceHOC";
+
+let DialogsContainer = lazy(() =>
+    import("./components/Dialogs/DialogsContainer")
+);
+let ProfileContainer = lazy(() =>
+    import("./components/Profile/ProfileContainer")
+);
+let LoginPage = lazy(() => import("./components/Login/Login"));
 
 const App = (props) => {
     const [menuInd, menuChangeView] = useState(false);
@@ -39,17 +45,20 @@ const App = (props) => {
                         <Route path="/" element={<Navigate to="/profile" />} />
                         <Route
                             path="/profile/:id?"
-                            element={<ProfileContainer />}
+                            element={SuspenseHOC(ProfileContainer)()}
                         />
                         <Route
                             path="/dialogs/*"
-                            element={<DialogsContainer />}
+                            element={SuspenseHOC(DialogsContainer)()}
                         />
                         <Route path="/users/*" element={<UsersContainer />} />
                         <Route path="/news/*" element={<News />} />
                         <Route path="/music/*" element={<Music />} />
                         <Route path="/settings/*" element={<Settings />} />
-                        <Route path="/login*" element={<LoginPage />} />
+                        <Route
+                            path="/login*"
+                            element={SuspenseHOC(LoginPage)()}
+                        />
                     </Routes>
                 </div>
             </div>
@@ -64,7 +73,7 @@ const mapStateToProps = (state) => ({
 let AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
 let MainApp = (props) => {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/SocialNetwork.demo">
             <Provider store={props.store}>
                 <AppContainer />
             </Provider>

@@ -20,8 +20,9 @@ export const UsersView = ({
             <Paginator
                 onPageChanged={onPageChanged}
                 currentPage={currentPage}
-                totalUsersCount={totalUsersCount}
+                totalItemsCount={totalUsersCount}
                 pageSize={pageSize}
+				portionSize={10}
             />
             {users.map((user) => (
                 <User

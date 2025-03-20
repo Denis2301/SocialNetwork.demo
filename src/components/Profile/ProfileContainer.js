@@ -10,10 +10,8 @@ import {
 } from "../../redux/profileReducer";
 import { compose } from "redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 
 const ProfileAPIContainer = (props) => {
-
     let { id } = useParams();
     let navigate = useNavigate();
     useEffect(() => {
