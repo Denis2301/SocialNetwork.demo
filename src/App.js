@@ -1,7 +1,7 @@
 import "./App.css";
 import { News } from "./components/News/News";
 import React, { useState, useEffect, lazy } from "react";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate, HashRouter } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
@@ -73,11 +73,11 @@ const mapStateToProps = (state) => ({
 let AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
 let MainApp = (props) => {
     return (
-        <BrowserRouter basename="/SocialNetwork.demo">
+        <HashRouter>
             <Provider store={props.store}>
                 <AppContainer />
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 export default MainApp;

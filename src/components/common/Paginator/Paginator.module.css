@@ -5,7 +5,7 @@
     margin-block-end: 10px;
 }
 .pagination span:not(:last-child) {
-    margin-inline-end: 5px;
+    padding: 3px;
 }
 .pagination span {
     cursor: pointer;
@@ -14,7 +14,7 @@
     color: gold;
     font-weight: 700;
     border: 1px solid gold;
-	padding: 3px;
+    padding: 3px;
     margin-inline-end: 2.5px !important;
 }
 .prevButton {

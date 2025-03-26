@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Component, useEffect } from "react";
 import objStyle from "./Profile.module.css";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import { ProfileView } from "./Profile/ProfileView";
@@ -7,6 +7,7 @@ import {
     getUserProfile,
     getUserStatus,
     updateUserStatus,
+	savePhoto
 } from "../../redux/profileReducer";
 import { compose } from "redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -27,9 +28,11 @@ const ProfileAPIContainer = (props) => {
     return (
         <div className={objStyle.content}>
             <ProfileView
+                isOwner={!!id}
                 status={props.status}
                 profile={props.profile}
                 updateUserStatus={props.updateUserStatus}
+				savePhoto={props.savePhoto}
             />
             <main>
                 <MyPostsContainer />
@@ -37,6 +40,7 @@ const ProfileAPIContainer = (props) => {
         </div>
     );
 };
+
 const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
@@ -51,5 +55,7 @@ export default compose(
         getUserProfile,
         getUserStatus,
         updateUserStatus,
-    })
+		savePhoto
+    }),
+
 )(ProfileAPIContainer);

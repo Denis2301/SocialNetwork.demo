@@ -18,7 +18,6 @@ export const Paginator = ({
     let rightPortionPageNumber = portionNumber * portionSize;
     useEffect(() => {
         let newPortion = Math.ceil(currentPage / portionSize);
-		console.log(newPortion);
 		
         if (newPortion !== portionNumber) {
             setPortionNumber(newPortion);

@@ -1,5 +1,6 @@
 import { ProfileAPI } from "../api/api";
 const ADD_POST = "ADD_POST";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
 const DELETE_POST = "DELETE_POST";
@@ -23,12 +24,9 @@ const initialState = {
     ],
     profile: null,
     status: "",
-    // fake: 10,
 };
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        // case "FAKE":
-        //     return { ...state, fake: (state.fake += 1) };
         case DELETE_POST:
             return {
                 ...state,
@@ -48,6 +46,8 @@ const profileReducer = (state = initialState, action) => {
             };
         case SET_USER_STATUS:
             return { ...state, status: action.status };
+        case SAVE_PHOTO_SUCCESS:
+            return { ...state, profile: {...state.profile, photos: action.mainPhoto} };
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile };
         default:
@@ -68,7 +68,10 @@ export const setUserStatus = (status) => ({
     type: SET_USER_STATUS,
     status,
 });
-
+export const setPhotoSuccess = (mainPhoto) => ({
+    type: SAVE_PHOTO_SUCCESS,
+    mainPhoto,
+});
 export const getUserProfile = (userId) => async (dispatch) => {
     let response = await ProfileAPI.getProfileId(userId);
 
@@ -78,6 +81,12 @@ export const getUserStatus = (userId) => async (dispatch) => {
     let response = await ProfileAPI.getUserStatus(userId);
 
     dispatch(setUserStatus(response.data));
+};
+export const savePhoto = (mainPhoto) => async (dispatch) => {
+
+    let response = await ProfileAPI.savePhoto(mainPhoto);
+
+    dispatch(setPhotoSuccess(response.data.data.photos));
 };
 export const updateUserStatus = (status) => async (dispatch) => {
     let response = await ProfileAPI.updateUserStatus(status);
