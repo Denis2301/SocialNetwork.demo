@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { ProfileAPI } from "../api/api";
 const ADD_POST = "ADD_POST";
 const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
@@ -23,6 +24,7 @@ const initialState = {
         },
     ],
     profile: null,
+    profileUpdateStatus: null,
     status: "",
 };
 const profileReducer = (state = initialState, action) => {
@@ -47,9 +49,13 @@ const profileReducer = (state = initialState, action) => {
         case SET_USER_STATUS:
             return { ...state, status: action.status };
         case SAVE_PHOTO_SUCCESS:
-            return { ...state, profile: {...state.profile, photos: action.mainPhoto} };
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.mainPhoto },
+            };
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile };
+
         default:
             return { ...state };
     }
@@ -72,6 +78,7 @@ export const setPhotoSuccess = (mainPhoto) => ({
     type: SAVE_PHOTO_SUCCESS,
     mainPhoto,
 });
+
 export const getUserProfile = (userId) => async (dispatch) => {
     let response = await ProfileAPI.getProfileId(userId);
 
@@ -83,16 +90,44 @@ export const getUserStatus = (userId) => async (dispatch) => {
     dispatch(setUserStatus(response.data));
 };
 export const savePhoto = (mainPhoto) => async (dispatch) => {
-
     let response = await ProfileAPI.savePhoto(mainPhoto);
 
     dispatch(setPhotoSuccess(response.data.data.photos));
 };
-export const updateUserStatus = (status) => async (dispatch) => {
-    let response = await ProfileAPI.updateUserStatus(status);
-
-    if (!response.data.resultCode) {
-        dispatch(setUserStatus(status));
+export const saveProfile = (profile) => async (dispatch, getState) => {
+    const userId = getState().auth.id;
+    let response = await ProfileAPI.saveProfile(profile);
+    if (response.data.resultCode == 0) {
+        dispatch(getUserProfile(userId));
+        getState().profilePage.profileUpdateStatus = true;
+        return Promise.resolve("Ok");
+    } else {
+        let message =
+            response.data.messages.length > 0
+                ? response.data.messages[0]
+                : "Common error";
+        let errorKey = message.match(/Contacts->(.+?)\)/)[1].toLowerCase();
+        let errorValue = message.match(/\((Contacts->.+?)\)/)[1];
+        dispatch(
+            stopSubmit("edit-profile", {
+                contacts: {
+                    [errorKey]: [errorValue],
+                },
+            })
+        );
+        getState().profilePage.profileUpdateStatus = false;
+    }
+};
+export const updateUserStatus = (status) => async (dispatch, getState) => {
+    let prevState = getState().profilePage.status;
+    try {
+        let response = await ProfileAPI.updateUserStatus(status);
+        if (response.data.resultCode == 0) {
+            dispatch(setUserStatus(status));
+        }
+    } catch (error) {
+        dispatch(setUserStatus(prevState));
+        console.warn("Failed to update status:", error);
     }
 };
 export default profileReducer;

@@ -7,7 +7,8 @@ import {
     getUserProfile,
     getUserStatus,
     updateUserStatus,
-	savePhoto
+    savePhoto,
+    saveProfile,
 } from "../../redux/profileReducer";
 import { compose } from "redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -32,7 +33,9 @@ const ProfileAPIContainer = (props) => {
                 status={props.status}
                 profile={props.profile}
                 updateUserStatus={props.updateUserStatus}
-				savePhoto={props.savePhoto}
+                savePhoto={props.savePhoto}
+                saveProfile={props.saveProfile}
+				profileUpdateStatus={props.profileUpdateStatus}
             />
             <main>
                 <MyPostsContainer />
@@ -47,6 +50,7 @@ const mapStateToProps = (state) => {
         status: state.profilePage.status,
         authorizedUserId: state.auth.id,
         isAuth: state.auth.isAuth,
+		profileUpdateStatus: state.profilePage.profileUpdateStatus
     };
 };
 
@@ -55,7 +59,7 @@ export default compose(
         getUserProfile,
         getUserStatus,
         updateUserStatus,
-		savePhoto
-    }),
-
+        savePhoto,
+        saveProfile,
+    })
 )(ProfileAPIContainer);

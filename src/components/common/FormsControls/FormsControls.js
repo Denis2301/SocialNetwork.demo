@@ -59,7 +59,7 @@ export const createField = (
     placeholder = null,
     type = "text",
     name,
-    style,
+    style = null,
     id = null,
     text = null
 ) => {

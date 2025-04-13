@@ -21,11 +21,17 @@
 .profileInform {
     display: flex;
 }
-.wrapperPhotoButtonProfile {
-
+.wrapperStatus {
+    margin-bottom: 5px;
 }
 .mainPhoto {
     cursor: pointer;
+}
+.edit {
+    padding: 5px;
+    background-color: green;
+    color: white;
+    width: 100px;
 }
 .wrapperPhotoButtonProfile:hover .photoButton {
     display: block;
@@ -50,17 +56,42 @@
     line-height: 120%;
     flex-direction: column;
     justify-content: center;
+    gap: 5px;
+}
+.contact {
+    display: flex;
+    justify-content: space-between;
+    margin-block-end: 5px;
+}
+.contact label {
+    /* display: none; */
+}
+.form_summary_error {
+    color: red;
+    border: 2px solid red;
+    margin-top: 5px;
+	padding: 5px;
 }
 .describe__profile__inform h2 {
     font-size: clamp(16px, 5vw, 30px);
+    margin-block: 15px !important;
+}
+.fullName {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
 }
 .wrapperStatus {
     display: flex;
-    justify-content: space-between;
+    gap: 5px;
 }
 .status input {
     vertical-align: middle;
     padding: 5px;
+}
+.aboutMe {
+    display: flex;
+    justify-content: space-between;
 }
 .status:first-child {
     cursor: pointer;

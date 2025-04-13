@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import objStyle from "./Paginator.module.css";
+import cn from "classnames";
 export const Paginator = ({
     onPageChanged,
     currentPage,
@@ -18,19 +19,21 @@ export const Paginator = ({
     let rightPortionPageNumber = portionNumber * portionSize;
     useEffect(() => {
         let newPortion = Math.ceil(currentPage / portionSize);
-		
+
         if (newPortion !== portionNumber) {
             setPortionNumber(newPortion);
         }
     }, [currentPage]);
     return (
-        <div className={objStyle.pagination}>
+        <div className={cn(objStyle.pagination)}>
             {portionNumber > 1 && (
-                <button className={objStyle.prevButton} onClick={() => setPortionNumber(portionNumber - 1)}>
+                <button
+                    className={objStyle.prevButton}
+                    onClick={() => setPortionNumber(portionNumber - 1)}
+                >
                     PREV
                 </button>
             )}
-
             {pages
                 .filter(
                     (p) =>
@@ -44,16 +47,19 @@ export const Paginator = ({
                             onClick={() => {
                                 onPageChanged(p);
                             }}
-                            className={
-                                currentPage === p ? objStyle.selectedPage : ""
-                            }
+                            className={cn({
+                                [objStyle.selectedPage]: currentPage === p,
+                            })}
                         >
                             {p}
                         </span>
                     );
                 })}
             {portionNumber < portionCount && (
-                <button className={objStyle.nextButton} onClick={() => setPortionNumber(portionNumber + 1)}>
+                <button
+                    className={objStyle.nextButton}
+                    onClick={() => setPortionNumber(portionNumber + 1)}
+                >
                     NEXT
                 </button>
             )}

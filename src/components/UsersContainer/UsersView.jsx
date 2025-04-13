@@ -22,7 +22,7 @@ export const UsersView = ({
                 currentPage={currentPage}
                 totalItemsCount={totalUsersCount}
                 pageSize={pageSize}
-				portionSize={10}
+                portionSize={10}
             />
             {users.map((user) => (
                 <User

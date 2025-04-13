@@ -1,4 +1,4 @@
-import { reduxForm } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import objStyle from "../Login/Login.module.css";
 import { logMe } from "../../redux/authReducer";
 import { connect } from "react-redux";
@@ -38,16 +38,20 @@ const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
             {error && (
                 <div className={objStyle.form_summary_error}>{error}</div>
             )}
-            {/* {captchaUrl && (
+            {captchaUrl && (
                 <div>
-                    <Field
-                        component={Input}
-                        placeholder="Enter captcha"
-                        name="captcha"
-                        type="text"
-                    />
+                    <img src={captchaUrl} />
+                    {createField(
+                        [required],
+                        "Enter captcha",
+                        "text",
+                        "captcha",
+                        {
+                            padding: "5px",
+                        }
+                    )}
                 </div>
-            )} */}
+            )}
             <button className={objStyle.submit_form}>Submit</button>
         </form>
     );
@@ -56,7 +60,12 @@ const LoginReduxForm = reduxForm({ form: "login" })(LoginForm);
 const Login = ({ isAuth, captchaUrl, logMe }) => {
     let navigate = useNavigate();
     const onSubmit = async (formData, dispatch, { reset }) => {
-        await logMe(formData.email, formData.password, formData.rememberMe);
+        await logMe(
+            formData.email,
+            formData.password,
+            formData.rememberMe,
+            formData.captcha
+        );
         reset();
     };
     if (isAuth) {

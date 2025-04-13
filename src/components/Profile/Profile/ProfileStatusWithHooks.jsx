@@ -20,6 +20,7 @@ export const ProfileStatusWithHooks = (props) => {
     };
     return (
         <div className={objStyle.wrapperStatus}>
+			<b>Status:</b>
             {!editMode && (
                 <div className={objStyle.status}>
                     <span onDoubleClick={activatedEditMode}>
