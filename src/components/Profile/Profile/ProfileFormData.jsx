@@ -9,10 +9,8 @@ import objStyle from "./ProfileInfo.module.css";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 const maxLength10 = maxLengthCreator(40);
 const ProfileDataForm = ({
-    initialValues,
     status,
     updateUserStatus,
-    deactivatedEditMode,
     handleSubmit,
     profile,
     error,
@@ -78,7 +76,6 @@ const ProfileDataForm = ({
                     {Object.keys(profile.contacts).map((key) => (
                         <div key={key} className={objStyle.contact}>
                             <b>{key}:</b>
-
                             {createField(
                                 [required, maxLength10],
                                 key,

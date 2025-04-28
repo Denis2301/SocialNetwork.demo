@@ -1,8 +1,7 @@
-import React from "react";
 import objStyle from "./Dialogs.module.css";
 import { maxLengthCreator, required } from "../../utils/validators";
 import { Contact } from "./ContactItem/Contact";
-import { Message } from "./MessagesAsk/MessagesAsk";
+import { MessageAsk } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
 import { Field, reduxForm } from "redux-form";
 import { Textarea } from "../common/FormsControls/FormsControls";
@@ -40,11 +39,10 @@ const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
         />
     ));
     const messagesElementsAsk = messageAsk.map((m, ind) => (
-        <Message
+        <MessageAsk
             key={ind}
             author={m.author}
             text={m.text}
-            id={m.id}
             url={m.url}
             data={m.data}
         />
@@ -54,7 +52,6 @@ const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
             key={ind}
             author={m.author}
             text={m.text}
-            id={m.id}
             url={m.url}
             data={m.data}
         />

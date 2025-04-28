@@ -1,20 +1,19 @@
 import "./App.css";
 import { News } from "./components/News/News";
-import React, { useState, useEffect, lazy } from "react";
+import  { useState, useEffect, lazy } from "react";
 import {
     Routes,
     Route,
     Navigate,
     BrowserRouter,
-    redirect,
 } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
 import UsersContainer from "./components/UsersContainer/UsersContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
+import HeaderContainer from "./components/Header/HeaderContainer.tsx";
 import { Provider, connect } from "react-redux";
-import { initializeApp, globalErrorDispatch } from "./redux/appReducer";
+import { initializeApp, globalErrorDispatch } from "./redux/appReducer.ts";
 import { compose } from "redux";
 import { Preloader } from "./components/common/Preloader/Preloader";
 import { SuspenseHOC } from "./hoc/SuspenceHOC";
@@ -81,7 +80,7 @@ const App = ({
                             path="/dialogs/*"
                             element={SuspenseHOC(DialogsContainer)()}
                         />
-                        <Route path="/users/*" element={<UsersContainer />} />
+                        <Route path="/users/*" element={<UsersContainer pageTitle={"Samurai"}/>} />
                         <Route path="/news/*" element={<News />} />
                         <Route path="/music/*" element={<Music />} />
                         <Route path="/settings/*" element={<Settings />} />
@@ -104,7 +103,8 @@ const App = ({
                         className="error"
                         style={{
                             position: "fixed",
-                            width: "100%",
+                            width: "100vw",
+							left: '0',
                             zIndex: "9999",
                             backgroundColor: "rgba(255, 68, 68, 0.85)",
                         }}

@@ -3,7 +3,7 @@ const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     withCredentials: true,
     headers: {
-        "API-KEY": "_505215d5-2d1d-487e-910b-13cce052d531",
+        "API-KEY": "1b4feacf-b1f1-4ab8-b176-2febf7c99546",
     },
 });
 export const UsersAPI = {
@@ -30,13 +30,12 @@ export const AuthAPI = {
             email,
             password,
             rememberMe,
-			captcha
+            captcha,
         });
     },
     logOutMe: async () => {
         return await instance.delete(`auth/login`);
     },
-
 };
 export const SecurityAPI = {
     getCaptchaUrl: async () => {
@@ -63,7 +62,7 @@ export const ProfileAPI = {
             },
         });
     },
-    saveProfile: async (profile) => {
-        return await instance.put(`profile`, profile );
+    saveProfile(profile) {
+        return instance.put("profile", profile);
     },
 };
