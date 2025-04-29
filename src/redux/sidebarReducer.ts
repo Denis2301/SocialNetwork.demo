@@ -24,12 +24,12 @@ const initialState = {
         },
     ] as Array<FriendsType>,
 };
-type ActionType = {
+type ActionsTypes = {
     type: typeof SIDEBAR;
 };
 const sidebarReducer = (
     state = initialState,
-    action: ActionType
+    action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
         case SIDEBAR:
@@ -38,5 +38,5 @@ const sidebarReducer = (
             return { ...state };
     }
 };
-export const sendSidebarCreator = (): ActionType => ({ type: SIDEBAR });
+export const sendSidebarCreator = (): ActionsTypes => ({ type: SIDEBAR });
 export default sidebarReducer;

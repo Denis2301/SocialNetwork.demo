@@ -1,6 +1,15 @@
-import { stopSubmit } from "redux-form";
+import { ResultCodeForCaptcha } from "./../api/api";
+import { FormAction, stopSubmit } from "redux-form";
 import userPhoto from ".././assets/images/user.png";
-import { AuthAPI, ProfileAPI, SecurityAPI } from "../api/api";
+import {
+    AuthAPI,
+    MeResponseType,
+    ProfileAPI,
+    ResultCodesEnum,
+    SecurityAPI,
+} from "../api/api";
+import { ThunkAction } from "redux-thunk";
+import { AppStateType } from "./redux-store";
 
 const SET_USER_DATE = "auth/SET_USER_DATE";
 const SET_PHOTO_PROFILE = "auth/SET_PHOTO_PROFILE";
@@ -17,17 +26,17 @@ const initialState = {
     logData: null as string | null,
     captchaUrl: null as string | null,
 };
-type ActionCreatorType =
+type ActionsTypes =
     | {
           type: typeof SET_USER_DATE;
           payload: {
               id: number | null;
               email: string | null;
               login: string | null;
-              photo: string | null;
+              photo?: string | null;
               isAuth: boolean;
-              logData: string | null;
-              captchaUrl: string | null;
+              logData?: string | null;
+              captchaUrl?: string | null;
           };
       }
     | {
@@ -38,7 +47,7 @@ type ActionCreatorType =
     | { type: typeof SET_PHOTO_PROFILE; photo: string };
 const authReducer = (
     state = initialState,
-    action: ActionCreatorType
+    action: ActionsTypes
 ): InitializedStateType => {
     switch (action.type) {
         case SET_USER_DATE:
@@ -66,31 +75,17 @@ const authReducer = (
     }
 };
 
-type ToggleIsFetching = {
-    type: typeof TOGGLE_IS_FETCHING;
-    isAuth: boolean;
-};
-export const toggleIsFetching = (isAuth: boolean): ToggleIsFetching => ({
+export const toggleIsFetching = (isAuth: boolean): ActionsTypes => ({
     type: TOGGLE_IS_FETCHING,
     isAuth,
 });
 
-type SetAuthUserDateActionPayloadType = {
-    id: number | null;
-    email: string | null;
-    login: string | null;
-    isAuth: boolean;
-};
-type SetAuthUserDateActionType = {
-    type: typeof SET_USER_DATE;
-    payload: SetAuthUserDateActionPayloadType;
-};
 export const setAuthUserDate = (
     id: number | null,
     email: string | null,
     login: string | null,
     isAuth: boolean
-): SetAuthUserDateActionType => ({
+): ActionsTypes => ({
     type: SET_USER_DATE,
     payload: {
         id,
@@ -100,52 +95,46 @@ export const setAuthUserDate = (
     },
 });
 
-type SetPhotoProfileType = {
-    type: typeof SET_PHOTO_PROFILE;
-    photo: string | null;
-};
-export const setPhotoProfile = (photo: string): SetPhotoProfileType => ({
+export const setPhotoProfile = (photo: string): ActionsTypes => ({
     type: SET_PHOTO_PROFILE,
     photo,
 });
 
-type SetCaptchaUrlActionType = {
-    type: typeof SET_CAPTCHA_URL;
-    payload: { captchaUrl: string | null };
-};
-const setCaptchaUrl = (captchaUrl: string | null): SetCaptchaUrlActionType => ({
+const setCaptchaUrl = (captchaUrl: string | null): ActionsTypes => ({
     type: SET_CAPTCHA_URL,
-    payload: { captchaUrl },
+    captchaUrl,
 });
 
-export const getAuthUserData = () => async (dispatch: any) => {
-    let response = await AuthAPI.getAuthMe();
-    if (response.data.resultCode === 0) {
-        const { id, email, login } = response.data.data;
+type ThunkType = ThunkAction<Promise<any>, AppStateType, unknown, ActionsTypes>;
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
+    let meData = await AuthAPI.getAuthMe();
+    if (meData.resultCode === ResultCodesEnum.Success) {
+        const { id, email, login } = meData.data;
         dispatch(setAuthUserDate(id, email, login, true));
         dispatch(toggleIsFetching(true));
         let data: any = await ProfileAPI.getProfileId(id);
 
         dispatch(setPhotoProfile(data.photos ? data.photos.small : userPhoto));
-        return response.data;
+        return meData.data;
     }
 };
 export const logMe =
     (email: string, password: string, rememberMe: boolean, captcha: any) =>
     async (dispatch: any) => {
-        let response = await AuthAPI.logMe(
+        let loginData = await AuthAPI.logMe(
             email,
             password,
             rememberMe,
             captcha
         );
-        if (response.data.resultCode == 0) {
+        if (loginData.resultCode == ResultCodesEnum.Success) {
             dispatch(getAuthUserData());
         } else {
-            if (response.data.resultCode == 10) dispatch(getCaptchaUrl());
+            if (loginData.resultCode == ResultCodeForCaptcha.CaptchaIsRequired)
+                dispatch(getCaptchaUrl());
             let message =
-                response.data.messages.length > 0
-                    ? response.data.messages[0]
+                loginData.messages.length > 0
+                    ? loginData.messages[0]
                     : "Common error";
 
             setTimeout(
@@ -159,9 +148,9 @@ export const logMe =
             );
         }
     };
-export const logOutMe = () => async (dispatch: any) => {
+export const logOutMe = (): ThunkType => async (dispatch) => {
     let response = await AuthAPI.logOutMe();
-    if (response.data.resultCode == 0) {
+    if (response.resultCode == ResultCodesEnum.Success) {
         dispatch(setAuthUserDate(null, null, null, false));
         dispatch(toggleIsFetching(false));
     }

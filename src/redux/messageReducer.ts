@@ -118,13 +118,13 @@ const initialState = {
     ] as Array<MessageType>,
 };
 export type InitialStateType = typeof initialState;
-type ActionCreatorType = {
+type ActionsTypes = {
     type: typeof SEND_MESSAGE;
     message: string;
 };
 const messageReducer = (
     state = initialState,
-    action: ActionCreatorType
+    action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
         case SEND_MESSAGE:

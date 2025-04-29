@@ -1,7 +1,10 @@
+import { ResultCodeForCaptcha, ResultCodesEnum } from "@/api/api";
+
 export type PhotosType = {
     small?: string | null;
     large?: string | null;
 };
+
 export type UserType = {
     id: number;
     name: string;
@@ -29,6 +32,9 @@ export type ContactsType = {
     mainLink?: string;
 };
 export type ProfileType = {
+    data: any;
+    messages: any;
+    resultCode: ResultCodeForCaptcha | ResultCodesEnum;
     aboutMe: string;
     contacts: ContactsType;
     lookingForAJob: boolean;

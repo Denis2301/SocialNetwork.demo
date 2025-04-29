@@ -1,5 +1,6 @@
-
+import { ThunkAction } from "redux-thunk";
 import { getAuthUserData } from "./authReducer";
+import { AppStateType } from "./redux-store";
 
 const INITIALIZING_SUCCESS = "INITIALIZING_SUCCESS";
 const SET_GLOBAL_ERROR = "SET_GLOBAL_ERROR";
@@ -13,13 +14,13 @@ const initialState: InitialStateType = {
     globalError: null,
 };
 
-type ActionCreatorType =
+type ActionsTypes =
     | { type: typeof INITIALIZING_SUCCESS; initialized: boolean }
     | { type: typeof SET_GLOBAL_ERROR; globalError: string | null };
 
 const appReducer = (
     state = initialState,
-    action: ActionCreatorType
+    action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
         case INITIALIZING_SUCCESS:
@@ -55,15 +56,21 @@ export const setGlobalError = (
     type: SET_GLOBAL_ERROR,
     globalError,
 });
-
+type ThunkType = ThunkAction<
+    Promise<void>,
+    AppStateType,
+    unknown,
+    ActionsTypes
+>;
 export const globalErrorDispatch =
-    (globalError: string | null) => async (dispatch: any) => {
+    (globalError: string | null): ThunkType =>
+    async (dispatch) => {
         globalError && dispatch(setGlobalError(globalError));
         setTimeout(() => {
             dispatch(setGlobalError(null));
         }, 5000);
     };
-export const initializeApp = () => async (dispatch: any) => {
+export const initializeApp = (): ThunkType => async (dispatch) => {
     let promise = await dispatch(getAuthUserData());
     Promise.all([promise]).then(() => {
         dispatch(initializedSuccess());
