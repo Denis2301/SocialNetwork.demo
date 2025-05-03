@@ -1,7 +1,24 @@
-import React from "react";
+import React, { FC, JSX } from "react";
 import objStyle from "./FormsControls.module.css";
-import { Field } from "redux-form";
-const FormControl = ({ meta, element, input, props }) => {
+import {
+    Field,
+    WrappedFieldInputProps,
+    WrappedFieldMetaProps,
+} from "redux-form";
+import { FieldValidatorType } from "@/utils/validators";
+type FormControlPropsType = {
+    meta: WrappedFieldMetaProps;
+    element: string;
+    input: WrappedFieldInputProps;
+    [key: string]: any;
+};
+
+const FormControl: FC<FormControlPropsType> = ({
+    meta,
+    element,
+    input,
+    ...restProps
+}) => {
     const { error, touched } = meta;
     const hasError = error && touched;
     return (
@@ -11,7 +28,7 @@ const FormControl = ({ meta, element, input, props }) => {
                     hasError ? objStyle.error : ""
                 }`,
                 ...input,
-                ...props,
+                ...restProps,
             })}
             {hasError ? (
                 <span
@@ -29,40 +46,49 @@ const FormControl = ({ meta, element, input, props }) => {
         </>
     );
 };
-export const Textarea = ({ input, meta, ...props }) => {
+export type TextareaInputType = {
+    input: WrappedFieldInputProps;
+    meta: WrappedFieldMetaProps;
+    [key: string]: any;
+};
+export const Textarea: FC<TextareaInputType> = ({
+    input,
+    meta,
+    ...restProps
+}) => {
     return (
         <>
             <FormControl
                 meta={meta}
                 input={input}
                 element={"textarea"}
-                props={props}
+                {...restProps}
             />
         </>
     );
 };
-export const Input = ({ input, meta, ...props }) => {
+export const Input: FC<TextareaInputType> = ({ input, meta, ...restProps }) => {
     return (
         <>
             <FormControl
                 meta={meta}
                 input={input}
-                props={props}
                 element={"input"}
+                {...restProps}
             />
         </>
     );
 };
 
-export const createField = (
-    validators,
-    placeholder = null,
+export function createField<FormKeysType extends string>(
+    validators: Array<FieldValidatorType> | null,
+    placeholder: string | undefined,
     type = "text",
-    name,
-    style = null,
-    id = null,
-    text = null
-) => {
+    name: FormKeysType,
+    style: React.CSSProperties | null,
+    id: string,
+    text: string
+) {
     return (
         <>
             <Field
@@ -77,4 +103,4 @@ export const createField = (
             {type == "checkbox" ? text : <label htmlFor={id}>{text}</label>}
         </>
     );
-};
+}

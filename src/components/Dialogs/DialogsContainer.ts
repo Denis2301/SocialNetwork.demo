@@ -10,7 +10,7 @@ type MapDispatchPropsType = {
 }
 const mapStateToProps = (state: AppStateType) => {
     return {
-        messagesPage: state.messagesPage,
+        dialogs: state.messagesPage.dialogs,
         messageAsk: state.messagesPage.messageAsk,
         messageAnswer: state.messagesPage.messageAnswer,
     };

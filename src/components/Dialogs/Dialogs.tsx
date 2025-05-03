@@ -3,18 +3,26 @@ import { maxLengthCreator, required } from "../../utils/validators";
 import { Contact } from "./ContactItem/Contact";
 import { MessageAsk } from "./MessagesAsk/MessagesAsk";
 import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
-import { Field, reduxForm } from "redux-form";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { Textarea } from "../common/FormsControls/FormsControls";
+import { FC } from "react";
+import { DialogsType, MessageType } from "@/redux/messageReducer";
 
 const maxLength50 = maxLengthCreator(50);
-let AddMessageForm = (props) => {
+type AddMessageFormValuesTypes = {
+    message: string;
+};
+
+let AddMessageForm: FC<
+    InjectedFormProps<AddMessageFormValuesTypes, {}> & {}
+> = ({ handleSubmit, error }) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <Field
                 validate={[required, maxLength50]}
                 component={Textarea}
                 placeholder="Enter Your Message"
-                name="messageDialog"
+                name="message"
                 style={{
                     display: "inlineBlock",
                     width: "100%",
@@ -27,9 +35,27 @@ let AddMessageForm = (props) => {
         </form>
     );
 };
-AddMessageForm = reduxForm({ form: "dialogMessageForm" })(AddMessageForm);
-const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
-    const dialogsElements = messagesPage.dialogs.map((d, ind) => (
+
+type MyStateDialogsType = {
+    dialogs: Array<DialogsType>;
+    messageAnswer: Array<MessageType>;
+    messageAsk: Array<MessageType>;
+};
+type MyDispatchDialogsType = {
+    sendMessage: (message: string) => void;
+};
+type PropsType = MyStateDialogsType & MyDispatchDialogsType;
+
+const AddMessageFormReduxForm = reduxForm<AddMessageFormValuesTypes, {}>({
+    form: "dialogMessageForm",
+})(AddMessageForm);
+const Dialogs: FC<PropsType> = ({
+    sendMessage,
+    dialogs,
+    messageAsk,
+    messageAnswer,
+}) => {
+    const dialogsElements = dialogs.map((d, ind) => (
         <Contact
             key={ind}
             name={d.name}
@@ -56,8 +82,8 @@ const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
             data={m.data}
         />
     ));
-    const onSubmit = async (formData) => {
-        await sendMessage(formData.messageDialog);
+    const onSubmit = async (formData: AddMessageFormValuesTypes) => {
+        sendMessage(formData.message);
     };
     return (
         <main
@@ -77,7 +103,7 @@ const Dialogs = ({ sendMessage, messagesPage, messageAsk, messageAnswer }) => {
                 </div>
             </section>
             <div className={objStyle.textDialog}>
-                <AddMessageForm onSubmit={onSubmit} />
+                <AddMessageFormReduxForm onSubmit={onSubmit} />
             </div>
         </main>
     );

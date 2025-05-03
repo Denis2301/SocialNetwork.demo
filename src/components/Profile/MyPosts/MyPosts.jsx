@@ -11,14 +11,15 @@ let NewPostForm = (props) => {
         <form onSubmit={props.handleSubmit}>
             <Field
                 validate={[required, maxLength10]}
-                name="newPostValue"
                 component={Textarea}
                 placeholder="Enter Your Message"
+                name="newPostValue"
                 rows="5"
                 style={{
                     width: "100%",
                     padding: "10px",
-                    boxSizing: "border-box",
+                    display: "block",
+                    border: "2px solid red",
                 }}
             />
             <button className={objStyle.new__post__send}>Add Post.</button>
@@ -29,7 +30,6 @@ let NewPostForm = (props) => {
 NewPostForm = reduxForm({ form: "post" })(NewPostForm);
 
 export const MyPosts = React.memo(({ addPost, profilePage }) => {
-
     const onSubmit = async (formData) => {
         await addPost(formData.newPostValue);
     };

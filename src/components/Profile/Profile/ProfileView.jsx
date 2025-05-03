@@ -3,9 +3,7 @@ import userPhoto from "../../.././assets/images/user.png";
 import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 import { useState } from "react";
-import { act } from "react-dom/test-utils";
 import ProfileDataFormRedux from "./ProfileFormData";
-import { reduxForm } from "redux-form";
 
 export const ProfileView = ({
     isOwner,
@@ -21,9 +19,9 @@ export const ProfileView = ({
     const activatedEditMode = () => {
         setEditMode(true);
     };
-    const deactivatedEditMode = () => {
-        setEditMode(false);
-    };
+    // const deactivatedEditMode = () => {
+    //     setEditMode(false);
+    // };
     const onMainPhotoSelected = (e) => {
         setIsMainPhoto(false);
         if (e.target.files.length > 0) {
@@ -71,10 +69,8 @@ export const ProfileView = ({
                     {editMode ? (
                         <>
                             <ProfileDataFormRedux
-                                deactivatedEditMode={deactivatedEditMode}
                                 status={status}
-                                profile={profile}
-                                initialValues={profile}
+                                contacts={profile.contacts}
                                 updateUserStatus={updateUserStatus}
                                 onSubmit={onSubmit}
                             />

@@ -44,7 +44,7 @@ export type ProfileType = {
     photos: PhotosType;
 };
 export type DateType = {
-    year: string;
-    month: string;
-    date: string;
+    year: number;
+    month: number;
+    date: number;
 };

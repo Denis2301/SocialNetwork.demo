@@ -118,7 +118,7 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
         return meData.data;
     }
 };
-export const logMe =
+export const logMe =  
     (email: string, password: string, rememberMe: boolean, captcha: any) =>
     async (dispatch: any) => {
         let loginData = await AuthAPI.logMe(

@@ -1,4 +1,4 @@
-import { Field, reduxForm } from "redux-form";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../../utils/validators";
 import {
     Input,
@@ -7,14 +7,33 @@ import {
 } from "../../common/FormsControls/FormsControls";
 import objStyle from "./ProfileInfo.module.css";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
+import { ContactsType, PhotosType, ProfileType } from "@/types/types";
+import { ResultCodeForCaptcha, ResultCodesEnum } from "@/api/api";
+import { FC } from "react";
 const maxLength10 = maxLengthCreator(40);
-const ProfileDataForm = ({
-    status,
-    updateUserStatus,
-    handleSubmit,
-    profile,
-    error,
-}) => {
+type ProfileFormValuesType = {
+    data: any;
+    messages: any;
+    resultCode: ResultCodeForCaptcha | ResultCodesEnum;
+    aboutMe: string;
+    contacts: ContactsType;
+	[key: string]: any;
+    lookingForAJob: boolean;
+    lookingForAJobDescription?: string;
+    fullName: string;
+    userId: number;
+    photos: PhotosType;
+};
+type ProfileFormOwnProps = {
+	contacts: ContactsType;
+    status: string;
+    updateUserStatus: (status: string) => void;
+};
+type ProfileFormValuesTypeKeys = Extract<keyof ProfileFormValuesType, string>;
+const ProfileDataForm: FC<
+    InjectedFormProps<ProfileFormValuesType, ProfileFormOwnProps> &
+        ProfileFormOwnProps
+> = ({ status, updateUserStatus, handleSubmit, contacts, error }) => {
     return (
         <form
             onSubmit={handleSubmit}
@@ -24,11 +43,14 @@ const ProfileDataForm = ({
             <h2 className={objStyle.fullName}>
                 {" "}
                 <b>Full name: </b>
-                {createField(
+                {createField<ProfileFormValuesTypeKeys>(
                     [required, maxLength10],
                     "Full name",
+                    "",
+                    "fullName",
                     null,
-                    "fullName"
+                    "",
+                    ""
                 )}
             </h2>
             <div>
@@ -55,9 +77,17 @@ const ProfileDataForm = ({
             </p>{" "}
             <p style={{ display: "flex", alignItems: "center" }}>
                 <b>Looking for a job:</b>
-                {createField([required], null, "checkbox", "lookingForAJob", {
-                    margin: "5px",
-                })}
+                {createField<ProfileFormValuesTypeKeys>(
+                    [required],
+                    undefined,
+                    "checkbox",
+                    "lookingForAJob",
+                    {
+                        margin: "5px",
+                    },
+                    "",
+                    ""
+                )}
             </p>
             <p>
                 <b>My professional skils:</b>{" "}
@@ -73,14 +103,17 @@ const ProfileDataForm = ({
             <p>
                 <b>Contacts:</b>
                 <div className={objStyle.contacts}>
-                    {Object.keys(profile.contacts).map((key) => (
+                    {Object.keys(contacts).map((key) => (
                         <div key={key} className={objStyle.contact}>
                             <b>{key}:</b>
-                            {createField(
+                            {createField<ProfileFormValuesTypeKeys>(
                                 [required, maxLength10],
                                 key,
                                 key,
-                                "contacts." + key
+                                "contacts." + key,
+                                null,
+                                "",
+                                ""
                             )}
                         </div>
                     ))}
@@ -89,7 +122,8 @@ const ProfileDataForm = ({
         </form>
     );
 };
-const ProfileDataFormRedux = reduxForm({ form: "edit-profile" })(
-    ProfileDataForm
-);
+const ProfileDataFormRedux = reduxForm<
+    ProfileFormValuesType,
+    ProfileFormOwnProps
+>({ form: "edit-profile" })(ProfileDataForm);
 export default ProfileDataFormRedux;
