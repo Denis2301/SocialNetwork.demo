@@ -1,4 +1,5 @@
-const SIDEBAR = "SIDEBAR";
+import { InferActionsTypes } from "./redux-store";
+
 export type InitialStateType = typeof initialState;
 type FriendsType = {
     id: number;
@@ -24,19 +25,20 @@ const initialState = {
         },
     ] as Array<FriendsType>,
 };
-type ActionsTypes = {
-    type: typeof SIDEBAR;
+export const actions = {
+    sendSidebarCreator: () => ({ type: "SIDEBAR" } as const),
 };
+type ActionsTypes = InferActionsTypes<typeof actions>;
 const sidebarReducer = (
     state = initialState,
     action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
-        case SIDEBAR:
+        case "SIDEBAR":
             return { ...state };
         default:
             return { ...state };
     }
 };
-export const sendSidebarCreator = (): ActionsTypes => ({ type: SIDEBAR });
+
 export default sidebarReducer;

@@ -1,4 +1,4 @@
-import { sendSidebarCreator } from "../../redux/sidebarReducer";
+import { actions } from "../../redux/sidebarReducer";
 import { Sidebar } from "./Sidebar";
 import { connect } from "react-redux";
 import { AppStateType } from "@/redux/redux-store";
@@ -26,4 +26,4 @@ export const SidebarContainer = connect<
     MapDispatchPropsType,
     OwnPropsType,
     AppStateType
->(mapStateToProps, { sendSidebarCreator })(Sidebar);
+>(mapStateToProps, { sendSidebarCreator: actions.sendSidebarCreator })(Sidebar);

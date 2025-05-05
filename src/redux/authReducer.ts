@@ -9,12 +9,7 @@ import {
     SecurityAPI,
 } from "../api/api";
 import { ThunkAction } from "redux-thunk";
-import { AppStateType } from "./redux-store";
-
-const SET_USER_DATE = "auth/SET_USER_DATE";
-const SET_PHOTO_PROFILE = "auth/SET_PHOTO_PROFILE";
-const TOGGLE_IS_FETCHING = "auth/TOGGLE_IS_FETCHING";
-const SET_CAPTCHA_URL = "auth/SET_CAPTCHA_URL";
+import { AppStateType, InferActionsTypes } from "./redux-store";
 
 export type InitializedStateType = typeof initialState;
 const initialState = {
@@ -26,46 +21,28 @@ const initialState = {
     logData: null as string | null,
     captchaUrl: null as string | null,
 };
-type ActionsTypes =
-    | {
-          type: typeof SET_USER_DATE;
-          payload: {
-              id: number | null;
-              email: string | null;
-              login: string | null;
-              photo?: string | null;
-              isAuth: boolean;
-              logData?: string | null;
-              captchaUrl?: string | null;
-          };
-      }
-    | {
-          type: typeof TOGGLE_IS_FETCHING;
-          isAuth: boolean;
-      }
-    | { type: typeof SET_CAPTCHA_URL; captchaUrl: string | null }
-    | { type: typeof SET_PHOTO_PROFILE; photo: string };
+
 const authReducer = (
     state = initialState,
     action: ActionsTypes
 ): InitializedStateType => {
     switch (action.type) {
-        case SET_USER_DATE:
+        case "SET_USER_DATE":
             return {
                 ...state,
                 ...action.payload,
             };
-        case TOGGLE_IS_FETCHING:
+        case "TOGGLE_IS_FETCHING":
             return {
                 ...state,
                 isAuth: action.isAuth,
             };
-        case SET_CAPTCHA_URL:
+        case "SET_CAPTCHA_URL":
             return {
                 ...state,
                 captchaUrl: action.captchaUrl,
             };
-        case SET_PHOTO_PROFILE:
+        case "SET_PHOTO_PROFILE":
             return {
                 ...state,
                 photo: action.photo,
@@ -75,50 +52,56 @@ const authReducer = (
     }
 };
 
-export const toggleIsFetching = (isAuth: boolean): ActionsTypes => ({
-    type: TOGGLE_IS_FETCHING,
-    isAuth,
-});
+const actions = {
+    toggleIsFetching: (isAuth: boolean) =>
+        ({
+            type: "TOGGLE_IS_FETCHING",
+            isAuth,
+        } as const),
+    setAuthUserDate: (
+        id: number | null,
+        email: string | null,
+        login: string | null,
+        isAuth: boolean
+    ) =>
+        ({
+            type: "SET_USER_DATE",
+            payload: {
+                id,
+                email,
+                login,
+                isAuth,
+            },
+        } as const),
 
-export const setAuthUserDate = (
-    id: number | null,
-    email: string | null,
-    login: string | null,
-    isAuth: boolean
-): ActionsTypes => ({
-    type: SET_USER_DATE,
-    payload: {
-        id,
-        email,
-        login,
-        isAuth,
-    },
-});
-
-export const setPhotoProfile = (photo: string): ActionsTypes => ({
-    type: SET_PHOTO_PROFILE,
-    photo,
-});
-
-const setCaptchaUrl = (captchaUrl: string | null): ActionsTypes => ({
-    type: SET_CAPTCHA_URL,
-    captchaUrl,
-});
-
+    setPhotoProfile: (photo: string) =>
+        ({
+            type: "SET_PHOTO_PROFILE",
+            photo,
+        } as const),
+    setCaptchaUrl: (captchaUrl: string | null) =>
+        ({
+            type: "SET_CAPTCHA_URL",
+            captchaUrl,
+        } as const),
+};
+type ActionsTypes = InferActionsTypes<typeof actions>;
 type ThunkType = ThunkAction<Promise<any>, AppStateType, unknown, ActionsTypes>;
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
     let meData = await AuthAPI.getAuthMe();
     if (meData.resultCode === ResultCodesEnum.Success) {
         const { id, email, login } = meData.data;
-        dispatch(setAuthUserDate(id, email, login, true));
-        dispatch(toggleIsFetching(true));
+        dispatch(actions.setAuthUserDate(id, email, login, true));
+        dispatch(actions.toggleIsFetching(true));
         let data: any = await ProfileAPI.getProfileId(id);
 
-        dispatch(setPhotoProfile(data.photos ? data.photos.small : userPhoto));
+        dispatch(
+            actions.setPhotoProfile(data.photos ? data.photos.small : userPhoto)
+        );
         return meData.data;
     }
 };
-export const logMe =  
+export const logMe =
     (email: string, password: string, rememberMe: boolean, captcha: any) =>
     async (dispatch: any) => {
         let loginData = await AuthAPI.logMe(
@@ -151,15 +134,15 @@ export const logMe =
 export const logOutMe = (): ThunkType => async (dispatch) => {
     let response = await AuthAPI.logOutMe();
     if (response.resultCode == ResultCodesEnum.Success) {
-        dispatch(setAuthUserDate(null, null, null, false));
-        dispatch(toggleIsFetching(false));
+        dispatch(actions.setAuthUserDate(null, null, null, false));
+        dispatch(actions.toggleIsFetching(false));
     }
 };
 const getCaptchaUrl = () => async (dispatch: any) => {
     const captchaResponse = await SecurityAPI.getCaptchaUrl();
     const captchaUrl = captchaResponse.data.url;
 
-    dispatch(setCaptchaUrl(captchaUrl));
+    dispatch(actions.setCaptchaUrl(captchaUrl));
 };
 
 export default authReducer;

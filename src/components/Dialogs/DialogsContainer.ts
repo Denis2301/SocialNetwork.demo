@@ -1,13 +1,13 @@
-import { sendMessage } from './../../redux/messageReducer';
+import { actions } from "./../../redux/messageReducer";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
 import { withAuthRedirectComponent } from "../../hoc/LoginHOCRedirect";
 import { compose } from "redux";
-import { AppStateType } from '@/redux/redux-store';
+import { AppStateType } from "@/redux/redux-store";
 
 type MapDispatchPropsType = {
-	sendMessage: (message: string) => void
-}
+    sendMessage: (message: string) => void;
+};
 const mapStateToProps = (state: AppStateType) => {
     return {
         dialogs: state.messagesPage.dialogs,
@@ -19,7 +19,7 @@ const mapStateToProps = (state: AppStateType) => {
 export default compose(
     // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
     connect<{}, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
-        sendMessage,
+        sendMessage: actions.sendMessage,
     }),
     withAuthRedirectComponent
 )(Dialogs);

@@ -1,6 +1,6 @@
 import React, { ComponentType } from "react";
 import { UsersView } from "./UsersView";
-import { ConnectedProps, connect } from "react-redux";
+import {  connect } from "react-redux";
 import { Preloader } from "../common/Preloader/Preloader";
 import { requestUsers } from "../../redux/usersReducer";
 import { follow, unFollow } from "../../redux/usersReducer";
@@ -15,7 +15,7 @@ import {
     getUsers,
 } from "../../redux/usersSelector";
 import { AppStateType } from "@/redux/redux-store";
-import { setUsers } from "../../redux/usersReducer";
+import { actions } from "../../redux/usersReducer";
 type OwnPropsType = {
     pageTitle: string;
 };
@@ -88,7 +88,7 @@ export default compose(
             follow,
             unFollow,
             requestUsers,
-            setUsers,
+            setUsers: actions.setUsers,
         }
     )
 )(UsersAPIContainer);

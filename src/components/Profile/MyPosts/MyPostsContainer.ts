@@ -1,5 +1,5 @@
 import { AppStateType } from "@/redux/redux-store";
-import { addPost } from "../../../redux/profileReducer";
+import { actions } from "../../../redux/profileReducer";
 import { MyPosts } from "./MyPosts";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -20,6 +20,6 @@ const mapStateToProps = (state: AppStateType) => {
 export default compose(
     // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
     connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
-        addPost,
+        addPost: actions.addPost,
     })
 )(MyPosts);

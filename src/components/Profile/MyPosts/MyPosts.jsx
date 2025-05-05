@@ -6,6 +6,7 @@ import { maxLengthCreator, required } from "../../../utils/validators";
 import { Textarea } from "../../common/FormsControls/FormsControls";
 
 const maxLength10 = maxLengthCreator(10);
+
 let NewPostForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
@@ -19,7 +20,6 @@ let NewPostForm = (props) => {
                     width: "100%",
                     padding: "10px",
                     display: "block",
-                    border: "2px solid red",
                 }}
             />
             <button className={objStyle.new__post__send}>Add Post.</button>
@@ -27,7 +27,7 @@ let NewPostForm = (props) => {
     );
 };
 
-NewPostForm = reduxForm({ form: "post" })(NewPostForm);
+const NewPostReduxForm = reduxForm({ form: "post" })(NewPostForm);
 
 export const MyPosts = React.memo(({ addPost, profilePage }) => {
     const onSubmit = async (formData) => {
@@ -45,7 +45,7 @@ export const MyPosts = React.memo(({ addPost, profilePage }) => {
                 >
                     My posts
                 </h3>
-                <NewPostForm onSubmit={onSubmit} />
+                <NewPostReduxForm onSubmit={onSubmit} />
             </div>
             <div className={objStyle.posts}>
                 {[...profilePage].reverse().map((p) => {
