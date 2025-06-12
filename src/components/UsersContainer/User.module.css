@@ -1,6 +1,13 @@
 .content {
     padding: 10px;
     position: relative;
+	display: flex;
+	flex-direction: column;
+}
+.usersSearch {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 .wrapperUser {
     margin-inline-start: 30px;
@@ -21,7 +28,7 @@
     border-radius: 50%;
     background-color: #fcab5b;
     margin-block-end: 10px;
-	cursor: pointer;
+    cursor: pointer;
 }
 .status__img img {
     border-radius: 50%;
@@ -74,7 +81,7 @@
     height: 50px;
     background-color: #088b53;
     color: white;
-    margin: 0px auto;
+    margin: 0px auto 10px auto;
     transition: transform 0.3ms ease;
 }
 .addUsers:hover {

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { FC } from "react";
 import objStyle from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { Field, reduxForm } from "redux-form";
-import { maxLengthCreator, required } from "../../../utils/validators";
-import { Textarea } from "../../common/FormsControls/FormsControls";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
+import { required } from "../../../utils/validators";
+import {
+    GetStringKeys,
+    Textarea,
+} from "../../common/FormsControls/FormsControls";
+import { PostType } from "@/types/types";
 
-const maxLength10 = maxLengthCreator(10);
+type NewPostValuesType = {
+    newPostValue: string;
+};
+type NewPostValuesTypeKeys = GetStringKeys<NewPostValuesType>;
+type NewPostOwnProps = {};
 
-let NewPostForm = (props) => {
+let NewPostForm: FC<
+    InjectedFormProps<NewPostValuesType, NewPostOwnProps> & NewPostOwnProps
+> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <Field
-                validate={[required, maxLength10]}
+                validate={[required]}
                 component={Textarea}
                 placeholder="Enter Your Message"
                 name="newPostValue"
@@ -27,11 +37,17 @@ let NewPostForm = (props) => {
     );
 };
 
-const NewPostReduxForm = reduxForm({ form: "post" })(NewPostForm);
-
-export const MyPosts = React.memo(({ addPost, profilePage }) => {
-    const onSubmit = async (formData) => {
-        await addPost(formData.newPostValue);
+const NewPostReduxForm = reduxForm<NewPostValuesType, NewPostOwnProps>({
+    form: "post",
+})(NewPostForm);
+export type MyDispatchType = {
+    addPost: (newPostValue: string) => void;
+};
+export type MapStateType = { profilePage: Array<PostType> };
+type PropsType = MapStateType & MyDispatchType;
+const MyPosts: FC<PropsType> = ({ addPost, profilePage }) => {
+    const onSubmit = async (formData: NewPostValuesType) => {
+        addPost(formData.newPostValue);
     };
     return (
         <section className={objStyle.myPost}>
@@ -62,4 +78,5 @@ export const MyPosts = React.memo(({ addPost, profilePage }) => {
             </div>
         </section>
     );
-});
+};
+export const MyPostsMemorized = React.memo(MyPosts);

@@ -1,22 +1,21 @@
-import { actions } from "../../redux/sidebarReducer";
 import { Sidebar } from "./Sidebar";
 import { connect } from "react-redux";
-import { AppStateType } from "@/redux/redux-store";
-type MapStatePropsType = {
-    sidebar: { friends: Array<{ id: number; name: string; url: string }> };
-};
+import { AppStateType } from "../../redux/redux-store";
+import { requestFriends } from "../../redux/sidebarReducer";
+type MapStatePropsType = ReturnType<typeof mapStateToProps>;
+
 type OwnPropsType = {
-    menuInd: number;
+    menuInd: boolean;
     handleMenuView: () => void;
 };
 
 type MapDispatchPropsType = {
-    sendSidebarCreator: () => void;
+    requestFriends: () => void;
 };
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: AppStateType) => {
     return {
-        sidebar: state.sidebar,
+        friends: state.sidebar.friends,
     };
 };
 
@@ -26,4 +25,4 @@ export const SidebarContainer = connect<
     MapDispatchPropsType,
     OwnPropsType,
     AppStateType
->(mapStateToProps, { sendSidebarCreator: actions.sendSidebarCreator })(Sidebar);
+>(mapStateToProps, { requestFriends })(Sidebar);

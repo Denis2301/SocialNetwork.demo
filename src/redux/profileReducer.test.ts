@@ -1,4 +1,5 @@
-import profileReducer, { addPost, deletePost } from "./profileReducer";
+import { PostType, ProfileType } from "@/types/types";
+import profileReducer, { actions } from "./profileReducer";
 
 let state = {
     posts: [
@@ -17,26 +18,29 @@ let state = {
             author: "Sasha",
             id: 2,
         },
-    ],
+    ] as Array<PostType>,
+    profile: null as ProfileType | null,
+    profileUpdateStatus: true,
+    status: "",
 };
 
 test("length of posts should be increment", () => {
-    let action = addPost("zaibala bolnitza");
+    let action = actions.addPost("zaibala bolnitza");
     let newState = profileReducer(state, action);
     expect(newState.posts.length).toBe(3);
 });
 test("message of new post should be correct", () => {
-    let action = addPost("zaibala bolnitza");
+    let action = actions.addPost("zaibala bolnitza");
     let newState = profileReducer(state, action);
     expect(newState.posts[2].message).toBe("zaibala bolnitza");
 });
 test("after deleting length posts should be decrement", () => {
-    let action = deletePost(1);
+    let action = actions.deletePost(1);
     let newState = profileReducer(state, action);
     expect(newState.posts.length).toBe(1);
 });
 test("after deleting length shouldn`t decrement if id is incorrect", () => {
-    let action = deletePost(1000);
+    let action = actions.deletePost(1000);
     let newState = profileReducer(state, action);
     expect(newState.posts.length).toBe(2);
 });

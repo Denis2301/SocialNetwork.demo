@@ -1,13 +1,9 @@
 import React, { FC, useState } from "react";
 import objStyle from "./Post.module.css";
+import { PostType } from "@/types/types";
 
-type PostPropsType = {
-    url: string,
-    author: string,
-    message: string,
-    likeCount: number,
-};
-export const Post: FC<PostPropsType> = ({
+
+export const Post: FC<PostType> = ({
     url,
     author,
     message,

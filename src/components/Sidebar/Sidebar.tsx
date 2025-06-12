@@ -1,40 +1,27 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import objStyle from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
+import { UserType } from "../../types/types";
 
 type SidebarPropsType = {
-    sidebar: { friends: Array<{ id: number; name: string; url: string }> };
-    menuInd: number;
+    friends: Array<UserType>;
+    menuInd: boolean;
     handleMenuView: () => void;
-    sendSidebarCreator: () => void;
+    requestFriends: () => void;
 };
 export const Sidebar: FC<SidebarPropsType> = ({
-    sidebar,
+    friends,
     menuInd,
     handleMenuView,
-    sendSidebarCreator,
+    requestFriends,
 }) => {
-    const onSendClick = () => {
-        sendSidebarCreator();
-    };
+    useEffect(() => {
+        requestFriends();
+    }, []);
+    const onSendClick = () => {};
     const isActive = (navData: any) =>
         navData.isActive ? objStyle.activeLink : "";
-    const friends = sidebar.friends.map((el) => {
-        return (
-            <div
-                className={objStyle.friend__one}
-                key={el.id}
-                onClick={() => onSendClick()}
-            >
-                <div className={objStyle.friend__image}>
-                    <img src={el.url} />
-                </div>
-                <a href="" className={objStyle.friend__name}>
-                    {el.name}
-                </a>
-            </div>
-        );
-    });
+
     return (
         <nav
             className={`${objStyle.sidebar} ${
@@ -101,7 +88,26 @@ export const Sidebar: FC<SidebarPropsType> = ({
                 <a href="" className={objStyle.friends__title}>
                     Friends
                 </a>
-                <div className={objStyle.friends__block}>{friends}</div>
+                <div className={objStyle.friends__block}>
+                    {friends.map((el) => {
+                        return (
+                            <div
+                                className={objStyle.friend__one}
+                                key={el.id}
+                                onClick={() => onSendClick()}
+                            >
+                                <div className={objStyle.friend__image}>
+                                    <img src={el.photos.small} />
+                                </div>
+                                <a href="" className={objStyle.friend__name}>
+                                    {el.name.length >= 5
+                                        ? el.name.slice(0, 6)
+                                        : el.name}
+                                </a>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </nav>
     );

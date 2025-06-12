@@ -1,6 +1,9 @@
 import { ThunkAction } from "redux-thunk";
 import { getAuthUserData } from "./authReducer";
-import { AppStateType, InferActionsTypes } from "./redux-store";
+import { AppStateType, InferActionsTypes, CommonThunkType } from "./redux-store";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+
+
 
 export type InitialStateType = {
     initialized: boolean;
@@ -11,15 +14,15 @@ const initialState: InitialStateType = {
     globalError: null,
 };
 
-const actions = {
+export const actions = {
     initializedSuccess: () =>
         ({
-            type: "INITIALIZING_SUCCESS",
+            type: "APP/INITIALIZING_SUCCESS",
             initialized: true,
         } as const),
     setGlobalError: (globalError: string | null) =>
         ({
-            type: "SET_GLOBAL_ERROR",
+            type: "APP/SET_GLOBAL_ERROR",
             globalError,
         } as const),
 };
@@ -29,12 +32,12 @@ const appReducer = (
     action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
-        case "INITIALIZING_SUCCESS":
+        case "APP/INITIALIZING_SUCCESS":
             return {
                 ...state,
                 initialized: action.initialized,
             };
-        case "SET_GLOBAL_ERROR":
+        case "APP/SET_GLOBAL_ERROR":
             return {
                 ...state,
                 globalError: action.globalError,
@@ -44,12 +47,7 @@ const appReducer = (
     }
 };
 
-type ThunkType = ThunkAction<
-    Promise<void>,
-    AppStateType,
-    unknown,
-    ActionsTypes
->;
+
 export const globalErrorDispatch =
     (globalError: string | null): ThunkType =>
     async (dispatch) => {
@@ -66,3 +64,4 @@ export const initializeApp = (): ThunkType => async (dispatch) => {
 };
 
 export default appReducer;
+type ThunkType = CommonThunkType<ActionsTypes>;

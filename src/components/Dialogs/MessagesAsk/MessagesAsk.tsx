@@ -16,7 +16,7 @@ export const MessageAsk: FC<MessageAskType> = ({
     data,
 }) => {
     return (
-        <div className={objStyle.contact__messages_item}>
+        <div key={key} className={objStyle.contact__messages_item}>
             <div className={objStyle.messages_itemImg}>
                 <img src={url} alt="avatar" />
                 <span id={objStyle.messages_item__author}>{author}</span>

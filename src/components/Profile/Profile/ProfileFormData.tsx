@@ -1,35 +1,22 @@
+import { ContactsType, ProfileType } from "@/types/types";
+import { FC } from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../../utils/validators";
 import {
-    Input,
-    Textarea,
-    createField,
+	GetStringKeys,
+	Textarea,
+	createField
 } from "../../common/FormsControls/FormsControls";
 import objStyle from "./ProfileInfo.module.css";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
-import { ContactsType, PhotosType, ProfileType } from "@/types/types";
-import { ResultCodeForCaptcha, ResultCodesEnum } from "@/api/api";
-import { FC } from "react";
 const maxLength10 = maxLengthCreator(40);
-type ProfileFormValuesType = {
-    data: any;
-    messages: any;
-    resultCode: ResultCodeForCaptcha | ResultCodesEnum;
-    aboutMe: string;
-    contacts: ContactsType;
-	[key: string]: any;
-    lookingForAJob: boolean;
-    lookingForAJobDescription?: string;
-    fullName: string;
-    userId: number;
-    photos: PhotosType;
-};
+export type ProfileFormValuesType = ProfileType
 type ProfileFormOwnProps = {
-	contacts: ContactsType;
+    contacts: ContactsType;
     status: string;
     updateUserStatus: (status: string) => void;
 };
-type ProfileFormValuesTypeKeys = Extract<keyof ProfileFormValuesType, string>;
+type ProfileFormValuesTypeKeys = GetStringKeys<ProfileFormValuesType>;
 const ProfileDataForm: FC<
     InjectedFormProps<ProfileFormValuesType, ProfileFormOwnProps> &
         ProfileFormOwnProps
@@ -110,13 +97,13 @@ const ProfileDataForm: FC<
                                 [required, maxLength10],
                                 key,
                                 key,
-                                "contacts." + key,
+                                "contacts." + key as keyof ProfileType,
                                 null,
                                 "",
                                 ""
                             )}
                         </div>
-                    ))}
+                    ))}zz
                 </div>
             </p>
         </form>

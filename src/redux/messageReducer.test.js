@@ -1,4 +1,4 @@
-import messageReducer, { sendMessage } from "./messageReducer";
+import messageReducer, { actions } from "./messageReducer";
 
 const state = {
     dialogs: [
@@ -70,7 +70,7 @@ const state = {
     ],
 };
 test("new message should be send", () => {
-    let action = sendMessage("zaibala bolnitza");
+    let action = actions.sendMessage("zaibala bolnitza");
 	let newState = messageReducer(state, action);
     expect(newState.messageAsk.length).toBe(4);
 });

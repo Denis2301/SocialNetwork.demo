@@ -2,15 +2,9 @@ import React, { FC } from "react";
 import objStyle from "./Header.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import userPhoto from "../../assets/images/user.png";
+import { PropsType } from "./HeaderContainer";
 
-type HeaderViewType = {
-    login: string | null;
-    photo: string | null;
-    menuInd: number;
-    handleMenuView: () => void;
-    logOutMe: () => void;
-};
-export const HeaderView: FC<HeaderViewType> = ({
+export const HeaderView: FC<PropsType> = ({
     photo,
     login,
     logOutMe,
@@ -33,7 +27,6 @@ export const HeaderView: FC<HeaderViewType> = ({
                         OUT
                     </button>
                 </div>
-
                 <div
                     className={`${objStyle.menuBurger} ${
                         menuInd ? objStyle.menuBurger_active : ""

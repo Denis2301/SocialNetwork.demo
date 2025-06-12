@@ -6,7 +6,6 @@ type PropsType = {
     updateUserStatus: (status: string) => void;
 };
 
-
 export const ProfileStatusWithHooks: FC<PropsType> = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(props.status);
@@ -26,7 +25,7 @@ export const ProfileStatusWithHooks: FC<PropsType> = (props) => {
     };
     return (
         <div className={objStyle.wrapperStatus}>
-			<b>Status:</b>
+            <b>Status:</b>
             {!editMode && (
                 <div className={objStyle.status}>
                     <span onDoubleClick={activatedEditMode}>

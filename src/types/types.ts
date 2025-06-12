@@ -1,8 +1,8 @@
-import { ResultCodeForCaptcha, ResultCodesEnum } from "@/api/api";
+import { ResultCodeForCaptchaEnum, ResultCodesEnum } from "@/api/api";
 
 export type PhotosType = {
-    small?: string | null;
-    large?: string | null;
+    small: string;
+    large: string;
 };
 
 export type UserType = {
@@ -18,23 +18,23 @@ export type PostType = {
     message: string;
     likeCount: number;
     author: string;
-    id: number;
+    id?: number;
 };
 
 export type ContactsType = {
-    facebook?: string;
-    website?: string;
-    vk?: string;
-    twitter?: string;
-    instagram?: string;
-    youtube?: string;
-    github?: string;
-    mainLink?: string;
+    facebook: string;
+    website: string;
+    vk: string;
+    twitter: string;
+    instagram: string;
+    youtube: string;
+    github: string;
+    mainLink: string;
 };
 export type ProfileType = {
     data: any;
     messages: any;
-    resultCode: ResultCodeForCaptcha | ResultCodesEnum;
+    resultCode: ResultCodeForCaptchaEnum | ResultCodesEnum;
     aboutMe: string;
     contacts: ContactsType;
     lookingForAJob: boolean;

@@ -1,12 +1,16 @@
-import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import objStyle from "../Login/Login.module.css";
-import { logMe } from "../../redux/authReducer";
-import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { maxLengthCreator, required } from "../../utils/validators";
-import { createField, Input } from "../common/FormsControls/FormsControls";
-import { FC, useEffect } from "react";
 import { AppStateType } from "@/redux/redux-store";
+import { FC, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { InjectedFormProps, reduxForm } from "redux-form";
+import { logMe } from "../../redux/authReducer";
+import { getCaptcha } from "../../redux/usersSelector";
+import { maxLengthCreator, required } from "../../utils/validators";
+import objStyle from "../Login/Login.module.css";
+import {
+	GetStringKeys,
+	createField,
+} from "../common/FormsControls/FormsControls";
 
 const maxLength10 = maxLengthCreator(40);
 type LoginFormValuesType = {
@@ -18,7 +22,7 @@ type LoginFormValuesType = {
 type LoginFormOwnProps = {
     captcha: string | null;
 };
-type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>;
+type LoginFormValuesTypeKeys = GetStringKeys<LoginFormValuesType>;
 
 const LoginForm: FC<
     InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> &
@@ -87,32 +91,28 @@ const LoginForm: FC<
 const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({
     form: "login",
 })(LoginForm);
-type MyStatePropsType = {
-    isAuth: boolean;
-    captcha: string | null;
-    error?: any;
-};
-type MyDispatchPropsType = {
-    logMe: (
-        email: string,
-        password: string,
-        rememberMe: boolean,
-        captcha?: string | null
-    ) => void;
-};
-type PropsType = MyStatePropsType & MyDispatchPropsType;
-const Login: FC<PropsType> = ({ isAuth, captcha, error, logMe }) => {
+
+const LoginPage: FC = () => {
+    const captchaUrl: string | null = useSelector(getCaptcha);
+    const isAuth: boolean = useSelector(
+        (state: AppStateType) => state.auth.isAuth
+    );
+    const error = useSelector(
+        (state: AppStateType) => state.form?.login?.error
+    );
     let navigate = useNavigate();
     const onSubmit = async (
         formData: LoginFormValuesType,
         dispatch: any,
         { reset }: any
     ) => {
-        logMe(
-            formData.email,
-            formData.password,
-            formData.rememberMe,
-            formData.captcha
+        dispatch(
+            logMe(
+                formData.email,
+                formData.password,
+                formData.rememberMe,
+                formData.captcha
+            )
         );
         reset();
     };
@@ -126,18 +126,10 @@ const Login: FC<PropsType> = ({ isAuth, captcha, error, logMe }) => {
             <h1 className={objStyle.login__title}>Login</h1>
             <LoginReduxForm
                 onSubmit={onSubmit}
-                captcha={captcha}
+                captcha={captchaUrl}
                 error={error}
             />
         </div>
     );
 };
-const mapStateToProps = (state: AppStateType): MyStatePropsType => ({
-    captcha: state.auth.captchaUrl,
-    isAuth: state.auth.isAuth,
-    error: state.form?.login?.error,
-});
-export default connect<MyStatePropsType, MyDispatchPropsType, {}, AppStateType>(
-    mapStateToProps,
-    { logMe }
-)(Login);
+export default LoginPage;

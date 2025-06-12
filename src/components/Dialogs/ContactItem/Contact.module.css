@@ -5,10 +5,13 @@
     height: 15px;
     border-radius: 50%;
     margin-block-end: 5px;
+    cursor: pointer;
 }
 .online {
 }
 .block {
+}
+.delete {
 }
 .correct_friends {
     display: flex;
@@ -39,6 +42,7 @@
     object-fit: cover;
     top: 0;
     left: 0;
+    cursor: pointer;
 }
 .activeLink {
     color: gold;

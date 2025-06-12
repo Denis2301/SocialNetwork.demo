@@ -1,47 +1,49 @@
-import React, { Component, FC, useEffect } from "react";
-import objStyle from "./Profile.module.css";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import { ProfileView } from "./Profile/ProfileView";
-import { connect } from "react-redux";
-import {
-    getUserProfile,
-    getUserStatus,
-    updateUserStatus,
-    savePhoto,
-    saveProfile,
-} from "../../redux/profileReducer";
-import { compose } from "redux";
-import { useNavigate, useParams } from "react-router-dom";
 import { AppStateType } from "@/redux/redux-store";
 import { ProfileType } from "@/types/types";
+import {
+	ComponentType,
+	FC,
+	useEffect
+} from "react";
+import { connect } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { compose } from "redux";
+import {
+	getUserProfile,
+	getUserStatus,
+	savePhoto,
+	saveProfile,
+	updateUserStatus,
+} from "../../redux/profileReducer";
+import objStyle from "../Profile/Profile.module.css";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import { ProfileView } from "./Profile/ProfileView";
 
-type MapStatePropsType = {
-    status: string | null;
-    profile: any;
-    authorizedUserId: number | null;
-    profileUpdateStatus: boolean;
-    isAuth: boolean;
-};
+type MapStatePropsType = ReturnType<typeof mapStateToProps>;
 type MapDispatchPropsType = {
     getUserProfile: (userId: number) => void;
     getUserStatus: (userId: number) => void;
-    savePhoto: (file: any) => any;
+    savePhoto: (mainPhoto: any) => any;
     saveProfile: (profile: ProfileType) => void;
     updateUserStatus: (status: string) => void;
 };
-type PropsType = MapStatePropsType & MapDispatchPropsType;
 
+type PropsType = MapStatePropsType & MapDispatchPropsType;
 const ProfileAPIContainer: FC<PropsType> = (props) => {
     let { id } = useParams();
     let navigate = useNavigate();
-    let myId = Number(id) || props.authorizedUserId;
+    let myId: number | null = Number(id) || props.authorizedUserId;
     useEffect(() => {
         if (!myId) {
+            console.error(
+                new Error("Id should exists or in state authorizedUserId")
+            );
             return navigate("/login");
+        } else {
+            props.getUserProfile(myId);
+            props.getUserStatus(myId);
         }
-        props.getUserProfile(myId);
-        props.getUserStatus(myId);
-    }, [myId, props.authorizedUserId, navigate]);
+    }, [id, navigate, myId, props.authorizedUserId]);
     return (
         <div className={objStyle.content}>
             <ProfileView
@@ -60,7 +62,7 @@ const ProfileAPIContainer: FC<PropsType> = (props) => {
     );
 };
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
@@ -70,7 +72,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     };
 };
 
-export default compose(
+export default compose<ComponentType<PropsType>>(
     // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
     connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(
         mapStateToProps,

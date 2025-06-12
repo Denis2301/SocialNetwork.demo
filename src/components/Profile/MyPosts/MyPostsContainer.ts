@@ -1,16 +1,9 @@
 import { AppStateType } from "@/redux/redux-store";
 import { actions } from "../../../redux/profileReducer";
-import { MyPosts } from "./MyPosts";
+import { MapStateType, MyDispatchType, MyPostsMemorized } from "./MyPosts";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { PostType } from "@/types/types";
 
-type MapStatePropsType = {
-	profilePage: Array<PostType>
-}
-type MapDispatchPropsType = {
-	addPost: (newPostValue: string) => void;
-}
 const mapStateToProps = (state: AppStateType) => {
     return {
         profilePage: state.profilePage.posts,
@@ -19,7 +12,10 @@ const mapStateToProps = (state: AppStateType) => {
 
 export default compose(
     // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
-    connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
-        addPost: actions.addPost,
-    })
-)(MyPosts);
+    connect<MapStateType, MyDispatchType, {}, AppStateType>(
+        mapStateToProps,
+        {
+            addPost: actions.addPost,
+        }
+    )
+)(MyPostsMemorized);

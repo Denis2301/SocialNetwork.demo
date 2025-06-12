@@ -1,5 +1,5 @@
 import React, { FC, JSX } from "react";
-import objStyle from "./FormsControls.module.css";
+import objStyle from "../FormsControls/FormsControls.module.css";
 import {
     Field,
     WrappedFieldInputProps,
@@ -104,3 +104,4 @@ export function createField<FormKeysType extends string>(
         </>
     );
 }
+export type GetStringKeys<T> = Extract<keyof T, string>;

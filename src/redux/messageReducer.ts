@@ -122,17 +122,17 @@ export type InitialStateType = typeof initialState;
 export const actions = {
     sendMessage: (message: string) =>
         ({
-            type: "SEND_MESSAGE",
+            type: "MESSAGES/SEND_MESSAGE",
             message,
         } as const),
 };
-type ActionsTypes = InferActionsTypes<typeof actions>;
+
 const messageReducer = (
     state = initialState,
     action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
-        case "SEND_MESSAGE":
+        case "MESSAGES/SEND_MESSAGE":
             return {
                 ...state,
                 messageAsk: [
@@ -156,3 +156,4 @@ const messageReducer = (
 };
 
 export default messageReducer;
+type ActionsTypes = InferActionsTypes<typeof actions>;

@@ -1,11 +1,21 @@
-import objStyle from "./ProfileInfo.module.css";
+import { ContactsType, ProfileType } from "@/types/types";
+import { ChangeEvent, FC, useState } from "react";
 import userPhoto from "../../.././assets/images/user.png";
 import { Preloader } from "../../common/Preloader/Preloader";
+import ProfileDataFormRedux, { ProfileFormValuesType } from "./ProfileFormData";
+import objStyle from "./ProfileInfo.module.css";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
-import { useState } from "react";
-import ProfileDataFormRedux from "./ProfileFormData";
 
-export const ProfileView = ({
+type ProfileViewType = {
+    isOwner: boolean;
+    profile: ProfileType | null;
+    status: string;
+    profileUpdateStatus: boolean;
+    updateUserStatus: (status: string) => void;
+    savePhoto: (mainPhoto: File | null) => Promise<void>;
+    saveProfile: (profile: ProfileType) => void;
+};
+export const ProfileView: FC<ProfileViewType> = ({
     isOwner,
     profile,
     status,
@@ -16,21 +26,23 @@ export const ProfileView = ({
 }) => {
     let [isMainPhoto, setIsMainPhoto] = useState(!profile?.photos.small);
     let [editMode, setEditMode] = useState(false);
+
     const activatedEditMode = () => {
         setEditMode(true);
     };
-    // const deactivatedEditMode = () => {
-    //     setEditMode(false);
-    // };
-    const onMainPhotoSelected = (e) => {
+    const deactivatedEditMode = () => {
+        setEditMode(false);
+    };
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         setIsMainPhoto(false);
-        if (e.target.files.length > 0) {
+        if (e.target.files?.length) {
+            // todo: remove finally
             savePhoto(e.target.files[0]).finally(() => {
                 setIsMainPhoto(true);
             });
         }
     };
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: ProfileFormValuesType) => {
         saveProfile(formData);
         if (profileUpdateStatus) {
             setEditMode(false);
@@ -93,7 +105,15 @@ export const ProfileView = ({
         <Preloader />
     );
 };
-const ProfileData = ({
+
+type ProfileDataPropsType = {
+    profile: ProfileType;
+    status: string;
+    isOwner: boolean;
+    updateUserStatus: (status: string) => void;
+    activatedEditMode: () => void;
+};
+const ProfileData: FC<ProfileDataPropsType> = ({
     profile,
     status,
     updateUserStatus,
@@ -161,7 +181,9 @@ const ProfileData = ({
                         <div key={key}>
                             <Contact
                                 contactTitle={key}
-                                contactValue={profile.contacts[key]}
+                                contactValue={
+                                    profile.contacts[key as keyof ContactsType]
+                                }
                             />
                         </div>
                     )) || "no url"}
@@ -171,7 +193,14 @@ const ProfileData = ({
     );
 };
 
-export const Contact = ({ contactTitle, contactValue }) => {
+type ContactPropsType = {
+    contactTitle: string;
+    contactValue: string;
+};
+export const Contact: FC<ContactPropsType> = ({
+    contactTitle,
+    contactValue,
+}) => {
     return (
         <div>
             <b>

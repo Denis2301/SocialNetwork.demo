@@ -1,20 +1,23 @@
-import objStyle from "./Dialogs.module.css";
-import { maxLengthCreator, required } from "../../utils/validators";
-import { Contact } from "./ContactItem/Contact";
-import { MessageAsk } from "./MessagesAsk/MessagesAsk";
-import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
+import { DialogsType, MessageType, actions } from "../../redux/messageReducer";
+import { AppStateType } from "../../redux/redux-store";
+import { FC, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { Textarea } from "../common/FormsControls/FormsControls";
-import { FC } from "react";
-import { DialogsType, MessageType } from "@/redux/messageReducer";
-
+import { maxLengthCreator, required } from "../../utils/validators";
+import { GetStringKeys, Textarea } from "../common/FormsControls/FormsControls";
+import { Contact } from "./ContactItem/Contact";
+import objStyle from "./Dialogs.module.css";
+import { MessageAnswer } from "./MassageAnswer/MessageAnswer";
+import { MessageAsk } from "./MessagesAsk/MessagesAsk";
 const maxLength50 = maxLengthCreator(50);
-type AddMessageFormValuesTypes = {
+type NewMessageFormValuesType = {
     message: string;
 };
-
+type NewMessageFormValuesTypeKeys = GetStringKeys<NewMessageFormValuesType>;
+type OwnPropsType = {};
 let AddMessageForm: FC<
-    InjectedFormProps<AddMessageFormValuesTypes, {}> & {}
+    InjectedFormProps<NewMessageFormValuesType, OwnPropsType> & OwnPropsType
 > = ({ handleSubmit, error }) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -36,25 +39,29 @@ let AddMessageForm: FC<
     );
 };
 
-type MyStateDialogsType = {
-    dialogs: Array<DialogsType>;
-    messageAnswer: Array<MessageType>;
-    messageAsk: Array<MessageType>;
-};
-type MyDispatchDialogsType = {
-    sendMessage: (message: string) => void;
-};
-type PropsType = MyStateDialogsType & MyDispatchDialogsType;
-
-const AddMessageFormReduxForm = reduxForm<AddMessageFormValuesTypes, {}>({
+const AddMessageFormReduxForm = reduxForm<
+    NewMessageFormValuesType,
+    OwnPropsType
+>({
     form: "dialogMessageForm",
 })(AddMessageForm);
-const Dialogs: FC<PropsType> = ({
-    sendMessage,
-    dialogs,
-    messageAsk,
-    messageAnswer,
-}) => {
+const DialogsPage: FC = () => {
+    const dialogs: Array<DialogsType> = useSelector(
+        (state: AppStateType) => state.messagesPage.dialogs
+    );
+    const messageAsk: Array<MessageType> = useSelector(
+        (state: AppStateType) => state.messagesPage.messageAsk
+    );
+    const messageAnswer: Array<MessageType> = useSelector(
+        (state: AppStateType) => state.messagesPage.messageAnswer
+    );
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
+    let navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuth) {
+            return navigate("/login");
+        }
+    }, []);
     const dialogsElements = dialogs.map((d, ind) => (
         <Contact
             key={ind}
@@ -82,8 +89,8 @@ const Dialogs: FC<PropsType> = ({
             data={m.data}
         />
     ));
-    const onSubmit = async (formData: AddMessageFormValuesTypes) => {
-        sendMessage(formData.message);
+    const onSubmit = async (formData: NewMessageFormValuesType) => {
+        actions.sendMessage(formData.message);
     };
     return (
         <main
@@ -109,4 +116,4 @@ const Dialogs: FC<PropsType> = ({
     );
 };
 
-export default Dialogs;
+export default DialogsPage;

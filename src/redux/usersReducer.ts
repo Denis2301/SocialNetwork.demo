@@ -1,86 +1,97 @@
-import { ResultCodesEnum, UsersAPI } from "../api/api";
+import { APIResponseType, ResultCodesEnum } from "../api/api";
 import { updateObjectInArray } from "../utils/objects-helper";
 import { UserType } from "@/types/types";
-import { AppStateType, InferActionsTypes } from "./redux-store";
-import { ThunkAction } from "redux-thunk";
+import { InferActionsTypes, CommonThunkType } from "./redux-store";
+import { UsersAPI } from ".././api/users-api";
 import { Dispatch } from "redux";
 
 export type InitialStateType = typeof initialState;
 
-const initialState = {
+export const initialState = {
     users: [] as Array<UserType>,
     totalUsersCount: 0,
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 5,
     isFetching: false,
     followingInProgress: [] as Array<number>, //Array of users id
+    filter: { term: "", friend: null as null | boolean },
 };
 export const actions = {
     setUsers: (users: Array<UserType>) =>
         ({
-            type: "SET_USERS",
+            type: "USERS/SET_USERS",
             users,
         } as const),
 
     setTotalCount: (totalUsersCount: number) =>
         ({
-            type: "SET_TOTAL_COUNT",
+            type: "USERS/SET_TOTAL_COUNT",
             totalUsersCount,
         } as const),
 
     setCurrentPage: (currentPage: number) =>
         ({
-            type: "SET_CURRENT_PAGE",
+            type: "USERS/SET_CURRENT_PAGE",
             currentPage,
+        } as const),
+    setFilter: (filter: FriendSearchFormType) =>
+        ({
+            type: "USERS/SET_FILTER",
+            payload: filter,
         } as const),
 
     acceptFollow: (id: number) =>
         ({
-            type: "FOLLOW",
+            type: "USERS/FOLLOW",
             userId: id,
         } as const),
 
     acceptUnfollow: (id: number) =>
         ({
-            type: "UNFOLLOW",
+            type: "USERS/UNFOLLOW",
             userId: id,
         } as const),
 
     toggleIsFetching: (isFetching: boolean) =>
         ({
-            type: "IS_FETCHING",
+            type: "USERS/IS_FETCHING",
             isFetching,
         } as const),
 
     toggleIsFollowing: (userId: number, isFetching: boolean) =>
         ({
-            type: "FOLLOWING_IN_PROGRESS",
+            type: "USERS/FOLLOWING_IN_PROGRESS",
             userId,
             isFetching,
         } as const),
 };
-type ActionsTypes = InferActionsTypes<typeof actions>;
+
 const usersReducer = (
     state = initialState,
     action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
-        case "SET_USERS":
+        case "USERS/SET_USERS":
             return {
                 ...state,
-                users: [...state.users, ...action.users],
+                users: action.users,
             };
-        case "SET_CURRENT_PAGE":
+        case "USERS/SET_CURRENT_PAGE":
             return {
                 ...state,
                 currentPage: action.currentPage,
             };
-        case "SET_TOTAL_COUNT":
+        case "USERS/SET_FILTER":
+            return {
+                ...state,
+                filter: action.payload,
+            };
+        case "USERS/SET_TOTAL_COUNT":
             return {
                 ...state,
                 totalUsersCount: action.totalUsersCount,
             };
-        case "FOLLOW":
+        case "USERS/FOLLOW":
             return {
                 ...state,
                 users: [
@@ -89,7 +100,7 @@ const usersReducer = (
                     }),
                 ],
             };
-        case "UNFOLLOW":
+        case "USERS/UNFOLLOW":
             return {
                 ...state,
                 users: [
@@ -98,12 +109,12 @@ const usersReducer = (
                     }),
                 ],
             };
-        case "IS_FETCHING":
+        case "USERS/IS_FETCHING":
             return {
                 ...state,
                 isFetching: action.isFetching,
             };
-        case "FOLLOWING_IN_PROGRESS":
+        case "USERS/FOLLOWING_IN_PROGRESS":
             return {
                 ...state,
                 followingInProgress: action.isFetching
@@ -117,27 +128,27 @@ const usersReducer = (
     }
 };
 
-type ThunkType = ThunkAction<
-    Promise<void>,
-    AppStateType,
-    unknown,
-    ActionsTypes
->;
 export const requestUsers =
-    (page: number, pageSize: number): ThunkType =>
+    (page: number, pageSize: number, filter: FriendSearchFormType): ThunkType =>
     async (dispatch, getState) => {
         dispatch(actions.toggleIsFetching(true));
-        let data = await UsersAPI.getUsers(page, pageSize);
+        let data = await UsersAPI.getUsers(
+            page,
+            pageSize,
+            filter.term,
+            filter.friend
+        );
         dispatch(actions.setUsers(data.items));
         dispatch(actions.setTotalCount(data.totalCount));
         dispatch(actions.toggleIsFetching(false));
         dispatch(actions.setCurrentPage(page));
+        dispatch(actions.setFilter(filter));
     };
-type DispatchType = Dispatch<ActionsTypes>;
+
 const _followUnfollowFlow = async (
     userId: number,
-    followUnfollow: any,
-    dispatch: DispatchType,
+    followUnfollow: (userId: number) => Promise<APIResponseType>,
+    dispatch: Dispatch<ActionsTypes>,
     actionCreator: (userId: number) => ActionsTypes
 ) => {
     dispatch(actions.toggleIsFollowing(userId, true));
@@ -146,12 +157,12 @@ const _followUnfollowFlow = async (
     if (response.resultCode == ResultCodesEnum.Success) {
         dispatch(actionCreator(userId));
     }
-    dispatch(actions.toggleIsFollowing(0, false));
+    dispatch(actions.toggleIsFollowing(userId, false));
 };
 export const follow =
     (userId: number): ThunkType =>
     async (dispatch) => {
-        _followUnfollowFlow(
+        await _followUnfollowFlow(
             userId,
             UsersAPI.getFollow.bind(UsersAPI),
             dispatch,
@@ -161,7 +172,7 @@ export const follow =
 export const unFollow =
     (userId: number): ThunkType =>
     async (dispatch) => {
-        _followUnfollowFlow(
+        await _followUnfollowFlow(
             userId,
             UsersAPI.getUnFollow.bind(UsersAPI),
             dispatch,
@@ -169,3 +180,6 @@ export const unFollow =
         );
     };
 export default usersReducer;
+export type ActionsTypes = InferActionsTypes<typeof actions>;
+export type FriendSearchFormType = typeof initialState.filter;
+export type ThunkType = CommonThunkType<ActionsTypes>;

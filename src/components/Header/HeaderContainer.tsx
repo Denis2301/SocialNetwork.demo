@@ -5,7 +5,7 @@ import { compose } from "redux";
 import { AppStateType } from "@/redux/redux-store";
 import { HeaderView } from "./HeaderView";
 type OwnPropsType = {
-    menuInd: number;
+    menuInd: boolean;
     handleMenuView: () => void;
 };
 type MapStatePropsType = {
@@ -15,7 +15,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     logOutMe: () => void;
 };
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
+export type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 
 const HeaderAPIContainer: FC<PropsType> = ({
     handleMenuView,
@@ -34,12 +34,11 @@ const HeaderAPIContainer: FC<PropsType> = ({
         />
     );
 };
-const mapStateToProps = (state: AppStateType) => {
-    return {
+const mapStateToProps = (state: AppStateType) =>
+    ({
         login: state.auth.login,
         photo: state.auth.photo,
-    };
-};
+    } as MapStatePropsType);
 
 export default compose(
     // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState

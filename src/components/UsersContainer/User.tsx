@@ -1,17 +1,17 @@
-import objStyle from "../UsersContainer/Users.module.css";
+import objStyle from "../UsersContainer/User.module.css";
 import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
 import { FC } from "react";
 import { UserType } from "../../types/types";
 type CustomerType = {
-    key: number;
+	key: number;
     users: UserType;
     followingInProgress: Array<number>;
     follow: (userId: number) => void;
     unFollow: (userId: number) => void;
 };
 export const User: FC<CustomerType> = ({
-    key,
+	key,
     users,
     followingInProgress,
     follow,
@@ -42,7 +42,7 @@ export const User: FC<CustomerType> = ({
                             follow(users.id);
                         }}
                     >
-                        Followed
+                        Follow
                     </button>
                 ) : (
                     <button
@@ -54,7 +54,7 @@ export const User: FC<CustomerType> = ({
                             unFollow(users.id);
                         }}
                     >
-                        Unfollowed
+                        Unfollow
                     </button>
                 )}
             </div>

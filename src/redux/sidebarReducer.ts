@@ -1,44 +1,39 @@
-import { InferActionsTypes } from "./redux-store";
+import { CommonThunkType, InferActionsTypes } from "./redux-store";
+import { UserType } from "../types/types";
+import { UsersAPI } from "../api/sidebar-api";
 
 export type InitialStateType = typeof initialState;
-type FriendsType = {
-    id: number;
-    name: string;
-    url: string;
-};
 const initialState = {
-    friends: [
-        {
-            id: 1,
-            name: "Dmitry",
-            url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
-        },
-        {
-            id: 2,
-            name: "Sasha",
-            url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ9Ok8xjEoczfzG7nxSHRW7SVJDLJimU8Vd0lNC-oSH_0fTGVCfpfHwQFMMgPVSGVc4k&usqp=CAU",
-        },
-        {
-            id: 3,
-            name: "Andrew",
-            url: "https://w7.pngwing.com/pngs/851/967/png-transparent-cat-computer-icons-creative-cat-mammal-cat-like-mammal-animals-thumbnail.png",
-        },
-    ] as Array<FriendsType>,
+    friends: [] as Array<UserType>,
 };
 export const actions = {
-    sendSidebarCreator: () => ({ type: "SIDEBAR" } as const),
+    setUsers: (friends: Array<UserType>) =>
+        ({
+            type: "FRIENDS/SET_FRIENDS",
+            friends,
+        } as const),
 };
-type ActionsTypes = InferActionsTypes<typeof actions>;
+
 const sidebarReducer = (
     state = initialState,
     action: ActionsTypes
 ): InitialStateType => {
     switch (action.type) {
-        case "SIDEBAR":
-            return { ...state };
+        case "FRIENDS/SET_FRIENDS":
+            return {
+                ...state,
+                friends: [...state.friends, ...action.friends].slice(0, 10),
+            };
         default:
             return { ...state };
     }
 };
 
+export const requestFriends = (): ThunkType => async (dispatch) => {
+    let data = await UsersAPI.getFiends();
+    dispatch(actions.setUsers(data.items));
+};
+
 export default sidebarReducer;
+type ActionsTypes = InferActionsTypes<typeof actions>;
+type ThunkType = CommonThunkType<ActionsTypes>;

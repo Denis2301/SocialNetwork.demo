@@ -54,7 +54,7 @@ hr {
     display: block;
     font-size: clamp(16px, 5vw, 30px);
     margin-inline-start: 10px;
-	margin-block-end: 10px;
+    margin-block-end: 10px;
 }
 .friends {
     margin-block-start: 10px;
@@ -70,10 +70,13 @@ hr {
     font-weight: 200;
     text-align: center;
 }
+.friend__one {
+    margin: 5px;
+}
 .friends__block {
-    margin-block-start: 20px;
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+	justify-content: center;
 }
 .friend__image {
     width: 50px;
@@ -81,14 +84,14 @@ hr {
     margin-block-end: 5px;
     background-color: #fcab5b;
     border-radius: 50%;
-	position: relative;
+    position: relative;
 }
 .friend__image img {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
     top: 0;
     left: 0;
 }

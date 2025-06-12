@@ -1,32 +1,43 @@
 import "./App.css";
 import { News } from "./components/News/News";
-import  { useState, useEffect, lazy } from "react";
-import {
-    Routes,
-    Route,
-    Navigate,
-    BrowserRouter,
-} from "react-router-dom";
+import { useState, useEffect, lazy, FC, ComponentType } from "react";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { SidebarContainer } from "./components/Sidebar/SidebarContainer";
-import UsersContainer from "./components/UsersContainer/UsersContainer";
-import HeaderContainer from "./components/Header/HeaderContainer.tsx";
+import { UsersPage } from "./components/UsersContainer/UsersContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 import { Provider, connect } from "react-redux";
-import { initializeApp, globalErrorDispatch } from "./redux/appReducer.ts";
-import { compose } from "redux";
+import { initializeApp, globalErrorDispatch } from "./redux/appReducer";
+import { Store, compose } from "redux";
 import { Preloader } from "./components/common/Preloader/Preloader";
 import { SuspenseHOC } from "./hoc/SuspenceHOC";
+import { AppStateType } from "./redux/redux-store";
 
-let DialogsContainer = lazy(() =>
-    import("./components/Dialogs/DialogsContainer")
-);
 let ProfileContainer = lazy(() =>
-    import("./components/Profile/ProfileContainer")
+    import("./components/Profile/ProfileContainer").then((module) => ({
+        default: module.default as ComponentType<any>,
+    }))
 );
-let LoginPage = lazy(() => import("./components/Login/Login"));
+let DialogsPage = lazy(() =>
+    import("./components/Dialogs/Dialogs").then((module) => ({
+        default: module.default as ComponentType<any>,
+    }))
+);
 
-const App = ({
+let LoginPage = lazy(() => import("./components/Login/Login"));
+type MapStateToProps = ReturnType<typeof mapStateToProps>;
+type MapDispatchToProps = {
+    initializeApp: () => void;
+    globalErrorDispatch: (globalError: string | null) => void;
+};
+type PropsType = MapStateToProps & MapDispatchToProps;
+
+const SuspendedProfile = SuspenseHOC(ProfileContainer);
+const SuspendedDialogs = SuspenseHOC(DialogsPage);
+const SuspendedLoginPage = SuspenseHOC(LoginPage);
+
+const App: FC<PropsType> = ({
     globalErrorDispatch,
     globalError,
     initializeApp,
@@ -36,9 +47,9 @@ const App = ({
     const handleMenuView = () => {
         menuChangeView(!menuInd);
     };
-    const catchAllUnhandleError = async (event) => {
+    const catchAllUnhandleError = async (event: PromiseRejectionEvent) => {
         const errorMessage = event.reason + "";
-        await globalErrorDispatch(errorMessage);
+        globalErrorDispatch(errorMessage);
     };
     useEffect(() => {
         initializeApp();
@@ -74,19 +85,22 @@ const App = ({
                         />
                         <Route
                             path="/profile/:id?"
-                            element={SuspenseHOC(ProfileContainer)()}
+                            element={<SuspendedProfile />}
                         />
                         <Route
                             path="/dialogs/*"
-                            element={SuspenseHOC(DialogsContainer)()}
+                            element={<SuspendedDialogs />}
                         />
-                        <Route path="/users/*" element={<UsersContainer pageTitle={"Samurai"}/>} />
+                        <Route
+                            path="/users/*"
+                            element={<UsersPage pageTitle={"Samurai"} />}
+                        />
                         <Route path="/news/*" element={<News />} />
                         <Route path="/music/*" element={<Music />} />
                         <Route path="/settings/*" element={<Settings />} />
                         <Route
                             path="/login*"
-                            element={SuspenseHOC(LoginPage)()}
+                            element={<SuspendedLoginPage />}
                         />
                         <Route
                             path="*"
@@ -104,7 +118,7 @@ const App = ({
                         style={{
                             position: "fixed",
                             width: "100vw",
-							left: '0',
+                            left: "0",
                             zIndex: "9999",
                             backgroundColor: "rgba(255, 68, 68, 0.85)",
                         }}
@@ -118,17 +132,25 @@ const App = ({
         );
     }
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     initialized: state.app.initialized,
     globalError: state.app.globalError,
 });
+
 let AppContainer = compose(
-    connect(mapStateToProps, { initializeApp, globalErrorDispatch })(App)
+    // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState
+    connect<MapStateToProps, MapDispatchToProps, {}, AppStateType>(
+        mapStateToProps,
+        {
+            initializeApp,
+            globalErrorDispatch,
+        }
+    )(App)
 );
-let MainApp = (props) => {
+let MainApp: FC<{ store: Store<AppStateType> }> = ({ store }) => {
     return (
         <BrowserRouter>
-            <Provider store={props.store}>
+            <Provider store={store}>
                 <AppContainer />
             </Provider>
         </BrowserRouter>
