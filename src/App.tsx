@@ -13,6 +13,8 @@ import { Store, compose } from "redux";
 import { Preloader } from "./components/common/Preloader/Preloader";
 import { SuspenseHOC } from "./hoc/SuspenceHOC";
 import { AppStateType } from "./redux/redux-store";
+import { QueryParamProvider } from "use-query-params";
+import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 
 let ProfileContainer = lazy(() =>
     import("./components/Profile/ProfileContainer").then((module) => ({
@@ -150,9 +152,11 @@ let AppContainer = compose(
 let MainApp: FC<{ store: Store<AppStateType> }> = ({ store }) => {
     return (
         <BrowserRouter>
-            <Provider store={store}>
-                <AppContainer />
-            </Provider>
+            <QueryParamProvider adapter={ReactRouter6Adapter}>
+                <Provider store={store}>
+                    <AppContainer />
+                </Provider>
+            </QueryParamProvider>
         </BrowserRouter>
     );
 };

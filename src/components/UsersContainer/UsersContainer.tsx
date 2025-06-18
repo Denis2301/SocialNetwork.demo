@@ -10,18 +10,46 @@ import {
     getFriendsFilter,
 } from "../../redux/usersSelector";
 import { AppDispatch } from "@/redux/redux-store";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 type OwnPropsType = {
     pageTitle: string;
 };
-
+export type QueryParamsType = {
+    term: string;
+    friend: string;
+    page: string;
+};
 export const UsersPage: FC<OwnPropsType> = ({ pageTitle }) => {
     const isFetching = useSelector(getIsFetching);
     const dispatch = useDispatch<AppDispatch>();
-    const currentPage: number = useSelector(getCurrentPage);
-    const pageSize: number = useSelector(getPageSize);
+    const currentPage = useSelector(getCurrentPage);
+    const pageSize = useSelector(getPageSize);
     const filter: FriendSearchFormType = useSelector(getFriendsFilter);
+    const location = useLocation();
+    const [searchParams] = useSearchParams(location.search);
+
     useEffect(() => {
-        dispatch(requestUsers(currentPage, pageSize, filter));
+        const { term, friend, page } = Object.fromEntries([
+            ...searchParams,
+        ]) as QueryParamsType;
+
+        let actualPage: number = Number(page) || currentPage;
+        let actualFilter;
+        switch (friend) {
+            case "null":
+                actualFilter = { ...filter, term, friend: null };
+                break;
+            case "true":
+                actualFilter = { ...filter, term, friend: true };
+                break;
+            case "false":
+                actualFilter = { ...filter, term, friend: false };
+                break;
+            default:
+                actualFilter = { ...filter, term, friend: null };
+                break;
+        }
+        dispatch(requestUsers(actualPage, pageSize, actualFilter));
     }, []);
     return (
         <>

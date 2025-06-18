@@ -13,6 +13,7 @@
         "paths": {
             "@/*": ["src/*"]
         },
+        "downlevelIteration": true,
         "noEmit": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
@@ -23,4 +24,3 @@
     "include": ["src/**/*", "global.d.ts"],
     "exclude": ["node_modules"]
 }
-
