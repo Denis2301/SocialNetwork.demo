@@ -13,6 +13,7 @@ import messageReducer from "./messageReducer";
 import profileReducer from "./profileReducer";
 import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
+import chatReducer from "./chatReducer";
 
 const RootReducer = combineReducers({
     profilePage: profileReducer,
@@ -22,6 +23,7 @@ const RootReducer = combineReducers({
     auth: authReducer,
     form: formReducer,
     app: appReducer,
+	chat: chatReducer
 });
 export type AppStateType = ReturnType<typeof RootReducer>;
 

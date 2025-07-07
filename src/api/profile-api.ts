@@ -1,8 +1,8 @@
 import { PhotosType, ProfileType } from "./../types/types";
 import { APIResponseType } from "./api";
-import {instance } from "./api";
+import { instance } from "./api";
 
-type SavePhotoResponseDataType = { photos:  PhotosType };
+type SavePhotoResponseDataType = { photos: PhotosType };
 
 export const ProfileAPI = {
     getProfileId: async (id: number | null) => {

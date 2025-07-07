@@ -34,23 +34,12 @@ export const UsersPage: FC<OwnPropsType> = ({ pageTitle }) => {
         ]) as QueryParamsType;
 
         let actualPage: number = Number(page) || currentPage;
-        let actualFilter;
-        switch (friend) {
-            case "null":
-                actualFilter = { ...filter, term, friend: null };
-                break;
-            case "true":
-                actualFilter = { ...filter, term, friend: true };
-                break;
-            case "false":
-                actualFilter = { ...filter, term, friend: false };
-                break;
-            default:
-                actualFilter = { ...filter, term, friend: null };
-                break;
-        }
+        let actualFilter: FriendSearchFormType = {
+            term: term || "",
+            friend: friend === "null" ? null : friend === "true" ? true : false,
+        };
         dispatch(requestUsers(actualPage, pageSize, actualFilter));
-    }, []);
+    }, [searchParams, pageSize, dispatch]);
     return (
         <>
             <h2>{pageTitle}</h2>

@@ -20,7 +20,12 @@ import { Paginator } from "../common/Paginator/Paginator";
 import { SearchFriendsForm } from "./SearchFriends";
 import { User } from "./User";
 import objStyle from "./User.module.css";
-import { useQueryParams, StringParam, NumberParam } from "use-query-params";
+import {
+    useQueryParams,
+    StringParam,
+    NumberParam,
+    withDefault,
+} from "use-query-params";
 import { QueryParamsType } from "./UsersContainer";
 
 type UsersType = {};
@@ -34,29 +39,18 @@ export const UsersView: FC<UsersType> = ({}) => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-	const [query, setQuery] = useQueryParams({
-        term: StringParam,
-        friend: StringParam,
-        page: NumberParam,
+    const [query, setQuery] = useQueryParams({
+        term: withDefault(StringParam, ""),
+        friend: withDefault(StringParam, "null"),
+        page: withDefault(NumberParam, 1),
     });
     useEffect(() => {
-        // const query: QueryParamsType = {
-		// 	term: filter.term || '',
-		// 	friend: String(filter.friend),
-		// 	page: String(currentPage)
-		// };
-        // if (!!filter.term && filter.friend !== null && currentPage !== 1) {
-        //     query.term = filter.term;
-        //     query.friend = String(filter.friend);
-        //     query.page = String(currentPage);
-        // }
-       // navigate(`/users?${new URLSearchParams(query).toString()}`);
-    setQuery({
-        term: !!filter.term ? filter.term : "",
-        friend: filter.friend !== null ? String(filter.friend) : null,
-        page: currentPage !== 1 ? currentPage : null
-    });
-	}, [filter, currentPage]);
+        setQuery({
+            term: !!filter.term ? filter.term : "",
+            friend: filter.friend !== null ? String(filter.friend) : "null",
+            page: currentPage !== 1 ? currentPage : 1,
+        });
+    }, [filter, currentPage]);
     const onPageChanged = (pageNumber: number) => {
         dispatch(requestUsers(pageNumber, pageSize, filter));
     };
@@ -73,7 +67,9 @@ export const UsersView: FC<UsersType> = ({}) => {
         <main className={objStyle.content}>
             <div className={objStyle.usersSearch}>
                 <h1 className={objStyle.content__title}> Users</h1>
-                <SearchFriendsForm onFilterChange={onFilterChange} />
+                <div style={{alignSelf: 'flex-end'}}>
+                    <SearchFriendsForm onFilterChange={onFilterChange} />
+                </div>
             </div>
             {users.map((user) => (
                 <User

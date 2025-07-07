@@ -4,8 +4,12 @@
 	display: flex;
 	flex-direction: column;
 }
+.content__title {
+	margin-inline-end: 5px;
+}
 .usersSearch {
     display: flex;
+	flex-direction: column;
     justify-content: space-between;
     margin-bottom: 10px;
 }

@@ -2,7 +2,9 @@ import { getFriendsFilter } from "../../redux/usersSelector";
 import { Field, Form, Formik } from "formik";
 import React, { FC } from "react";
 import { useSelector } from "react-redux";
+import { Form as AntForm, SubmitButton, Input, Select } from "formik-antd";
 
+const { Option } = Select;
 const friendsSearchFormValidate = (values: any) => {
     // const errors = {};
     // if (!values.email) {
@@ -52,29 +54,26 @@ export const SearchFriendsForm: FC<PropsType> = React.memo(
                 onSubmit={submit}
             >
                 {({ isSubmitting }) => (
-                    <Form>
-                        <Field
-                            style={{ padding: "5px 10px" }}
-                            type="text"
-                            name="term"
-                        />
-                        <Field as="select" name="friend">
-                            <option value="null">All</option>
-                            <option value="true">Only followed</option>
-                            <option value="false">Only unfollowed</option>
-                        </Field>
-                        <button
-                            style={{
-                                backgroundColor: "#088b53",
-                                color: "white",
-                                padding: "5px 10px",
-                            }}
-                            type="submit"
-                            disabled={isSubmitting}
-                        >
-                            Find
-                        </button>
-                    </Form>
+                    <AntForm layout="inline">
+                        <AntForm.Item name="term">
+                            <Input name="term" placeholder="Search users" />
+                        </AntForm.Item>
+                        <AntForm.Item name="friend">
+                            <Select name="friend">
+                                <Option value="null">All</Option>
+                                <Option value="true">Only followed</Option>
+                                <Option value="false">Only unfollowed</Option>
+                            </Select>
+                        </AntForm.Item>
+                        <AntForm.Item name={"find"}>
+                            <SubmitButton
+                                type="primary"
+                                disabled={isSubmitting}
+                            >
+                                Find
+                            </SubmitButton>
+                        </AntForm.Item>
+                    </AntForm>
                 )}
             </Formik>
         );
